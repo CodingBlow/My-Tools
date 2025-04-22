@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Split PDF files into individual pages or custom ranges securely in your browser with our professional PDF splitter tool. Fast, reliable, and no uploads required."
+    />
+    <meta
+      name="keywords"
+      content="Split PDF, PDF splitter, divide PDF, extract PDF pages, online PDF tools, free PDF splitter, best PDF splitter tool, PDF manipulation, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>PDF Splitter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #f97316, #ea580c);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #f97316, #ea580c);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #d97706;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #f97316;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .drag-drop-area {
+        border: 2px dashed #cbd5e1;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        cursor: pointer;
+      }
+      .drag-drop-area.drag-over {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        transform: scale(1.02);
+      }
+      .drag-drop-area i {
+        font-size: 2.5rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+      }
+      .drag-drop-area p {
+        color: #64748b;
+        font-size: 1.1rem;
+      }
+      .drag-drop-area span {
+        color: #3b82f6;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active {
+        display: block;
+      }
+      .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .tip-answer.active {
+        display: block;
+      }
+      .testimonial {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .page-box {
+        border: 1px solid #e2e8f0;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        margin: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .page-box.selected {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+      }
+      .page-preview {
+        width: 100%;
+        height: 160px;
+        object-fit: contain;
+        margin-bottom: 0.5rem;
+      }
+      .split-options {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .option-card {
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .option-card:hover {
+        border-color: #3b82f6;
+        background-color: #f8fafc;
+      }
+      .option-card.selected {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+      }
+      .range-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .drag-drop-area {
+          padding: 1.5rem;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Home</a>
+            </li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Documents</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200"
+                >Spreadsheets</a
+              >
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Audio</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Video</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Utilities</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          PDF Splitter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Split PDF files into individual pages or custom ranges securely in your browser. 
+          Fast, reliable, and no uploads required - your data stays private.
+        </p>
+      </section>
+
+      <div class="flex flex-col md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-cut mr-3 text-orange-500"></i> Split PDF
+          </h3>
+          <div class="flex items-center justify-center mb-6">
+            <i class="fas fa-file-pdf text-2xl text-orange-500 mr-3"></i>
+            <i class="fas fa-arrow-right text-xl text-gray-400 mx-2"></i>
+            <i class="fas fa-file-pdf text-xl text-blue-500 mr-1"></i>
+            <i class="fas fa-file-pdf text-xl text-green-500 mr-1"></i>
+            <i class="fas fa-file-pdf text-xl text-red-500 ml-1"></i>
+          </div>
+          <div class="flex flex-col items-center">
+            <div id="dragDropArea" class="drag-drop-area w-full max-w-md mb-6">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>
+                Drag & Drop your PDF here or
+                <span onclick="document.getElementById('pdfInput').click()"
+                  >browse</span
+                >
+              </p>
+              <input
+                type="file"
+                id="pdfInput"
+                accept="application/pdf"
+                class="hidden"
+              />
+            </div>
+            
+            <div id="pdfInfo" class="hidden w-full mb-4">
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-blue-700">PDF Information</h4>
+                <p id="pdfName" class="text-gray-700"></p>
+                <p id="pdfPages" class="text-gray-700"></p>
+                <p id="pdfSize" class="text-gray-700"></p>
+              </div>
+            </div>
+
+            <div id="splitOptions" class="hidden w-full mb-4">
+              <h4 class="font-semibold text-gray-800 mb-2">Split Options</h4>
+              <div class="split-options">
+                <div class="option-card selected" data-option="all">
+                  <div class="flex items-center">
+                    <i class="fas fa-file-export text-2xl text-blue-500 mr-3"></i>
+                    <div>
+                      <h5 class="font-semibold">Extract All Pages</h5>
+                      <p class="text-sm text-gray-600">Extract each page as separate PDF</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="option-card" data-option="range">
+                  <div class="flex items-center">
+                    <i class="fas fa-filter text-2xl text-green-500 mr-3"></i>
+                    <div>
+                      <h5 class="font-semibold">Extract Page Range</h5>
+                      <p class="text-sm text-gray-600">Extract specific pages or ranges (e.g., 1-3,5,8-10)</p>
+                      <input type="text" id="pageRange" placeholder="e.g., 1-3,5,8-10" class="range-input hidden" />
+                    </div>
+                  </div>
+                </div>
+                <div class="option-card" data-option="split">
+                  <div class="flex items-center">
+                    <i class="fas fa-scissors text-2xl text-red-500 mr-3"></i>
+                    <div>
+                      <h5 class="font-semibold">Split Every N Pages</h5>
+                      <p class="text-sm text-gray-600">Create new PDF every N pages</p>
+                      <input type="number" id="splitNumber" min="1" value="1" class="range-input hidden" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="pagePreview" class="hidden w-full mb-6">
+              <h4 class="font-semibold text-gray-800 mb-2">Page Preview</h4>
+              <div id="pageGrid" class="flex flex-wrap justify-center"></div>
+            </div>
+
+            <button id="splitBtn" class="btn-primary hidden">Split PDF</button>
+            <div id="loader" class="loader"></div>
+            <div id="result" class="mt-6 hidden flex flex-col items-center">
+              <h4 class="font-semibold text-gray-800 mb-4">Split Complete!</h4>
+              <button id="downloadAllBtn" class="btn-primary mb-4">
+                Download All PDFs as ZIP
+              </button>
+              <div id="downloadList" class="w-full mt-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="md:w-1/3">
+          <div class="ad-container mb-8">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- SEO Content -->
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Split PDF Files with Conversion Tools?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Splitting PDF files into smaller documents or individual pages is essential for managing large documents, extracting specific sections, or sharing only relevant content. Our <strong>PDF splitter tool</strong> provides a powerful, secure, and user-friendly solution that operates directly in your browser, ensuring your files remain private with no uploads required.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Whether you're a student, professional, or business owner, our tool is designed to streamline your document workflow. With multiple splitting options, you can extract individual pages, specific page ranges, or split documents at regular intervals. Find out why thousands choose Conversion Tools for their <strong>online PDF splitting</strong> needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Benefits of Using Our PDF Splitter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>100% Secure</strong>: Files are processed locally in your browser, never uploaded to servers.
+          </li>
+          <li>
+            <strong>Multiple Split Options</strong>: Extract individual pages, specific ranges, or split at set intervals.
+          </li>
+          <li>
+            <strong>Page Preview</strong>: See thumbnail previews of all pages before splitting.
+          </li>
+          <li>
+            <strong>Batch Download</strong>: Download all split PDFs as a convenient ZIP file.
+          </li>
+          <li>
+            <strong>No Installation</strong>: Works directly in your browser without additional software.
+          </li>
+          <li>
+            <strong>Cross-Platform</strong>: Compatible with Windows, macOS, Linux, and mobile devices.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          How to Split a PDF
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Follow these simple steps to split your PDF files using our online tool:
+        </p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Upload Your PDF</strong>: Drag and drop your PDF file or click "browse" to select it.
+          </li>
+          <li>
+            <strong>Choose Split Method</strong>: Select from extracting all pages individually, specific page ranges, or splitting every N pages.
+          </li>
+          <li>
+            <strong>Preview Pages</strong>: View thumbnails of your document to ensure you're splitting the right content.
+          </li>
+          <li>
+            <strong>Split PDF</strong>: Click the "Split PDF" button to process your document according to your selection.
+          </li>
+          <li>
+            <strong>Download Results</strong>: Download individual PDFs or all files as a convenient ZIP archive.
+          </li>
+        </ol>
+        <p class="text-gray-600 mt-4">
+          Our intuitive interface makes splitting PDFs quick and easy. Try our <strong>best PDF splitter</strong> today!
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is it safe to split PDFs using your online tool?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Absolutely! Our PDF splitter processes files locally in your browser using JavaScript. Your files are never uploaded to any server, ensuring maximum privacy and security for sensitive documents.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What splitting options does your tool offer?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Our tool offers three flexible splitting options: extract all pages as individual PDFs, extract specific page ranges (e.g., 1-3,5,8-10), or split the document every N pages to create multiple smaller PDFs.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I split password-protected PDFs?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Currently, our tool doesn't support splitting password-protected PDFs. You'll need to remove the password protection first using a PDF password remover tool before splitting the document.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is there a file size limit?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Since processing happens locally in your browser, the file size limit depends on your device's capabilities. Generally, files up to 100MB work well, but larger files may cause slower performance or browser limitations.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Will splitting affect the quality of my PDF?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            No, our PDF splitter maintains the original quality of your document. Text, images, formatting, and other elements remain intact in the split files. We don't compress or modify the content during the splitting process.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          When to Use PDF Splitting
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Splitting PDF files is useful in many scenarios. Our <strong>free PDF splitter</strong> tool is perfect for:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Sharing Specific Content</strong>: Extract relevant pages instead of sending an entire document.
+          </li>
+          <li>
+            <strong>Managing Large Files</strong>: Break down large PDFs into smaller, more manageable chunks.
+          </li>
+          <li>
+            <strong>Email Attachments</strong>: Split large PDFs to comply with email attachment size limits.
+          </li>
+          <li>
+            <strong>Document Organization</strong>: Extract chapters or sections for better organization.
+          </li>
+          <li>
+            <strong>Presentation Materials</strong>: Extract specific slides or pages from larger documents.
+          </li>
+          <li>
+            <strong>Data Extraction</strong>: Isolate pages containing specific data, forms, or reports.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          Our tool ensures you get precisely the PDF content you need, making it the <strong>best PDF splitter tool</strong> available online.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Tips for Effective PDF Splitting
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Optimize your PDF splitting workflow with these professional tips:
+        </p>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Organize Before Splitting</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Review your PDF thoroughly and plan which pages you need. Use our page preview feature to identify exactly which sections to extract, saving time in the splitting process.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Use Meaningful Filenames</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            After downloading split PDFs, rename them with descriptive filenames that indicate their content. This makes finding specific documents easier later, especially when dealing with many extracted pages.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Combine with Other Tools</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            For complex document management, combine PDF splitting with our other tools. Split first, then use our PDF merger to recombine selected pages in a new order, or our PDF to JPG converter for image extraction.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Consider File Size</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            For very large documents, splitting into smaller chunks not only makes sharing easier but also improves loading times when viewing. Consider splitting every 10-20 pages for optimal performance.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          The Technology Behind Our PDF Splitter
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our <strong>PDF splitter online</strong> tool uses cutting-edge client-side technology for fast, secure processing. Powered by PDF.js and pdf-lib.js, it handles PDF manipulation directly in your browser, ensuring:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Complete Privacy</strong>: Your files never leave your device.
+          </li>
+          <li>
+            <strong>High Performance</strong>: Efficient processing of PDF documents with minimal resource usage.
+          </li>
+          <li>
+            <strong>Lossless Extraction</strong>: Split files maintain the exact quality and features of the original.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          JSZip enables easy downloading of multiple PDFs as a single ZIP file. Experience modern, reliable web technology with Conversion Tools.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          What Our Users Say
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our PDF splitter is trusted by users worldwide. Here's what they say:
+        </p>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "I needed to extract specific pages from a 200-page manual, and this tool made it incredibly easy. The preview feature is fantastic for making sure I got exactly what I needed!"
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Michael R., Systems Engineer
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "As a teacher, I often need to split large curriculum documents into weekly lesson plans. This splitter saves me so much time and keeps everything organized."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">— Sarah T., Educator</p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "The fact that files never leave my browser was the selling point for me. I deal with confidential contracts and can't risk uploading them to random online services."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">— David L., Legal Assistant</p>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Explore More Conversion Tools
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Beyond our PDF splitter, Conversion Tools offers a variety of free online tools to enhance your productivity:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >PDF Merger</a
+            >: Combine multiple PDFs into a single document.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF to JPG Converter</a
+            >: Convert PDF pages into high-quality JPG images.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >PDF Compressor</a
+            >: Reduce PDF file size without sacrificing quality.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >PDF to Word Converter</a
+            >: Transform PDFs into editable Word documents.
+          </li>
+        </ul>
+        <section class="ad-container mt-8">
+            <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+          </section>
+        </main>
+        <footer class="text-white py-12">
+          <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div>
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+                  <h4 class="text-2xl font-bold">Conversion Tools</h4>
+                </div>
+                <p class="text-gray-300">
+                  Secure, fast, and professional file conversion tools for all your
+                  needs.
+                </p>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+                <ul class="space-y-3 text-gray-300">
+                  <li>
+                    <a href="#" class="hover:text-blue-400 transition-colors"
+                      >Home</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="hover:text-red-400 transition-colors"
+                      >PDF Tools</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="hover:text-green-400 transition-colors"
+                      >Document Tools</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="hover:text-orange-400 transition-colors"
+                      >Spreadsheet Tools</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+                <p class="text-gray-300 mb-2">Email: support@conversiontools.com</p>
+                <p class="text-gray-300 mb-4">Follow us on social media</p>
+                <div class="flex space-x-6">
+                  <a href="#" class="text-gray-300 hover:text-blue-400"
+                    ><i class="fab fa-twitter text-2xl"></i
+                  ></a>
+                  <a href="#" class="text-gray-300 hover:text-green-400"
+                    ><i class="fab fa-linkedin text-2xl"></i
+                  ></a>
+                  <a href="#" class="text-gray-300 hover:text-teal-400"
+                    ><i class="fab fa-github text-2xl"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <p class="text-center mt-12 text-gray-400">
+              © 2023 Conversion Tools. All rights reserved.
+            </p>
+          </div>
+        </footer>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+        <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+        <script>
+          // Set PDF.js worker path
+          pdfjsLib.GlobalWorkerOptions.workerSrc =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js";
+    
+          // DOM elements
+          const pdfInput = document.getElementById("pdfInput");
+          const dragDropArea = document.getElementById("dragDropArea");
+          const loader = document.getElementById("loader");
+          const pdfInfo = document.getElementById("pdfInfo");
+          const pdfName = document.getElementById("pdfName");
+          const pdfPages = document.getElementById("pdfPages");
+          const pdfSize = document.getElementById("pdfSize");
+          const splitOptions = document.getElementById("splitOptions");
+          const pagePreview = document.getElementById("pagePreview");
+          const pageGrid = document.getElementById("pageGrid");
+          const splitBtn = document.getElementById("splitBtn");
+          const result = document.getElementById("result");
+          const downloadAllBtn = document.getElementById("downloadAllBtn");
+          const downloadList = document.getElementById("downloadList");
+          const pageRange = document.getElementById("pageRange");
+          const splitNumber = document.getElementById("splitNumber");
+    
+          // State variables
+          let pdfDoc = null;
+          let originalPdfBytes = null;
+          let selectedOption = "all";
+          let splitPdfs = [];
+    
+          // Drag and drop events
+          dragDropArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dragDropArea.classList.add("drag-over");
+          });
+    
+          dragDropArea.addEventListener("dragleave", () => {
+            dragDropArea.classList.remove("drag-over");
+          });
+    
+          dragDropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dragDropArea.classList.remove("drag-over");
+            if (e.dataTransfer.files.length) {
+              pdfInput.files = e.dataTransfer.files;
+              loadPDF();
+            }
+          });
+    
+          pdfInput.addEventListener("change", loadPDF);
+    
+          // Split option selection
+          document.querySelectorAll(".option-card").forEach((card) => {
+            card.addEventListener("click", () => {
+              document.querySelectorAll(".option-card").forEach((c) => {
+                c.classList.remove("selected");
+              });
+              card.classList.add("selected");
+              selectedOption = card.dataset.option;
+              
+              // Hide all input fields first
+              pageRange.classList.add("hidden");
+              splitNumber.classList.add("hidden");
+              
+              // Show relevant input field based on selection
+              if (selectedOption === "range") {
+                pageRange.classList.remove("hidden");
+              } else if (selectedOption === "split") {
+                splitNumber.classList.remove("hidden");
+              }
+            });
+          });
+    
+          // Load PDF file
+          async function loadPDF() {
+            const file = pdfInput.files[0];
+            if (!file || !file.type.includes("pdf")) {
+              alert("Please select a valid PDF file.");
+              return;
+            }
+    
+            try {
+              loader.style.display = "block";
+              dragDropArea.style.display = "none";
+              
+              // Reset UI
+              pageGrid.innerHTML = "";
+              result.classList.add("hidden");
+              downloadList.innerHTML = "";
+              
+              const arrayBuffer = await file.arrayBuffer();
+              originalPdfBytes = new Uint8Array(arrayBuffer);
+              
+              // Load PDF with PDF.js
+              pdfDoc = await pdfjsLib.getDocument({ data: originalPdfBytes }).promise;
+              
+              // Display PDF info
+              pdfName.textContent = `Filename: ${file.name}`;
+              pdfPages.textContent = `Pages: ${pdfDoc.numPages}`;
+              pdfSize.textContent = `Size: ${formatFileSize(file.size)}`;
+              
+              pdfInfo.classList.remove("hidden");
+              splitOptions.classList.remove("hidden");
+              pagePreview.classList.remove("hidden");
+              splitBtn.classList.remove("hidden");
+              
+              // Generate page previews
+              await generatePagePreviews();
+              
+              loader.style.display = "none";
+            } catch (error) {
+              console.error("Error loading PDF:", error);
+              alert("Error loading PDF. Please try another file.");
+              loader.style.display = "none";
+              dragDropArea.style.display = "block";
+            }
+          }
+    
+          // Generate page previews
+          async function generatePagePreviews() {
+            pageGrid.innerHTML = "";
+            
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+              const page = await pdfDoc.getPage(i);
+              const viewport = page.getViewport({ scale: 0.2 });
+              
+              const pageBox = document.createElement("div");
+              pageBox.className = "page-box";
+              pageBox.dataset.page = i;
+              
+              const canvas = document.createElement("canvas");
+              canvas.className = "page-preview";
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+              
+              const context = canvas.getContext("2d");
+              await page.render({ canvasContext: context, viewport }).promise;
+              
+              const pageNumber = document.createElement("p");
+              pageNumber.textContent = `Page ${i}`;
+              pageNumber.className = "text-sm font-medium";
+              
+              pageBox.appendChild(canvas);
+              pageBox.appendChild(pageNumber);
+              pageGrid.appendChild(pageBox);
+            }
+          }
+    
+          // Split PDF button click handler
+          splitBtn.addEventListener("click", async () => {
+            if (!pdfDoc || !originalPdfBytes) return;
+            
+            loader.style.display = "block";
+            splitBtn.disabled = true;
+            
+            try {
+              const { PDFDocument } = PDFLib;
+              const originalPdfDoc = await PDFDocument.load(originalPdfBytes);
+              splitPdfs = [];
+              
+              if (selectedOption === "all") {
+                // Extract all pages individually
+                for (let i = 0; i < pdfDoc.numPages; i++) {
+                  const newPdf = await PDFDocument.create();
+                  const [copiedPage] = await newPdf.copyPages(originalPdfDoc, [i]);
+                  newPdf.addPage(copiedPage);
+                  
+                  const pdfBytes = await newPdf.save();
+                  splitPdfs.push({
+                    name: `page_${i + 1}.pdf`,
+                    data: pdfBytes
+                  });
+                }
+              } else if (selectedOption === "range") {
+                // Extract specific page ranges
+                const ranges = parsePageRanges(pageRange.value, pdfDoc.numPages);
+                if (ranges.length === 0) {
+                  throw new Error("Invalid page range. Please use format like 1-3,5,8-10");
+                }
+                
+                for (let i = 0; i < ranges.length; i++) {
+                  const newPdf = await PDFDocument.create();
+                  const [copiedPage] = await newPdf.copyPages(originalPdfDoc, [ranges[i] - 1]);
+                  newPdf.addPage(copiedPage);
+                  
+                  const pdfBytes = await newPdf.save();
+                  splitPdfs.push({
+                    name: `page_${ranges[i]}.pdf`,
+                    data: pdfBytes
+                  });
+                }
+              } else if (selectedOption === "split") {
+                // Split every N pages
+                const n = parseInt(splitNumber.value) || 1;
+                if (n < 1) {
+                  throw new Error("Please enter a positive number for splitting");
+                }
+                
+                let partNumber = 1;
+                for (let i = 0; i < pdfDoc.numPages; i += n) {
+                  const newPdf = await PDFDocument.create();
+                  const pagesToCopy = [];
+                  
+                  for (let j = 0; j < n && i + j < pdfDoc.numPages; j++) {
+                    pagesToCopy.push(i + j);
+                  }
+                  
+                  const copiedPages = await newPdf.copyPages(originalPdfDoc, pagesToCopy);
+                  copiedPages.forEach(page => newPdf.addPage(page));
+                  
+                  const pdfBytes = await newPdf.save();
+                  splitPdfs.push({
+                    name: `part_${partNumber}.pdf`,
+                    data: pdfBytes
+                  });
+                  
+                  partNumber++;
+                }
+              }
+              
+              // Display results
+              displayResults();
+              
+            } catch (error) {
+              console.error("Error splitting PDF:", error);
+              alert("Error splitting PDF: " + error.message);
+            } finally {
+              loader.style.display = "none";
+              splitBtn.disabled = false;
+            }
+          });
+    
+          // Parse page ranges from string like "1-3,5,8-10"
+          function parsePageRanges(rangeStr, maxPages) {
+            if (!rangeStr.trim()) return [];
+            
+            const pages = [];
+            const parts = rangeStr.split(",");
+            
+            for (const part of parts) {
+              if (part.includes("-")) {
+                const [start, end] = part.split("-").map(p => parseInt(p.trim()));
+                if (isNaN(start) || isNaN(end) || start < 1 || end > maxPages || start > end) {
+                  continue;
+                }
+                for (let i = start; i <= end; i++) {
+                  if (!pages.includes(i)) pages.push(i);
+                }
+              } else {
+                const page = parseInt(part.trim());
+                if (!isNaN(page) && page >= 1 && page <= maxPages && !pages.includes(page)) {
+                  pages.push(page);
+                }
+              }
+            }
+            
+            return pages.sort((a, b) => a - b);
+          }
+    
+          // Display split results
+          function displayResults() {
+            if (splitPdfs.length === 0) return;
+            
+            result.classList.remove("hidden");
+            downloadList.innerHTML = "";
+            
+            splitPdfs.forEach((pdf, index) => {
+              const item = document.createElement("div");
+              item.className = "flex justify-between items-center p-3 bg-gray-50 rounded-lg mb-2";
+              
+              const nameSpan = document.createElement("span");
+              nameSpan.textContent = pdf.name;
+              nameSpan.className = "text-gray-700";
+              
+              const downloadBtn = document.createElement("button");
+              downloadBtn.innerHTML = '<i class="fas fa-download mr-2"></i> Download';
+              downloadBtn.className = "btn-secondary text-sm py-1 px-3";
+              downloadBtn.addEventListener("click", () => {
+                downloadSinglePDF(pdf);
+              });
+              
+              item.appendChild(nameSpan);
+              item.appendChild(downloadBtn);
+              downloadList.appendChild(item);
+            });
+          }
+    
+          // Download a single split PDF
+          function downloadSinglePDF(pdf) {
+            const blob = new Blob([pdf.data], { type: "application/pdf" });
+            download(blob, pdf.name, "application/pdf");
+          }
+    
+          // Download all PDFs as ZIP
+          downloadAllBtn.addEventListener("click", async () => {
+            if (splitPdfs.length === 0) return;
+            
+            loader.style.display = "block";
+            downloadAllBtn.disabled = true;
+            
+            try {
+              const zip = new JSZip();
+              
+              splitPdfs.forEach(pdf => {
+                zip.file(pdf.name, pdf.data);
+              });
+              
+              const zipContent = await zip.generateAsync({ type: "blob" });
+              download(zipContent, "split_pdfs.zip", "application/zip");
+            } catch (error) {
+              console.error("Error creating ZIP:", error);
+              alert("Error creating ZIP file. Please try again.");
+            } finally {
+              loader.style.display = "none";
+              downloadAllBtn.disabled = false;
+            }
+          });
+    
+                // Format file size
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + " bytes";
+        else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+        else return (bytes / 1048576).toFixed(1) + " MB";
+      }
+
+      // FAQ toggle
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const answer = question.nextElementSibling;
+          answer.classList.toggle("active");
+          
+          const icon = question.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+
+      // Tips toggle
+      document.querySelectorAll(".tip-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const answer = question.nextElementSibling;
+          answer.classList.toggle("active");
+          
+          const icon = question.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+
+      // Mobile menu toggle
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+    </script>
+  </body>
+</html>
+
+    

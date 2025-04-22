@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSON Tools Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .panel {
+      background-color: #10b981;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .panel button,
+    .panel select {
+      padding: 12px 16px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .panel button {
+      background-color: white;
+      color: #10b981;
+      font-weight: 600;
+    }
+
+    .panel button:hover {
+      background-color: #f0fdf4;
+      transform: scale(1.03);
+    }
+
+    .panel select {
+      appearance: none;
+      background-color: white;
+      color: #374151;
+      font-weight: 500;
+      padding-right: 30px;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7L10 12L15 7' stroke='%23374151' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    .panel select:hover {
+      background-color: #f0fdf4;
+    }
+
+    .panel .footer {
+      font-size: 14px;
+      color: white;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <button>Upload Data</button>
+    <button>Validate</button>
+
+    <select>
+      <option>2 Tab Space</option>
+      <option>4 Tab Space</option>
+      <option>Minified</option>
+    </select>
+
+    <button>Format / Beautify</button>
+    <button>Minify / Compact</button>
+    <button>Convert JSON to ⌄</button>
+    <button>Download</button>
+
+    <div class="footer">JSON Full Form</div>
+  </div>
+</body>
+</html>

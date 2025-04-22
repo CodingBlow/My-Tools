@@ -1,0 +1,173 @@
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #f9fafb, #e5e7eb);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Header */
+header {
+    z-index: 1000;
+    background: linear-gradient(to right, #ffffff, #f8fafc);
+}
+
+/* Navigation */
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li a {
+    transition: color 0.3s ease;
+}
+
+#mobile-menu {
+    transition: max-height 0.3s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+#mobile-menu.active {
+    max-height: 500px;
+}
+
+#hamburger i {
+    transition: transform 0.3s ease;
+}
+
+#hamburger.active i.fa-bars {
+    transform: rotate(90deg);
+}
+
+/* Tool cards */
+a[aria-label] {
+    display: block;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    min-height: 200px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+a[aria-label]:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(to right, #1f2937, #374151);
+}
+
+/* Category-specific colors */
+#pdf-tools i, #pdf-tools a[aria-label] .text-red-600 {
+    color: #dc2626 !important;
+}
+
+#document-tools i, #document-tools a[aria-label] .text-blue-600 {
+    color: #2563eb !important;
+}
+
+#spreadsheet-tools i, #spreadsheet-tools a[aria-label] .text-green-600 {
+    color: #16a34a !important;
+}
+
+#audio-tools i, #audio-tools a[aria-label] .text-purple-600 {
+    color: #7c3aed !important;
+}
+
+#video-tools i, #video-tools a[aria-label] .text-orange-600 {
+    color: #f97316 !important;
+}
+
+#utility-tools i, #utility-tools a[aria-label] .text-teal-600 {
+    color: #14b8a6 !important;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    header .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav ul {
+        width: 100%;
+        text-align: left;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .grid {
+        gap: 1rem;
+    }
+
+    a[aria-label] {
+        padding: 1rem;
+        min-height: 180px;
+    }
+
+    .hero-section {
+        min-height: 300px;
+        padding: 2rem 1rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    .hero-section a {
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* Ensure CLS stability */
+.grid {
+    min-height: 0;
+    min-width: 0;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Accessibility */
+[aria-hidden="true"] {
+    speak-as: none;
+}
+
+/* Optimize rendering */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Smooth transitions for interactive elements */
+button, a {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}

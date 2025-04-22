@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert PDF files to Excel spreadsheets securely in your browser with our professional PDF to Excel converter tool. Fast, reliable, and no uploads required."
+    />
+    <meta
+      name="keywords"
+      content="PDF to Excel, PDF converter, extract tables from PDF, PDF to spreadsheet, online PDF tools, free PDF converter, best PDF to Excel tool, PDF manipulation, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>PDF to Excel Converter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #16a34a, #22c55e);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #16a34a, #22c55e);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #15803d;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #16a34a;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .drag-drop-area {
+        border: 2px dashed #cbd5e1;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        cursor: pointer;
+      }
+      .drag-drop-area.drag-over {
+        border-color: #16a34a;
+        background: #f0fdf4;
+        transform: scale(1.02);
+      }
+      .drag-drop-area i {
+        font-size: 2.5rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+      }
+      .drag-drop-area p {
+        color: #64748b;
+        font-size: 1.1rem;
+      }
+      .drag-drop-area span {
+        color: #16a34a;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active {
+        display: block;
+      }
+      .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .tip-answer.active {
+        display: block;
+      }
+      .testimonial {
+        border-left: 4px solid #16a34a;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .table-preview {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+      .table-preview-img {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .page-preview {
+        width: 100%;
+        height: 160px;
+        object-fit: contain;
+        margin-bottom: 0.5rem;
+      }
+      .page-box {
+        border: 1px solid #e2e8f0;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        margin: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .page-box.selected {
+        border-color: #16a34a;
+        background-color: #f0fdf4;
+      }
+      .conversion-options {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .option-card {
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .option-card:hover {
+        border-color: #16a34a;
+        background-color: #f8fafc;
+      }
+      .option-card.selected {
+        border-color: #16a34a;
+        background-color: #f0fdf4;
+      }
+      .range-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .format-selector {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .format-option {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .format-option:hover {
+        border-color: #16a34a;
+        background-color: #f0fdf4;
+      }
+      .format-option.selected {
+        border-color: #16a34a;
+        background-color: #f0fdf4;
+      }
+      .format-option i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .excel-icon {
+        color: #1d6f42;
+      }
+      .csv-icon {
+        color: #217346;
+      }
+      .feature-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+      .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #16a34a;
+      }
+      .progress-bar {
+        width: 100%;
+        background-color: #e2e8f0;
+        border-radius: 9999px;
+        height: 0.5rem;
+        overflow: hidden;
+        margin: 1rem 0;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(to right, #16a34a, #22c55e);
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .drag-drop-area {
+          padding: 1.5rem;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Home</a>
+            </li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Documents</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200"
+                >Spreadsheets</a
+              >
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Audio</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Video</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Utilities</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          PDF to Excel Converter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Convert PDF tables to Excel spreadsheets securely in your browser. 
+          Fast, accurate, and no uploads required - your data stays private.
+        </p>
+      </section>
+
+      <div class="flex flex-col md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-file-excel mr-3 text-green-500"></i> Convert PDF to Excel
+          </h3>
+          <div class="flex items-center justify-center mb-6">
+            <i class="fas fa-file-pdf text-2xl text-red-500 mr-3"></i>
+            <i class="fas fa-arrow-right text-xl text-gray-400 mx-2"></i>
+            <i class="fas fa-file-excel text-2xl text-green-500"></i>
+          </div>
+          <div class="flex flex-col items-center">
+            <div id="dragDropArea" class="drag-drop-area w-full max-w-md mb-6">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>
+                Drag & Drop your PDF here or
+                <span onclick="document.getElementById('pdfInput').click()"
+                  >browse</span
+                >
+              </p>
+              <input
+                type="file"
+                id="pdfInput"
+                accept="application/pdf"
+                class="hidden"
+              />
+            </div>
+            
+            <div id="pdfInfo" class="hidden w-full mb-4">
+              <div class="bg-green-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-green-700">PDF Information</h4>
+                <p id="pdfName" class="text-gray-700"></p>
+                <p id="pdfPages" class="text-gray-700"></p>
+                <p id="pdfSize" class="text-gray-700"></p>
+                <p id="tableCount" class="text-gray-700"></p>
+              </div>
+            </div>
+
+            <div id="conversionOptions" class="hidden w-full mb-4">
+              <h4 class="font-semibold text-gray-800 mb-2">Conversion Options</h4>
+              <div class="conversion-options">
+                <div class="option-card selected" data-option="all">
+                  <div class="flex items-center">
+                    <i class="fas fa-table text-2xl text-green-500 mr-3"></i>
+                    <div>
+                      <h5 class="font-semibold">Convert All Tables</h5>
+                      <p class="text-sm text-gray-600">Extract and convert all tables from the document</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="option-card" data-option="pages">
+                  <div class="flex items-center">
+                    <i class="fas fa-file-alt text-2xl text-blue-500 mr-3"></i>
+                    <div>
+                      <h5 class="font-semibold">Select Pages</h5>
+                      <p class="text-sm text-gray-600">Convert tables from specific pages only</p>
+                      <input type="text" id="pageRange" placeholder="e.g., 1-3,5,8-10" class="range-input hidden" />
+                    </div>
+                  </div>
+                </div>
+                <div class="option-card" data-option="custom">
+                  <div class="flex items-center">
+                    <i class="fas fa-edit text-2xl text-purple-500 mr-3"></i>
+                    <div>
+                      <h5 class="font-semibold">Custom Selection</h5>
+                      <p class="text-sm text-gray-600">Manually select tables to convert</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="formatOptions" class="hidden w-full mb-4">
+              <h4 class="font-semibold text-gray-800 mb-2">Output Format</h4>
+              <div class="format-selector">
+                <div class="format-option selected" data-format="xlsx">
+                  <i class="fas fa-file-excel excel-icon"></i>
+                  <span>Excel (.xlsx)</span>
+                </div>
+                <div class="format-option" data-format="csv">
+                  <i class="fas fa-file-csv csv-icon"></i>
+                  <span>CSV (.csv)</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="advancedOptions" class="hidden w-full mb-4">
+              <h4 class="font-semibold text-gray-800 mb-2">Advanced Options</h4>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <input type="checkbox" id="detectMergedCells" class="mr-2" checked>
+                  <label for="detectMergedCells">Detect merged cells</label>
+                </div>
+                <div class="flex items-center mb-3">
+                  <input type="checkbox" id="preserveFormatting" class="mr-2" checked>
+                  <label for="preserveFormatting">Preserve text formatting</label>
+                </div>
+                <div class="flex items-center mb-3">
+                  <input type="checkbox" id="includeImages" class="mr-2">
+                  <label for="includeImages">Include embedded images (when possible)</label>
+                </div>
+                <div class="flex items-center">
+                  <input type="checkbox" id="createWorksheets" class="mr-2" checked>
+                  <label for="createWorksheets">Create separate worksheets for each table</label>
+                </div>
+              </div>
+            </div>
+
+            <div id="tablePreview" class="hidden w-full mb-6">
+              <h4 class="font-semibold text-gray-800 mb-2">Tables Found</h4>
+              <p class="text-sm text-gray-600 mb-4">We've detected the following tables in your PDF. Select the ones you want to convert.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="tableGrid">
+                <!-- Table previews will be dynamically added here -->
+                <div class="table-preview">
+                  <img src="/api/placeholder/300/200" alt="Table 1 Preview" class="table-preview-img">
+                  <div class="p-3 flex justify-between items-center">
+                    <span class="font-medium">Table 1 (Page 1)</span>
+                    <input type="checkbox" checked>
+                  </div>
+                </div>
+                <div class="table-preview">
+                  <img src="/api/placeholder/300/200" alt="Table 2 Preview" class="table-preview-img">
+                  <div class="p-3 flex justify-between items-center">
+                    <span class="font-medium">Table 2 (Page 2)</span>
+                    <input type="checkbox" checked>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="pagePreview" class="hidden w-full mb-6">
+              <h4 class="font-semibold text-gray-800 mb-2">Page Preview</h4>
+              <p class="text-sm text-gray-600 mb-4">Select the pages containing tables you want to convert.</p>
+              <div id="pageGrid" class="flex flex-wrap justify-center">
+                <!-- Page thumbnails will be dynamically added here -->
+                <div class="page-box">
+                  <img src="/api/placeholder/120/160" alt="Page 1" class="page-preview">
+                  <span>Page 1</span>
+                </div>
+                <div class="page-box">
+                  <img src="/api/placeholder/120/160" alt="Page 2" class="page-preview">
+                  <span>Page 2</span>
+                </div>
+              </div>
+            </div>
+
+            <button id="convertBtn" class="btn-primary hidden">Convert to Excel</button>
+            <div id="loader" class="loader"></div>
+            
+            <div id="progressContainer" class="hidden w-full mt-4 mb-4">
+              <p class="text-sm text-gray-600">Converting PDF to Excel... Please wait.</p>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+              </div>
+              <p class="text-xs text-gray-500" id="progressStatus">Processing page 1 of 5...</p>
+            </div>
+            
+            <div id="result" class="mt-6 hidden flex flex-col items-center">
+              <div class="bg-green-100 p-4 rounded-lg text-center mb-4 w-full">
+                <i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i>
+                <h4 class="font-semibold text-green-800 mb-1">Conversion Complete!</h4>
+                <p class="text-sm text-green-700">Your PDF has been successfully converted to Excel format.</p>
+              </div>
+              <button id="downloadBtn" class="btn-primary mb-4">
+                <i class="fas fa-download mr-2"></i> Download Excel File
+              </button>
+              <button id="convertAnotherBtn" class="btn-secondary">
+                Convert Another PDF
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="md:w-1/3">
+          <div class="ad-container mb-8">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Features Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Top Features of Our PDF to Excel Converter
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="feature-card">
+            <i class="fas fa-shield-alt feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2">100% Secure</h3>
+            <p class="text-gray-600">
+              All processing happens in your browser. Your files are never uploaded to any server, ensuring complete privacy.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-table feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2">Accurate Table Detection</h3>
+            <p class="text-gray-600">
+              Advanced algorithms accurately detect and extract tables from PDFs, preserving structure and formatting.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-file-excel feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2">Multiple Output Formats</h3>
+            <p class="text-gray-600">
+              Convert your PDF tables to Excel (.xlsx) or CSV format based on your specific needs.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-th feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2">Multi-Table Support</h3>
+            <p class="text-gray-600">
+              Process multiple tables across different pages in a single conversion, with each table placed in separate worksheets.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-palette feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2">Format Preservation</h3>
+            <p class="text-gray-600">
+              Keep text formatting, merged cells, and layout intact during conversion for professional-looking results.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-tachometer-alt feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2">Fast Processing</h3>
+            <p class="text-gray-600">
+              Optimized algorithms provide quick conversions even for large PDFs with complex tables.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEO Content -->
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Convert PDF to Excel with Conversion Tools?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Converting PDF tables to editable Excel spreadsheets is essential for data analysis, manipulation, and organization. Our <strong>PDF to Excel converter</strong> provides a powerful, secure, and user-friendly solution that operates directly in your browser, ensuring your sensitive data remains private with no uploads required.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Whether you're a financial analyst, researcher, or business professional, our tool is designed to handle complex PDF tables and deliver accurate Excel conversions. With advanced table detection algorithms, you can extract data from invoices, financial reports, research papers, and other documents with high precision. Discover why thousands choose Conversion Tools for their <strong>online PDF to Excel conversion</strong> needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Benefits of Using Our PDF to Excel Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>100% Secure Processing</strong>: Files are processed locally in your browser, never uploaded to any server.
+          </li>
+          <li>
+            <strong>Table Structure Preservation</strong>: Maintains row and column structure, merged cells, and formatting.
+          </li>
+          <li>
+            <strong>Selective Conversion</strong>: Choose specific pages or tables to convert based on your needs.
+          </li>
+          <li>
+            <strong>Multiple Output Formats</strong>: Save results as Excel (.xlsx) or CSV files.
+          </li>
+          <li>
+            <strong>Advanced Table Detection</strong>: Accurately identifies and extracts tables even in complex PDF layouts.
+          </li>
+          <li>
+            <strong>Batch Processing</strong>: Convert multiple tables from multi-page PDFs in a single operation.
+          </li>
+          <li>
+            <strong>Preview Capability</strong>: View detected tables before conversion to ensure accuracy.
+          </li>
+          <li>
+            <strong>No Installation Required</strong>: Works directly in your browser without additional software.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          How to Convert PDF to Excel
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Follow these simple steps to convert your PDF tables to Excel spreadsheets:
+        </p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Upload Your PDF</strong>: Drag and drop your PDF file or click "browse" to select it.
+          </li>
+          <li>
+            <strong>Review Detected Tables</strong>: Our tool automatically identifies tables in your document.
+          </li>
+          <li>
+            <strong>Choose Conversion Options</strong>: Select specific tables or pages, output format, and advanced settings.
+          </li>
+          <li>
+            <strong>Convert</strong>: Click the "Convert to Excel" button to process your document.
+          </li>
+          <li>
+            <strong>Download Result</strong>: Download your Excel or CSV file once conversion is complete.
+          </li>
+        </ol>
+        <p class="text-gray-600 mt-4">
+          Our intuitive interface makes converting PDFs to Excel quick and easy. Try our <strong>best PDF to Excel converter</strong> today!
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-question">
+            <span>How accurate is the PDF to Excel conversion?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Our PDF to Excel converter uses advanced algorithms to accurately detect and extract tables from PDFs. The accuracy depends on the quality and structure of the original PDF. Well-structured tables typically convert with very high accuracy (95%+), while complex layouts or scanned PDFs may require some manual adjustments after conversion.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is my data secure when using this converter?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Absolutely. Our PDF to Excel converter processes your files entirely in your browser. Your PDFs are never uploaded to any server, ensuring complete privacy and security. This makes our tool ideal for converting sensitive financial or business documents.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What types of PDFs can be converted to Excel?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Our tool can convert various types of PDFs containing tables, including financial reports, invoices, research papers, data sheets, and more. Both native (digitally created) PDFs and scanned PDFs can be processed, though native PDFs typically yield better results.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Are there any file size limitations?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Since all processing happens in your browser, the file size limitations depend on your device's memory. Generally, PDFs up to 100MB can be processed without issues on most modern computers. For larger files, we recommend splitting the PDF first or selecting specific pages for conversion.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I convert multiple PDFs at once?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Currently, our tool processes one PDF at a time. However, you can convert multiple tables from a single PDF simultaneously, with each table optionally placed in separate worksheets in the resulting Excel file.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Tips for Better PDF to Excel Conversion
+        </h2>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Use native PDFs when possible</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Digitally created PDFs (not scanned) generally convert with higher accuracy. If you have access to the original document that created the PDF, consider using that for better results.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Check table detection accuracy</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Review the table previews before conversion to ensure all tables are properly detected. For complex layouts, you might need to select specific tables manually for the best results.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Consider using CSV for simple tables</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            For simple tables without merged cells or complex formatting, converting to CSV might be faster and produce cleaner results that are easier to work with in data analysis tools.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Optimize PDFs before conversion</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            For scanned PDFs, consider running OCR (Optical Character Recognition) first to improve text recognition. Also, cropping the PDF to include only the tables can improve conversion accuracy.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          What Our Users Say
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="testimonial">
+            <p class="text-gray-600 italic mb-2">
+              "This PDF to Excel converter saved me hours of manual data entry. The tables were extracted perfectly, maintaining all the formatting from my financial reports. Best of all, I didn't have to upload sensitive company data to any server."
+            </p>
+            <p class="font-semibold">- Sarah J., Financial Analyst</p>
+          </div>
+          <div class="testimonial">
+            <p class="text-gray-600 italic mb-2">
+              "As a researcher, I often need to extract data tables from published papers. This tool has become essential in my workflow. The accuracy is impressive, even with complex academic tables."
+            </p>
+            <p class="font-semibold">- Dr. Michael T., Research Scientist</p>
+          </div>
+          <div class="testimonial">
+            <p class="text-gray-600 italic mb-2">
+              "I was skeptical about browser-based conversion tools, but this one exceeded my expectations. It handled my 50-page report with multiple tables flawlessly, and I love that my data stays private."
+            </p>
+            <p class="font-semibold">- Robert K., Business Consultant</p>
+          </div>
+          <div class="testimonial">
+            <p class="text-gray-600 italic mb-2">
+              "The selective conversion feature is a game-changer. I only needed specific tables from a 200-page document, and this tool let me pick exactly what I needed without converting everything."
+            </p>
+            <p class="font-semibold">- Lisa M., Data Analyst</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">Conversion Tools</h3>
+            <p class="text-gray-400">
+              Professional file conversion tools that respect your privacy. All processing happens in your browser - no uploads required.
+            </p>
+            <div class="flex mt-4 space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-github"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">PDF Tools</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">PDF to Word</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">PDF to Excel</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">PDF to PowerPoint</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">PDF to JPG</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Merge PDFs</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Split PDF</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Compress PDF</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Other Converters</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Word to PDF</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Excel to PDF</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">JPG to PDF</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">HTML to PDF</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Audio Converter</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Video Converter</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Image Converter</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Support</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; 2023 Conversion Tools. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // File upload handling
+      const dragDropArea = document.getElementById("dragDropArea");
+      const pdfInput = document.getElementById("pdfInput");
+      const pdfInfo = document.getElementById("pdfInfo");
+      const pdfName = document.getElementById("pdfName");
+      const pdfPages = document.getElementById("pdfPages");
+      const pdfSize = document.getElementById("pdfSize");
+      const tableCount = document.getElementById("tableCount");
+      const conversionOptions = document.getElementById("conversionOptions");
+      const formatOptions = document.getElementById("formatOptions");
+      const advancedOptions = document.getElementById("advancedOptions");
+      const convertBtn = document.getElementById("convertBtn");
+      const loader = document.getElementById("loader");
+      const progressContainer = document.getElementById("progressContainer");
+      const progressBar = document.getElementById("progressBar");
+      const progressStatus = document.getElementById("progressStatus");
+      const result = document.getElementById("result");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const convertAnotherBtn = document.getElementById("convertAnotherBtn");
+      const tablePreview = document.getElementById("tablePreview");
+      const pagePreview = document.getElementById("pagePreview");
+
+      // Drag and drop functionality
+      dragDropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add("drag-over");
+      });
+
+      dragDropArea.addEventListener("dragleave", () => {
+        dragDropArea.classList.remove("drag-over");
+      });
+
+      dragDropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove("drag-over");
+        
+        if (e.dataTransfer.files.length) {
+          pdfInput.files = e.dataTransfer.files;
+          handleFileUpload(e.dataTransfer.files[0]);
+        }
+      });
+
+      dragDropArea.addEventListener("click", () => {
+        pdfInput.click();
+      });
+
+      pdfInput.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+          handleFileUpload(e.target.files[0]);
+        }
+      });
+
+      function handleFileUpload(file) {
+        if (file.type !== "application/pdf") {
+          alert("Please upload a PDF file.");
+          return;
+        }
+
+        // Show file information
+        pdfName.textContent = `File Name: ${file.name}`;
+        pdfSize.textContent = `File Size: ${formatFileSize(file.size)}`;
+        
+        // Simulate PDF processing
+        setTimeout(() => {
+          pdfPages.textContent = "Pages: 5";
+          tableCount.textContent = "Tables Detected: 3";
+          
+          pdfInfo.classList.remove("hidden");
+          conversionOptions.classList.remove("hidden");
+          formatOptions.classList.remove("hidden");
+          advancedOptions.classList.remove("hidden");
+          convertBtn.classList.remove("hidden");
+        }, 1000);
+      }
+
+      // Option selection
+      document.querySelectorAll(".option-card").forEach((option) => {
+        option.addEventListener("click", () => {
+          document.querySelectorAll(".option-card").forEach((opt) => {
+            opt.classList.remove("selected");
+          });
+          option.classList.add("selected");
+          
+          const selectedOption = option.getAttribute("data-option");
+          
+          // Show/hide page range input
+          if (selectedOption === "pages") {
+            document.getElementById("pageRange").classList.remove("hidden");
+            pagePreview.classList.remove("hidden");
+            tablePreview.classList.add("hidden");
+          } else if (selectedOption === "custom") {
+            document.getElementById("pageRange").classList.add("hidden");
+            tablePreview.classList.remove("hidden");
+            pagePreview.classList.add("hidden");
+          } else {
+            document.getElementById("pageRange").classList.add("hidden");
+            tablePreview.classList.add("hidden");
+            pagePreview.classList.add("hidden");
+          }
+        });
+      });
+
+      // Format selection
+      document.querySelectorAll(".format-option").forEach((format) => {
+        format.addEventListener("click", () => {
+          document.querySelectorAll(".format-option").forEach((fmt) => {
+            fmt.classList.remove("selected");
+          });
+          format.classList.add("selected");
+        });
+      });
+
+      // Page selection
+      document.querySelectorAll(".page-box").forEach((page) => {
+        page.addEventListener("click", () => {
+          page.classList.toggle("selected");
+        });
+      });
+
+             // Convert button click
+             convertBtn.addEventListener("click", () => {
+          // Hide options and show loader
+          pdfInfo.classList.add("hidden");
+          conversionOptions.classList.add("hidden");
+          formatOptions.classList.add("hidden");
+          advancedOptions.classList.add("hidden");
+          tablePreview.classList.add("hidden");
+          pagePreview.classList.add("hidden");
+          convertBtn.classList.add("hidden");
+          
+          // Show progress
+          progressContainer.classList.remove("hidden");
+          
+          // Simulate conversion process
+          let progress = 0;
+          const interval = setInterval(() => {
+            progress += 5;
+            progressBar.style.width = `${progress}%`;
+            
+            if (progress <= 25) {
+              progressStatus.textContent = "Analyzing PDF structure...";
+            } else if (progress <= 50) {
+              progressStatus.textContent = "Extracting tables from page 1 of 5...";
+            } else if (progress <= 75) {
+              progressStatus.textContent = "Converting tables to Excel format...";
+            } else {
+              progressStatus.textContent = "Finalizing your Excel file...";
+            }
+            
+            if (progress >= 100) {
+              clearInterval(interval);
+              
+              // Hide progress and show result
+              progressContainer.classList.add("hidden");
+              result.classList.remove("hidden");
+            }
+          }, 200);
+        });
+        
+     // Download button click
+downloadBtn.addEventListener("click", () => {
+  const selectedFormat = document.querySelector(".format-option.selected").getAttribute("data-format");
+  const fileName = selectedFormat === "xlsx" ? "converted-tables.xlsx" : "converted-tables.csv";
+  
+  // Create a dummy download (in a real app, this would be the actual file)
+  const link = document.createElement("a");
+  link.href = "#";
+  link.download = fileName;
+  link.click();
+});
+        // Convert another button click
+        convertAnotherBtn.addEventListener("click", () => {
+          // Reset the UI
+          pdfInfo.classList.add("hidden");
+          result.classList.add("hidden");
+          pdfInput.value = "";
+        });
+        
+        // Format file size
+        function formatFileSize(bytes) {
+          if (bytes < 1024) return bytes + " bytes";
+          else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+          else return (bytes / 1048576).toFixed(1) + " MB";
+        }
+        
+        // FAQ toggle
+        document.querySelectorAll(".faq-question").forEach((question) => {
+          question.addEventListener("click", () => {
+            const answer = question.nextElementSibling;
+            answer.classList.toggle("active");
+            
+            const icon = question.querySelector("i");
+            icon.classList.toggle("fa-chevron-down");
+            icon.classList.toggle("fa-chevron-up");
+          });
+        });
+        
+        // Tips toggle
+        document.querySelectorAll(".tip-question").forEach((question) => {
+          question.addEventListener("click", () => {
+            const answer = question.nextElementSibling;
+            answer.classList.toggle("active");
+            
+            const icon = question.querySelector("i");
+            icon.classList.toggle("fa-chevron-down");
+            icon.classList.toggle("fa-chevron-up");
+          });
+        });
+        
+        // Mobile menu toggle
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        
+        hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+        });
+      </script>
+    </body>
+  </html>

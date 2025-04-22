@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert PDF files to high-quality JPG images securely in your browser with our professional PDF to JPG converter tool. Fast, reliable, and no uploads required."
+    />
+    <meta
+      name="keywords"
+      content="PDF to JPG, PDF converter, convert PDF to image, online PDF conversion, image converter, free PDF tools, best PDF to image converter, JPG vs PNG, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>PDF to JPG Converter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #f97316, #ea580c);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #f97316, #ea580c);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #d97706;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .preview-canvas {
+        max-width: 100%;
+        margin: 1rem 0;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+      }
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #f97316;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .drag-drop-area {
+        border: 2px dashed #cbd5e1;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        cursor: pointer;
+      }
+      .drag-drop-area.drag-over {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        transform: scale(1.02);
+      }
+      .drag-drop-area i {
+        font-size: 2.5rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+      }
+      .drag-drop-area p {
+        color: #64748b;
+        font-size: 1.1rem;
+      }
+      .drag-drop-area span {
+        color: #3b82f6;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active {
+        display: block;
+      }
+      .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .tip-answer.active {
+        display: block;
+      }
+      .testimonial {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .drag-drop-area {
+          padding: 1.5rem;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Home</a>
+            </li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Documents</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200"
+                >Spreadsheets</a
+              >
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Audio</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Video</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Utilities</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          PDF to JPG Converter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Convert your PDF files to high-quality JPG images securely in your
+          browser. Fast, reliable, and no uploads required.
+        </p>
+      </section>
+
+      
+
+      <div class="flex flex-col md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-file-pdf mr-3 text-orange-500"></i> PDF to JPG
+          </h3>
+          <div class="flex items-center justify-center mb-6">
+            <i class="fas fa-file-pdf text-2xl text-orange-500 mr-3"></i>
+            <i class="fas fa-arrow-right text-xl text-gray-400 mx-2"></i>
+            <i class="fas fa-image text-2xl text-blue-500 ml-3"></i>
+          </div>
+          <div class="flex flex-col items-center">
+            <div id="dragDropArea" class="drag-drop-area w-full max-w-md mb-6">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>
+                Drag & Drop your PDF here or
+                <span onclick="document.getElementById('pdfInput').click()"
+                  >browse</span
+                >
+              </p>
+              <input
+                type="file"
+                id="pdfInput"
+                accept="application/pdf"
+                class="hidden"
+              />
+            </div>
+            <button id="convertBtn" class="btn-primary">Convert to JPG</button>
+            <div id="loader" class="loader"></div>
+            <div id="result" class="mt-6 hidden flex flex-col items-center">
+              <button id="previewBtn" class="btn-secondary mb-4">
+                Show Preview
+              </button>
+              <button id="downloadBtn" class="btn-primary">
+                Download JPG(s)
+              </button>
+            </div>
+            <div id="preview" class="mt-6 w-full hidden"></div>
+          </div>
+        </section>
+
+        <aside class="md:w-1/3">
+          <div class="ad-container mb-8">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- SEO Content -->
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Convert PDF to JPG with Conversion Tools?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Converting PDF files to JPG images is perfect for reducing file sizes
+          while maintaining good quality for web use, presentations, or sharing.
+          Our <strong>PDF to JPG converter</strong> offers a seamless, secure,
+          and high-quality solution that runs directly in your browser, ensuring
+          your files remain private with no uploads required.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Whether you're a marketer, educator, or small business owner, our tool
+          is designed to simplify your workflow. With support for multi-page
+          PDFs, you can convert entire documents into individual JPG images or
+          download them as a ZIP file. Discover why thousands choose Conversion
+          Tools for their <strong>PDF to JPG online</strong> needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Benefits of Using Our PDF to JPG Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Optimized Output</strong>: Convert PDF to JPG with
+            high-quality images ideal for web and print.
+          </li>
+          <li>
+            <strong>Browser-Based</strong>: No software installation needed;
+            convert directly in your browser.
+          </li>
+          <li>
+            <strong>Secure and Private</strong>: Files are processed locally for
+            maximum privacy.
+          </li>
+          <li>
+            <strong>Multi-Page Support</strong>: Convert all PDF pages into
+            individual JPGs or a single ZIP.
+          </li>
+          <li>
+            <strong>Fast and Efficient</strong>: Quick conversions with minimal
+            file size.
+          </li>
+          <li>
+            <strong>Easy to Use</strong>: Drag-and-drop interface for effortless
+            conversions.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          How to Convert PDF to JPG
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Follow these simple steps to convert your PDF files to JPG images
+          using our online tool:
+        </p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Upload Your PDF</strong>: Drag and drop your PDF file or
+            click "browse" to select it.
+          </li>
+          <li>
+            <strong>Convert to JPG</strong>: Click "Convert to JPG" to process
+            each page of your PDF.
+          </li>
+          <li>
+            <strong>Preview Images</strong>: Use the "Show Preview" button to
+            view the converted JPGs.
+          </li>
+          <li>
+            <strong>Download Files</strong>: Download individual JPGs or a ZIP
+            file for multi-page PDFs.
+          </li>
+        </ol>
+        <p class="text-gray-600 mt-4">
+          Our user-friendly interface makes converting PDFs to JPG images a
+          breeze. Try our <strong>best PDF to image converter</strong> today!
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What is a PDF to JPG converter?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            A PDF to JPG converter transforms PDF documents into JPG image
+            files, ideal for web use, presentations, or sharing. Our tool
+            ensures high-quality conversions without software downloads.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is it safe to use your PDF to JPG converter?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes! Our converter processes files locally in your browser, ensuring
+            your PDFs are never uploaded, providing maximum privacy and
+            security.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I convert multi-page PDFs to JPG?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Absolutely. Our tool converts each page of a multi-page PDF into a
+            separate JPG image, downloadable individually or as a ZIP file.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Do I need to install software?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            No, our PDF to JPG converter is fully web-based. Visit our site,
+            upload your PDF, and convert instantly—no installations needed.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Why choose JPG over PNG?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            JPG files are smaller than PNGs, making them ideal for web use or
+            when file size matters. However, PNGs support transparency and
+            lossless quality. Try our
+            <a href="#" class="text-blue-500 hover:underline"
+              >PDF to PNG converter</a
+            >
+            for different needs.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          When to Use PDF to JPG Conversion
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Converting PDFs to JPG images is perfect for scenarios where smaller
+          file sizes and web compatibility are priorities. Our
+          <strong>PDF to JPG online free</strong> tool delivers excellent
+          results for:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Web Publishing</strong>: Use JPGs for blog posts, website
+            galleries, or social media.
+          </li>
+          <li>
+            <strong>Email Sharing</strong>: Share PDF pages as lightweight JPGs
+            via email.
+          </li>
+          <li>
+            <strong>Presentations</strong>: Embed JPGs in PowerPoint or Google
+            Slides for smaller file sizes.
+          </li>
+          <li>
+            <strong>Quick Previews</strong>: Create thumbnails or previews from
+            PDF documents.
+          </li>
+          <li>
+            <strong>Mobile Use</strong>: Save PDF pages as JPGs for easy viewing
+            on mobile devices.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          Our tool ensures you get compact, high-quality JPGs for any project,
+          making it the <strong>best PDF to JPG converter</strong> available.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Tips for Optimizing Your JPG Files
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Optimize your JPG files post-conversion with these tips to enhance
+          performance and usability:
+        </p>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Compress for Web Use</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Use tools like TinyJPG or Compressor.io to reduce JPG file sizes
+            while preserving quality, ideal for faster website loading.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Adjust Quality Settings</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Balance quality and file size by adjusting JPG compression levels in
+            tools like Photoshop (e.g., 60-80% quality for web).
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Resize for Platforms</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Resize JPGs to match platform requirements (e.g., 1080x1080 for
+            Instagram) using Canva or GIMP.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Enhance SEO with Alt Text</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Add descriptive alt text to JPGs on websites to improve
+            accessibility and search engine rankings.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          The Technology Behind Our PDF to JPG Converter
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our <strong>PDF to JPG online free</strong> tool uses cutting-edge
+          client-side technology for fast, secure conversions. Powered by
+          PDF.js, it processes PDFs directly in your browser, ensuring:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Data Privacy</strong>: Your files stay on your device.
+          </li>
+          <li>
+            <strong>High Performance</strong>: Quick rendering of PDF pages into
+            optimized JPGs.
+          </li>
+          <li>
+            <strong>Cross-Platform Support</strong>: Works on Windows, macOS,
+            Linux, and mobile devices.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          JSZip enables easy downloading of multi-page PDFs as ZIP files.
+          Experience reliable, modern web technology with Conversion Tools.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          What Our Users Say
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our PDF to JPG converter is trusted by users worldwide. Here’s what
+          they say:
+        </p>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "This tool made it so easy to convert my PDF reports to JPGs for our
+            website. The quality is great, and it’s super fast!"
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Lisa K., Web Developer
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "I needed JPGs for a client presentation, and this converter
+            delivered perfect results in seconds. Highly recommend!"
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">— Mark T., Consultant</p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "The drag-and-drop feature and ZIP download option make this the
+            best PDF to JPG converter I’ve used."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">— Anna L., Educator</p>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Explore More Conversion Tools
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Beyond our PDF to JPG converter, Conversion Tools offers a variety of
+          free online tools to enhance your productivity:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >PDF to PNG Converter</a
+            >: Convert PDFs to PNGs for transparency and lossless quality.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF Compressor</a
+            >: Shrink PDF files without sacrificing quality.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >Word to PDF Converter</a
+            >: Transform Word documents into PDFs seamlessly.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >Image to PDF Converter</a
+            >: Merge multiple images into a single PDF.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          Visit our
+          <a href="#" class="text-blue-500 hover:underline">Tools</a> page to
+          explore more solutions for your conversion needs.
+        </p>
+      </section>
+
+      <section class="ad-container mt-8">
+        <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+              <h4 class="text-2xl font-bold">Conversion Tools</h4>
+            </div>
+            <p class="text-gray-300">
+              Secure, fast, and professional file conversion tools for all your
+              needs.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li>
+                <a href="#" class="hover:text-blue-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-red-400 transition-colors"
+                  >PDF Tools</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-green-400 transition-colors"
+                  >Document Tools</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-orange-400 transition-colors"
+                  >Spreadsheet Tools</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+            <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
+            <p class="text-gray-300 mb-4">Follow us on social media</p>
+            <div class="flex space-x-6">
+              <a href="#" class="text-gray-300 hover:text-blue-400"
+                ><i class="fab fa-twitter text-2xl"></i
+              ></a>
+              <a href="#" class="text-gray-300 hover:text-green-400"
+                ><i class="fab fa-linkedin text-2xl"></i
+              ></a>
+              <a href="#" class="text-gray-300 hover:text-teal-400"
+                ><i class="fab fa-github text-2xl"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-12 text-gray-400">
+          © 2025 Conversion Tools. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+      const pdfInput = document.getElementById("pdfInput");
+      const convertBtn = document.getElementById("convertBtn");
+      const previewBtn = document.getElementById("previewBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const resultDiv = document.getElementById("result");
+      const previewDiv = document.getElementById("preview");
+      const loader = document.getElementById("loader");
+      const dragDropArea = document.getElementById("dragDropArea");
+
+      let jpgUrls = [];
+
+      // Drag and Drop Event Listeners
+      dragDropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add("drag-over");
+      });
+
+      dragDropArea.addEventListener("dragleave", () => {
+        dragDropArea.classList.remove("drag-over");
+      });
+
+      dragDropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove("drag-over");
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          pdfInput.files = files;
+          convertBtn.click();
+        }
+      });
+
+      pdfInput.addEventListener("change", () => {
+        if (pdfInput.files.length > 0) {
+          convertBtn.click();
+        }
+      });
+
+      convertBtn.addEventListener("click", async () => {
+        const file = pdfInput.files[0];
+        if (!file || !file.type.includes("pdf")) {
+          alert("Please upload a valid PDF file.");
+          return;
+        }
+
+        loader.style.display = "block";
+        convertBtn.disabled = true;
+        resultDiv.classList.add("hidden");
+        previewDiv.classList.add("hidden");
+        jpgUrls = [];
+
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+          for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 2.0 });
+
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({
+              canvasContext: context,
+              viewport: viewport,
+            }).promise;
+
+            const imgDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+            jpgUrls.push(imgDataUrl);
+          }
+
+          loader.style.display = "none";
+          convertBtn.disabled = false;
+          resultDiv.classList.remove("hidden");
+        } catch (error) {
+          console.error("Error converting PDF to JPG:", error);
+          alert(
+            "An error occurred while converting the PDF. Please try again."
+          );
+          loader.style.display = "none";
+          convertBtn.disabled = false;
+        }
+      });
+
+      previewBtn.addEventListener("click", () => {
+        if (previewDiv.classList.contains("hidden")) {
+          previewDiv.innerHTML = "";
+          jpgUrls.forEach((url) => {
+            const img = document.createElement("img");
+            img.src = url;
+            img.className = "preview-canvas";
+            img.alt = "Converted JPG image from PDF";
+            previewDiv.appendChild(img);
+          });
+          previewDiv.classList.remove("hidden");
+          previewBtn.textContent = "Hide Preview";
+        } else {
+          previewDiv.classList.add("hidden");
+          previewBtn.textContent = "Show Preview";
+        }
+      });
+
+      downloadBtn.addEventListener("click", () => {
+        if (jpgUrls.length === 1) {
+          const link = document.createElement("a");
+          link.href = jpgUrls[0];
+          link.download = "converted_page.jpg";
+          link.click();
+        } else {
+          const zip = new JSZip();
+          jpgUrls.forEach((url, index) => {
+            const byteString = atob(url.split(",")[1]);
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+            }
+            zip.file(`page_${index + 1}.jpg`, ab);
+          });
+
+          zip.generateAsync({ type: "blob" }).then((blob) => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "pdf_pages.zip";
+            link.click();
+            URL.revokeObjectURL(link.href);
+          });
+        }
+      });
+
+      // Hamburger menu toggle
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // FAQ and Tips toggle
+      const toggles = document.querySelectorAll(".faq-question, .tip-question");
+      toggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const answer = toggle.nextElementSibling;
+          answer.classList.toggle("active");
+          const icon = toggle.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+    </script>
+  </body>
+</html>

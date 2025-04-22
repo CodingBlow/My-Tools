@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert PDF files to PowerPoint presentations (PPTX) securely in your browser with our professional PDF to PowerPoint converter. Fast, reliable, and no uploads required."
+    />
+    <meta
+      name="keywords"
+      content="PDF to PowerPoint, PDF to PPTX, PDF converter, convert PDF to presentation, online PDF conversion, free PDF tools, best PDF to PowerPoint converter, PPTX vs PDF, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>PDF to PowerPoint Converter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(to right, #1e40af, #3b82f6);
+        --secondary-gradient: linear-gradient(to right, #8b5cf6, #6d28d9);
+        --primary-color: #1e40af;
+        --secondary-color: #6d28d9;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      body.dark-mode {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+      }
+
+      header {
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      .dark-mode header {
+        background: linear-gradient(to right, #0f172a, #1e293b);
+      }
+
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark-mode .tool-container {
+        background: #1e293b;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: var(--secondary-gradient);
+      }
+
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+        transition: background 0.3s ease;
+      }
+
+      .dark-mode .ad-container {
+        background: #334155;
+      }
+
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      .dark-mode .ad-placeholder {
+        background: #475569;
+        color: #cbd5e1;
+      }
+
+      .btn-primary {
+        background: var(--secondary-gradient);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: transform 0.2s, opacity 0.3s;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: #f1f5f9;
+        color: var(--primary-color);
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .dark-mode .btn-secondary {
+        background: #334155;
+        color: #a5b4fc;
+      }
+
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+
+      .dark-mode .btn-secondary:hover {
+        background: #475569;
+      }
+
+      .preview-canvas {
+        max-width: 100%;
+        margin: 1rem 0;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .dark-mode .preview-canvas {
+        border-color: #475569;
+      }
+
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #8b5cf6;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+
+      .dark-mode .loader {
+        border-color: #475569;
+        border-top-color: #a5b4fc;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .drag-drop-area {
+        border: 2px dashed #cbd5e1;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        cursor: pointer;
+      }
+
+      .dark-mode .drag-drop-area {
+        border-color: #475569;
+        background: #334155;
+      }
+
+      .drag-drop-area.drag-over {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        transform: scale(1.02);
+      }
+
+      .dark-mode .drag-drop-area.drag-over {
+        border-color: #60a5fa;
+        background: #1e3a8a;
+      }
+
+      .drag-drop-area i {
+        font-size: 2.5rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .dark-mode .drag-drop-area i {
+        color: #cbd5e1;
+      }
+
+      .drag-drop-area p {
+        color: #64748b;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+      }
+
+      .dark-mode .drag-drop-area p {
+        color: #cbd5e1;
+      }
+
+      .drag-drop-area span {
+        color: #3b82f6;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .dark-mode .drag-drop-area span {
+        color: #60a5fa;
+      }
+
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark-mode .content-section {
+        background: #1e293b;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .faq-item, .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+        transition: border-color 0.3s ease;
+      }
+
+      .dark-mode .faq-item, .dark-mode .tip-item {
+        border-color: #475569;
+      }
+
+      .faq-question, .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: var(--primary-color);
+        transition: color 0.3s ease;
+      }
+
+      .dark-mode .faq-question, .dark-mode .tip-question {
+        color: #60a5fa;
+      }
+
+      .faq-answer, .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .dark-mode .faq-answer, .dark-mode .tip-answer {
+        color: #cbd5e1;
+      }
+
+      .faq-answer.active, .tip-answer.active {
+        display: block;
+      }
+
+      .testimonial {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .dark-mode .testimonial {
+        border-color: #60a5fa;
+      }
+
+      .custom-select {
+        appearance: none;
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 0.5rem;
+        padding: 0.5rem 2rem 0.5rem 1rem;
+        font-size: 1rem;
+        width: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+      }
+
+      .dark-mode .custom-select {
+        background-color: #334155;
+        border-color: #475569;
+        color: #cbd5e1;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      }
+
+      .slide-manager {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .slide-item {
+        position: relative;
+        border: 2px solid transparent;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+      }
+
+      .slide-item.selected {
+        border-color: #3b82f6;
+      }
+
+      .dark-mode .slide-item.selected {
+        border-color: #60a5fa;
+      }
+
+      .slide-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .slide-actions {
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      .slide-action-btn {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.3s ease;
+      }
+
+      .slide-action-btn:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .progress-bar-container {
+        width: 100%;
+        height: 12px;
+        background-color: #e2e8f0;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 1rem 0;
+        transition: background-color 0.3s ease;
+      }
+
+      .dark-mode .progress-bar-container {
+        background-color: #475569;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: var(--secondary-gradient);
+        border-radius: 6px;
+        transition: width 0.3s ease;
+        width: 0%;
+      }
+
+      /* Switch styles */
+      .theme-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+
+      .theme-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: 0.4s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #6d28d9;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      .ocr-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      footer {
+        background: #0f172a;
+        transition: background 0.3s ease;
+      }
+
+      .dark-mode footer {
+        background: #020617;
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+          z-index: 50;
+        }
+        .dark-mode .nav-menu.active {
+          background: #0f172a;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .drag-drop-area {
+          padding: 1.5rem;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+    </style>
+    <!-- Add accessibility support -->
+    <script>
+      // This helps screen readers announce live region changes
+      document.addEventListener('DOMContentLoaded', function() {
+        const liveRegion = document.createElement('div');
+        liveRegion.setAttribute('role', 'status');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.classList.add('sr-only');
+        document.body.appendChild(liveRegion);
+        
+        window.updateLiveRegion = function(message) {
+          liveRegion.textContent = message;
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3" aria-hidden="true"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="flex items-center gap-4">
+          <!-- Dark mode toggle -->
+          <div class="flex items-center mr-2">
+            <label class="theme-switch" for="darkModeToggle">
+              <input type="checkbox" id="darkModeToggle">
+              <span class="slider" aria-label="Toggle dark mode"></span>
+            </label>
+          </div>
+          <div class="hamburger" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle navigation menu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </div>
+          <nav class="nav-menu" id="navMenu">
+            <ul class="flex space-x-6 text-white flex-col md:flex-row">
+              <li>
+                <a href="#" class="font-medium hover:text-gray-200">Home</a>
+              </li>
+              <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+              <li>
+                <a href="#" class="font-medium hover:text-gray-200">Documents</a>
+              </li>
+              <li>
+                <a href="#" class="font-medium hover:text-gray-200"
+                  >Spreadsheets</a
+                >
+              </li>
+              <li>
+                <a href="#" class="font-medium hover:text-gray-200">Audio</a>
+              </li>
+              <li>
+                <a href="#" class="font-medium hover:text-gray-200">Video</a>
+              </li>
+              <li>
+                <a href="#" class="font-medium hover:text-gray-200">Utilities</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 dark:text-gray-100">
+          PDF to PowerPoint Converter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          Convert your PDF files to editable PowerPoint presentations (PPTX)
+          securely in your browser. Fast, reliable, and no uploads required.
+        </p>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <div class="flex flex-col md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
+            <i class="fas fa-file-pdf mr-3 text-purple-500" aria-hidden="true"></i> PDF to
+            PowerPoint
+          </h3>
+          <div class="flex items-center justify-center mb-6">
+            <i class="fas fa-file-pdf text-2xl text-purple-500 mr-3" aria-hidden="true"></i>
+            <i class="fas fa-arrow-right text-xl text-gray-400 dark:text-gray-500 mx-2" aria-hidden="true"></i>
+            <i class="fas fa-file-powerpoint text-2xl text-blue-500 ml-3" aria-hidden="true"></i>
+          </div>
+          <div class="flex flex-col items-center">
+            <!-- File size limit indicator -->
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-3 w-full text-center">
+              Maximum file size: 50MB
+            </div>
+            
+            <!-- Multiple file upload - new feature -->
+            <div class="w-full mb-2">
+              <div class="flex items-center">
+                <input type="checkbox" id="batchProcessing" class="mr-2">
+                <label for="batchProcessing" class="text-gray-700 dark:text-gray-300">Enable batch processing</label>
+              </div>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Convert multiple PDFs at once</p>
+            </div>
+            
+            <!-- Drag & Drop Area -->
+            <div id="dragDropArea" class="drag-drop-area w-full max-w-md mb-6" 
+                 role="button" tabindex="0" aria-label="Drag and drop your PDF here or click to browse">
+              <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+              <p>
+                Drag & Drop your PDF here or
+                <span onclick="document.getElementById('pdfInput').click()" tabindex="0"
+                      role="button" aria-label="Browse for PDF files">browse</span>
+              </p>
+              <input
+                type="file"
+                id="pdfInput"
+                accept="application/pdf"
+                class="hidden"
+                aria-label="Upload PDF file"
+                multiple
+              />
+            </div>
+            
+            <!-- Options Section - new feature -->
+            <div class="w-full max-w-md mb-6">
+              <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Conversion Options</h4>
+              
+              <!-- Layout selection -->
+              <div class="mb-4">
+                <label for="layoutSelect" class="block text-sm text-gray-600 dark:text-gray-400 mb-1">PowerPoint Layout</label>
+                <select id="layoutSelect" class="custom-select">
+                  <option value="16_9">Widescreen (16:9)</option>
+                  <option value="4_3">Standard (4:3)</option>
+                  <option value="LETTER">Letter Paper</option>
+                  <option value="A4">A4 Paper</option>
+                </select>
+              </div>
+              
+              <!-- OCR toggle - new feature -->
+              <div class="ocr-toggle">
+                <input type="checkbox" id="ocrToggle" class="mr-2">
+                <label for="ocrToggle" class="text-gray-700 dark:text-gray-300">Enable text extraction (OCR)</label>
+                <i class="fas fa-info-circle text-gray-500 dark:text-gray-400 ml-2 cursor-help" 
+                   aria-label="Extract editable text from PDF images" title="Extract editable text from PDF images"></i>
+              </div>
+              
+              <!-- Template selection - new feature -->
+              <div class="mb-4">
+                <label for="templateSelect" class="block text-sm text-gray-600 dark:text-gray-400 mb-1">Apply Template</label>
+                <select id="templateSelect" class="custom-select">
+                  <option value="none">None</option>
+                  <option value="professional">Professional</option>
+                  <option value="creative">Creative</option>
+                  <option value="minimal">Minimal</option>
+                  <option value="academic">Academic</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Progress bar - new feature -->
+            <div id="progressBarContainer" class="progress-bar-container w-full max-w-md hidden">
+              <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <div id="progressText" class="text-sm text-gray-600 dark:text-gray-400 mb-4 hidden"></div>
+            
+            <button id="convertBtn" class="btn-primary mb-4">Convert to PPTX</button>
+            <div id="loader" class="loader" aria-hidden="true"></div>
+            
+            <!-- Result section -->
+            <div id="result" class="mt-6 hidden flex flex-col items-center w-full">
+              <div class="flex gap-3 mb-4">
+                <button id="previewBtn" class="btn-secondary">Show Preview</button>
+                <button id="slideManagerBtn" class="btn-secondary">Manage Slides</button>
+              </div>
+              <button id="downloadBtn" class="btn-primary">Download PPTX</button>
+            </div>
+            
+            <!-- Preview section -->
+            <div id="preview" class="mt-6 w-full hidden"></div>
+            
+            <!-- Slide manager - new feature -->
+            <div id="slideManager" class="mt-6 w-full hidden">
+              <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Manage Slides</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                Select slides to include in your presentation. Drag to rearrange.
+              </p>
+              <div class="flex gap-2 mb-4">
+                <button id="selectAllBtn" class="text-sm py-1 px-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600">
+                  Select All
+                </button>
+                <button id="deselectAllBtn" class="text-sm py-1 px-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600">
+                  Deselect All
+                </button>
+              </div>
+              <div id="slideManagerGrid" class="slide-manager"></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="md:w-1/3">
+          <div class="ad-container mb-8">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- SEO Content -->
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          Why Convert PDF to PowerPoint with Conversion Tools?
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Converting PDFs to PowerPoint presentations (PPTX) is ideal for
+          creating editable slides for meetings, lectures, or pitches. Our
+          <strong>PDF to PowerPoint converter</strong> offers a seamless, secure
+          solution that runs entirely in your browser, ensuring your files
+          remain private with no uploads required.
+        </p>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Whether you're a professional presenter, educator, or business owner,
+          our tool simplifies the process of transforming static PDFs into
+          dynamic presentations. Convert multi-page PDFs into individual slides
+          with ease and download them as a PPTX file. Discover why thousands
+          trust Conversion Tools for their
+          <strong>PDF to PPTX online</strong> needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          Benefits of Using Our PDF to PowerPoint Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-3">
+          <li>
+            <strong>Editable Slides</strong>: Convert PDF pages to PowerPoint
+            slides for easy customization.
+          </li>
+          <li>
+            <strong>Browser-Based</strong>: No software installation needed;
+            convert directly in your browser.
+          </li>
+          <li>
+            <strong>Secure and Private</strong>: Files are processed locally for
+            maximum privacy.
+          </li>
+          <li>             <strong>Secure and Private</strong>: Files are processed locally for            maximum privacy.
+          </li>
+          <li>
+            <strong>Fast Processing</strong>: Quick conversion with minimal wait times.
+          </li>
+          <li>
+            <strong>Maintains Formatting</strong>: Preserves text, images, and layout elements from your original PDF.
+          </li>
+          <li>
+            <strong>Multiple Layout Options</strong>: Choose between widescreen, standard, or paper-sized presentations.
+          </li>
+          <li>
+            <strong>OCR Technology</strong>: Extract text from scanned PDFs for fully editable presentations.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          How to Convert PDF to PowerPoint
+        </h2>
+        <ol class="list-decimal list-inside text-gray-600 dark:text-gray-300 space-y-3">
+          <li>
+            <strong>Upload your PDF</strong>: Drag and drop your PDF file or click to browse your files.
+          </li>
+          <li>
+            <strong>Choose conversion options</strong>: Select your preferred slide layout, template, and enable OCR if needed.
+          </li>
+          <li>
+            <strong>Convert</strong>: Click the "Convert to PPTX" button and wait for the conversion to complete.
+          </li>
+          <li>
+            <strong>Preview and manage slides</strong>: Review the converted slides and customize which ones to include.
+          </li>
+          <li>
+            <strong>Download</strong>: Get your PowerPoint presentation as a PPTX file ready for editing.
+          </li>
+        </ol>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-container">
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" aria-expanded="false">
+              <span>How accurate is the PDF to PowerPoint conversion?</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="faq-answer">
+              Our converter maintains high accuracy for text, images, and basic layouts. Complex elements like animations or interactive features in the original PDF may not transfer perfectly. For best results, use PDFs with clear layouts and standard fonts.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" aria-expanded="false">
+              <span>Is my data secure when using this converter?</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, your data is completely secure. Our PDF to PowerPoint converter processes files locally in your browser, so your documents never leave your device. We don't store, share, or upload your files to any server.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" aria-expanded="false">
+              <span>What's the maximum file size I can convert?</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="faq-answer">
+              Our tool supports PDF files up to 50MB in size. For larger files, we recommend splitting your PDF into smaller documents before conversion for optimal performance and results.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" aria-expanded="false">
+              <span>Can I convert password-protected PDFs?</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, you can convert password-protected PDFs by entering the password when prompted during the upload process. The conversion will proceed normally after successful authentication.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" tabindex="0" aria-expanded="false">
+              <span>How do I edit the PowerPoint after conversion?</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="faq-answer">
+              After downloading the converted PPTX file, you can open and edit it using Microsoft PowerPoint, Google Slides, LibreOffice Impress, or any other presentation software that supports the PPTX format. All elements should be editable as in a normal presentation.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          Tips for Better Conversions
+        </h2>
+        <div class="tip-container">
+          <div class="tip-item">
+            <div class="tip-question" tabindex="0" aria-expanded="false">
+              <span>Use high-quality PDFs for better results</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="tip-answer">
+              Higher quality PDFs with clear text and images will convert more accurately. If possible, use PDFs created directly from digital sources rather than scanned documents.
+            </div>
+          </div>
+          <div class="tip-item">
+            <div class="tip-question" tabindex="0" aria-expanded="false">
+              <span>Enable OCR for scanned documents</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="tip-answer">
+              If your PDF contains scanned text or images with text, enable the OCR (Optical Character Recognition) feature to extract editable text. This will make your PowerPoint slides much more useful for editing.
+            </div>
+          </div>
+          <div class="tip-item">
+            <div class="tip-question" tabindex="0" aria-expanded="false">
+              <span>Choose the right layout for your content</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="tip-answer">
+              Select a slide layout that matches your intended use. Widescreen (16:9) is best for modern displays and projectors, while 4:3 may work better for older equipment. A4 or Letter layouts are ideal if you plan to print your slides.
+            </div>
+          </div>
+          <div class="tip-item">
+            <div class="tip-question" tabindex="0" aria-expanded="false">
+              <span>Review and edit after conversion</span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="tip-answer">
+              Always review your converted presentation and make any necessary adjustments. You may need to realign some elements, adjust text formatting, or resize images for the best appearance.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          What Our Users Say
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="testimonial">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-2">
+              "This PDF to PowerPoint converter saved me hours of work recreating slides from a client's PDF. The conversion was accurate and I could easily edit the resulting presentation."
+            </p>
+            <p class="text-gray-800 dark:text-gray-200 font-semibold">
+              - Sarah J., Marketing Director
+            </p>
+          </div>
+          <div class="testimonial">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-2">
+              "As a professor, I often need to convert PDF research papers into slides. This tool makes the process incredibly simple and the OCR feature works amazingly well with academic texts."
+            </p>
+            <p class="text-gray-800 dark:text-gray-200 font-semibold">
+              - Dr. Michael T., University Professor
+            </p>
+          </div>
+          <div class="testimonial">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-2">
+              "The privacy aspect was crucial for our company documents. Knowing our sensitive PDFs never leave our computer gives us peace of mind while still getting great conversion quality."
+            </p>
+            <p class="text-gray-800 dark:text-gray-200 font-semibold">
+              - Robert L., Legal Consultant
+            </p>
+          </div>
+          <div class="testimonial">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-2">
+              "I've tried many converters, but this one offers the best balance of speed and accuracy. The slide management feature is especially useful for picking only the pages I need."
+            </p>
+            <p class="text-gray-800 dark:text-gray-200 font-semibold">
+              - Emma K., Event Coordinator
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">Conversion Tools</h3>
+            <p class="text-gray-400">
+              Free online file converters for all your document, image, video, audio, and PDF needs.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Popular Tools</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">PDF to Word</a></li>
+              <li><a href="#" class="hover:text-white">PDF to Excel</a></li>
+              <li><a href="#" class="hover:text-white">PDF to PowerPoint</a></li>
+              <li><a href="#" class="hover:text-white">JPG to PDF</a></li>
+              <li><a href="#" class="hover:text-white">Word to PDF</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Resources</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">Blog</a></li>
+              <li><a href="#" class="hover:text-white">Help Center</a></li>
+              <li><a href="#" class="hover:text-white">Tutorials</a></li>
+              <li><a href="#" class="hover:text-white">API Documentation</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Company</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">About Us</a></li>
+              <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+              <li><a href="#" class="hover:text-white">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400">© 2023 Conversion Tools. All rights reserved.</p>
+          <div class="flex space-x-4 mt-4 md:mt-0">
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-facebook-f" aria-hidden="true"></i>
+              <span class="sr-only">Facebook</span>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-twitter" aria-hidden="true"></i>
+              <span class="sr-only">Twitter</span>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-instagram" aria-hidden="true"></i>
+              <span class="sr-only">Instagram</span>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+              <span class="sr-only">LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM Elements
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        const body = document.body;
+        const dragDropArea = document.getElementById("dragDropArea");
+        const pdfInput = document.getElementById("pdfInput");
+        const convertBtn = document.getElementById("convertBtn");
+        const downloadBtn = document.getElementById("downloadBtn");
+        const previewBtn = document.getElementById("previewBtn");
+        const slideManagerBtn = document.getElementById("slideManagerBtn");
+        const result = document.getElementById("result");
+        const preview = document.getElementById("preview");
+        const slideManager = document.getElementById("slideManager");
+        const slideManagerGrid = document.getElementById("slideManagerGrid");
+        const selectAllBtn = document.getElementById("selectAllBtn");
+        const deselectAllBtn = document.getElementById("deselectAllBtn");
+        const progressBarContainer = document.getElementById("progressBarContainer");
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
+        const loader = document.getElementById("loader");
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        const batchProcessing = document.getElementById("batchProcessing");
+        const ocrToggle = document.getElementById("ocrToggle");
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem("darkMode") === "enabled") {
+          body.classList.add("dark-mode");
+          darkModeToggle.checked = true;
+        }
+        
+        // Dark mode toggle
+        darkModeToggle.addEventListener("change", () => {
+          if (darkModeToggle.checked) {
+            body.classList.add("dark-mode");
+            localStorage.setItem("darkMode", "enabled");
+            updateLiveRegion("Dark mode enabled");
+          } else {
+            body.classList.remove("dark-mode");
+            localStorage.setItem("darkMode", "disabled");
+            updateLiveRegion("Dark mode disabled");
+          }
+        });
+        
+           // Mobile menu toggle
+           hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+          const isExpanded = hamburger.getAttribute("aria-expanded") === "true";
+          hamburger.setAttribute("aria-expanded", !isExpanded);
+        });
+        
+        // Drag and drop functionality
+        dragDropArea.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          dragDropArea.classList.add("drag-over");
+        });
+        
+        dragDropArea.addEventListener("dragleave", () => {
+          dragDropArea.classList.remove("drag-over");
+        });
+        
+        dragDropArea.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dragDropArea.classList.remove("drag-over");
+          
+          if (e.dataTransfer.files.length > 0) {
+            handleFiles(e.dataTransfer.files);
+          }
+        });
+        
+        // Click to browse files
+        dragDropArea.addEventListener("click", () => {
+          pdfInput.click();
+        });
+        
+        // Keyboard accessibility for drag-drop area
+        dragDropArea.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            pdfInput.click();
+          }
+        });
+        
+        // Handle file input change
+        pdfInput.addEventListener("change", (e) => {
+          if (e.target.files.length > 0) {
+            handleFiles(e.target.files);
+          }
+        });
+        
+        // Handle files function
+        function handleFiles(files) {
+          // Check if batch processing is enabled
+          if (!batchProcessing.checked && files.length > 1) {
+            files = [files[0]]; // Take only the first file if batch processing is disabled
+            updateLiveRegion("Batch processing is disabled. Only the first file will be processed.");
+          }
+          
+          // Validate files
+          const validFiles = Array.from(files).filter(file => {
+            if (file.type !== "application/pdf") {
+              updateLiveRegion("Only PDF files are supported.");
+              return false;
+            }
+            
+            if (file.size > 50 * 1024 * 1024) { // 50MB limit
+              updateLiveRegion("File exceeds the 50MB size limit.");
+              return false;
+            }
+            
+            return true;
+          });
+          
+          if (validFiles.length === 0) {
+            return;
+          }
+          
+          // Display file info
+          const fileNames = validFiles.map(file => file.name).join(", ");
+          const totalSize = validFiles.reduce((total, file) => total + file.size, 0);
+          
+          updateLiveRegion(`Selected ${validFiles.length} file${validFiles.length > 1 ? 's' : ''}: ${fileNames}`);
+          
+          // Enable convert button
+          convertBtn.disabled = false;
+          
+          // Create mock slides for preview (in a real app, this would analyze the PDF)
+          createMockSlides(validFiles);
+        }
+        
+        // Create mock slides for preview
+        function createMockSlides(files) {
+          // In a real app, this would analyze the PDF and extract actual slides
+          // For this demo, we'll create mock slides based on file count
+          
+          const totalSlides = files.length * 5; // Assume 5 slides per PDF
+          
+          // Store slide data for later use
+          window.slideData = Array.from({ length: totalSlides }, (_, i) => ({
+            id: `slide-${i}`,
+            title: `Slide ${i + 1}`,
+            selected: true,
+            // In a real app, this would be actual slide content or thumbnail
+            thumbnail: `https://via.placeholder.com/150x100?text=Slide+${i + 1}`
+          }));
+        }
+        
+        // Convert button click
+        convertBtn.addEventListener("click", () => {
+          // Hide options and show progress
+          dragDropArea.classList.add("hidden");
+          convertBtn.classList.add("hidden");
+          
+          // Show progress elements
+          progressBarContainer.classList.remove("hidden");
+          progressText.classList.remove("hidden");
+          loader.style.display = "block";
+          
+          // Simulate conversion process
+          let progress = 0;
+          const interval = setInterval(() => {
+            progress += 5;
+            progressBar.style.width = `${progress}%`;
+            
+            // Update progress text based on current stage
+            if (progress <= 25) {
+              progressText.textContent = "Analyzing PDF structure...";
+            } else if (progress <= 50) {
+              progressText.textContent = "Extracting content and images...";
+            } else if (progress <= 75) {
+              progressText.textContent = "Creating PowerPoint slides...";
+            } else {
+              progressText.textContent = "Finalizing presentation...";
+            }
+            
+            updateLiveRegion(progressText.textContent);
+            
+            if (progress >= 100) {
+              clearInterval(interval);
+              
+              // Hide progress elements
+              setTimeout(() => {
+                progressBarContainer.classList.add("hidden");
+                progressText.classList.add("hidden");
+                loader.style.display = "none";
+                
+                // Show result
+                result.classList.remove("hidden");
+                updateLiveRegion("Conversion complete. Your presentation is ready to download.");
+              }, 500);
+            }
+          }, 200);
+        });
+        
+        // Preview button click
+        previewBtn.addEventListener("click", () => {
+          // Toggle preview visibility
+          if (preview.classList.contains("hidden")) {
+            preview.classList.remove("hidden");
+            slideManager.classList.add("hidden");
+            
+            // Create preview content
+            createPreview();
+            
+            previewBtn.textContent = "Hide Preview";
+            updateLiveRegion("Preview displayed");
+          } else {
+            preview.classList.add("hidden");
+            previewBtn.textContent = "Show Preview";
+            updateLiveRegion("Preview hidden");
+          }
+        });
+        
+        // Slide manager button click
+        slideManagerBtn.addEventListener("click", () => {
+          // Toggle slide manager visibility
+          if (slideManager.classList.contains("hidden")) {
+            slideManager.classList.remove("hidden");
+            preview.classList.add("hidden");
+            
+            // Create slide manager grid
+            createSlideManager();
+            
+            slideManagerBtn.textContent = "Hide Slide Manager";
+            updateLiveRegion("Slide manager displayed");
+          } else {
+            slideManager.classList.add("hidden");
+            slideManagerBtn.textContent = "Manage Slides";
+            updateLiveRegion("Slide manager hidden");
+          }
+        });
+        
+        // Download button click
+        downloadBtn.addEventListener("click", () => {
+          // Get selected slides
+          const selectedSlides = window.slideData.filter(slide => slide.selected);
+          
+          // Get layout and template options
+          const layout = document.getElementById("layoutSelect").value;
+          const template = document.getElementById("templateSelect").value;
+          
+          // In a real app, this would generate and download the PPTX file
+          // For this demo, we'll just show a message
+          updateLiveRegion(`Downloading presentation with ${selectedSlides.length} slides in ${layout} format with ${template} template.`);
+          
+          // Simulate download delay
+          downloadBtn.disabled = true;
+          downloadBtn.textContent = "Preparing Download...";
+          
+          setTimeout(() => {
+            // Create a dummy download link
+            const link = document.createElement("a");
+            link.href = "#";
+            link.download = "presentation.pptx";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = "Download PPTX";
+          }, 1500);
+        });
+        
+        // Select all slides
+        selectAllBtn.addEventListener("click", () => {
+          window.slideData.forEach(slide => {
+            slide.selected = true;
+          });
+          
+          // Update UI
+          document.querySelectorAll(".slide-item").forEach(item => {
+            item.classList.add("selected");
+          });
+          
+          updateLiveRegion("All slides selected");
+        });
+        
+        // Deselect all slides
+        deselectAllBtn.addEventListener("click", () => {
+          window.slideData.forEach(slide => {
+            slide.selected = false;
+          });
+          
+          // Update UI
+          document.querySelectorAll(".slide-item").forEach(item => {
+            item.classList.remove("selected");
+          });
+          
+          updateLiveRegion("All slides deselected");
+        });
+        
+        // Create preview
+        function createPreview() {
+          preview.innerHTML = "";
+          
+          // Get selected slides
+          const selectedSlides = window.slideData.filter(slide => slide.selected);
+          
+          if (selectedSlides.length === 0) {
+            preview.innerHTML = "<p class='text-center text-gray-500 dark:text-gray-400 my-4'>No slides selected for preview</p>";
+            return;
+          }
+          
+          // Create a preview container
+          const previewContainer = document.createElement("div");
+          previewContainer.className = "flex flex-col items-center";
+          
+          // Add slide count info
+          const slideInfo = document.createElement("p");
+          slideInfo.className = "text-sm text-gray-600 dark:text-gray-400 mb-4";
+          slideInfo.textContent = `Showing ${selectedSlides.length} of ${window.slideData.length} slides`;
+          previewContainer.appendChild(slideInfo);
+          
+          // Create a carousel-like preview
+          const carousel = document.createElement("div");
+          carousel.className = "w-full max-w-2xl border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden";
+          
+          // Add first slide preview (in a real app, this would be actual slide content)
+          const slidePreview = document.createElement("div");
+          slidePreview.className = "bg-white dark:bg-gray-800 p-4 aspect-[16/9] flex items-center justify-center";
+          slidePreview.innerHTML = `
+            <div class="text-center">
+              <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">${selectedSlides[0].title}</h3>
+              <p class="text-gray-600 dark:text-gray-400">Preview of your PowerPoint presentation</p>
+              <p class="text-sm text-gray-500 dark:text-gray-500 mt-4">
+                (In the actual tool, this would show a real preview of your slide)
+              </p>
+            </div>
+          `;
+          carousel.appendChild(slidePreview);
+          
+          // Add navigation controls
+          const navControls = document.createElement("div");
+          navControls.className = "flex justify-between bg-gray-100 dark:bg-gray-700 p-2";
+          
+          const prevBtn = document.createElement("button");
+          prevBtn.className = "px-3 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded";
+          prevBtn.textContent = "Previous";
+          
+          const slideCounter = document.createElement("span");
+          slideCounter.className = "text-gray-600 dark:text-gray-400 self-center";
+          slideCounter.textContent = `Slide 1 of ${selectedSlides.length}`;
+          
+          const nextBtn = document.createElement("button");
+          nextBtn.className = "px-3 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded";
+          nextBtn.textContent = "Next";
+          
+          navControls.appendChild(prevBtn);
+          navControls.appendChild(slideCounter);
+          navControls.appendChild(nextBtn);
+          
+          carousel.appendChild(navControls);
+          previewContainer.appendChild(carousel);
+          
+          preview.appendChild(previewContainer);
+        }
+        
+        // Create slide manager
+        function createSlideManager() {
+          slideManagerGrid.innerHTML = "";
+          
+          // Create slide items
+          window.slideData.forEach(slide => {
+            const slideItem = document.createElement("div");
+            slideItem.className = `slide-item ${slide.selected ? "selected" : ""}`;
+            slideItem.dataset.id = slide.id;
+            
+            // Create thumbnail
+            const img = document.createElement("img");
+            img.src = slide.thumbnail;
+            img.alt = slide.title;
+            
+            // Create slide actions
+            const slideActions = document.createElement("div");
+            slideActions.className = "slide-actions";
+            
+            // Toggle selection button
+            const toggleBtn = document.createElement("button");
+            toggleBtn.className = "slide-action-btn";
+            toggleBtn.innerHTML = `<i class="fas ${slide.selected ? "fa-check" : "fa-plus"}"></i>`;
+            toggleBtn.setAttribute("aria-label", slide.selected ? "Deselect slide" : "Select slide");
+            
+            toggleBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              slide.selected = !slide.selected;
+              slideItem.classList.toggle("selected");
+              toggleBtn.innerHTML = `<i class="fas ${slide.selected ? "fa-check" : "fa-plus"}"></i>`;
+              toggleBtn.setAttribute("aria-label", slide.selected ? "Deselect slide" : "Select slide");
+              
+              updateLiveRegion(`Slide ${slide.title} ${slide.selected ? "selected" : "deselected"}`);
+            });
+            
+            slideActions.appendChild(toggleBtn);
+            
+            // Add elements to slide item
+            slideItem.appendChild(img);
+            slideItem.appendChild(slideActions);
+            
+            // Add click handler for the whole slide item
+            slideItem.addEventListener("click", () => {
+              slide.selected = !slide.selected;
+              slideItem.classList.toggle("selected");
+              toggleBtn.innerHTML = `<i class="fas ${slide.selected ? "fa-check" : "fa-plus"}"></i>`;
+              toggleBtn.setAttribute("aria-label", slide.selected ? "Deselect slide" : "Select slide");
+              
+              updateLiveRegion(`Slide ${slide.title} ${slide.selected ? "selected" : "deselected"}`);
+            });
+            
+            slideManagerGrid.appendChild(slideItem);
+          });
+        }
+        
+        // FAQ and Tips toggle functionality
+        document.querySelectorAll(".faq-question, .tip-question").forEach(question => {
+          question.addEventListener("click", () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector("i");
+            
+            // Toggle answer visibility
+            answer.classList.toggle("active");
+            
+            // Toggle icon
+            icon.classList.toggle("fa-chevron-down");
+            icon.classList.toggle("fa-chevron-up");
+            
+            // Update ARIA attributes
+            const isExpanded = answer.classList.contains("active");
+            question.setAttribute("aria-expanded", isExpanded);
+          });
+          
+          // Keyboard accessibility
+          question.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              question.click();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+

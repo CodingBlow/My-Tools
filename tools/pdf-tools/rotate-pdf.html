@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Rotate PDF files online for free. Preview pages, rotate clockwise/counter-clockwise, and download the modified PDF - all in your browser with no uploads required."
+    />
+    <meta
+      name="keywords"
+      content="rotate PDF, PDF editor, PDF rotation tool, online PDF rotator, free PDF tools, PDF preview, PDF manipulation"
+    />
+    <meta name="author" content="PDF Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>Rotate PDF Online - Free PDF Rotation Tool</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #f97316, #ea580c);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #f97316, #ea580c);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #d97706;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .preview-canvas {
+        max-width: 100%;
+        margin: 1rem 0;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #f97316;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .drag-drop-area {
+        border: 2px dashed #cbd5e1;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        cursor: pointer;
+      }
+      .drag-drop-area.drag-over {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        transform: scale(1.02);
+      }
+      .drag-drop-area i {
+        font-size: 2.5rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+      }
+      .drag-drop-area p {
+        color: #64748b;
+        font-size: 1.1rem;
+      }
+      .drag-drop-area span {
+        color: #3b82f6;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active {
+        display: block;
+      }
+      .page-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+      .page-number {
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .rotation-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+      .rotation-btn {
+        background: #3b82f6;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+      }
+      .rotation-btn:hover {
+        background: #2563eb;
+        transform: scale(1.05);
+      }
+      .rotation-btn i {
+        margin-right: 0.5rem;
+      }
+      .page-thumbnail {
+        width: 80px;
+        height: 100px;
+        border: 2px solid #e2e8f0;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        object-fit: contain;
+        background: #f8fafc;
+      }
+      .page-thumbnail:hover {
+        border-color: #3b82f6;
+        transform: scale(1.05);
+      }
+      .page-thumbnail.active {
+        border-color: #f97316;
+        box-shadow: 0 0 0 2px #f97316;
+      }
+      .thumbnail-container {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding: 0.5rem;
+        margin: 1rem 0;
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .drag-drop-area {
+          padding: 1.5rem;
+        }
+        .rotation-controls {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Home</a>
+            </li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Documents</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200"
+                >Spreadsheets</a
+              >
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Audio</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Video</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Utilities</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          Rotate PDF Online
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Rotate PDF pages clockwise or counter-clockwise. Preview changes
+          before downloading. Works directly in your browser - no uploads
+          required.
+        </p>
+      </section>
+
+      <div class="flex flex-col md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-sync-alt mr-3 text-blue-500"></i> Rotate PDF Pages
+          </h3>
+          <div class="flex flex-col items-center">
+            <div id="dragDropArea" class="drag-drop-area w-full max-w-md mb-6">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>
+                Drag & Drop your PDF here or
+                <span onclick="document.getElementById('pdfInput').click()"
+                  >browse</span
+                >
+              </p>
+              <input
+                type="file"
+                id="pdfInput"
+                accept="application/pdf"
+                class="hidden"
+              />
+            </div>
+            <div id="loader" class="loader"></div>
+            <div id="pdfViewer" class="hidden w-full">
+              <div class="page-controls">
+                <button
+                  id="prevPage"
+                  class="btn-secondary"
+                  disabled
+                  title="Previous Page"
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="page-number"
+                  >Page <span id="currentPage">1</span></span
+                >
+                <button
+                  id="nextPage"
+                  class="btn-secondary"
+                  disabled
+                  title="Next Page"
+                >
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+              <div class="rotation-controls">
+                <button
+                  id="rotateLeft"
+                  class="rotation-btn"
+                  title="Rotate 90° Counter-Clockwise"
+                >
+                  <i class="fas fa-undo"></i> Rotate Left
+                </button>
+                <button
+                  id="rotateRight"
+                  class="rotation-btn"
+                  title="Rotate 90° Clockwise"
+                >
+                  <i class="fas fa-redo"></i> Rotate Right
+                </button>
+              </div>
+              <div id="previewContainer" class="flex justify-center">
+                <canvas id="pdfCanvas" class="preview-canvas"></canvas>
+              </div>
+              <div class="thumbnail-container">
+                <!-- Thumbnails will be added here -->
+              </div>
+              <div class="flex justify-center gap-4 mt-6">
+                <button id="resetBtn" class="btn-secondary">
+                  <i class="fas fa-undo mr-2"></i> Reset
+                </button>
+                <button id="downloadBtn" class="btn-primary">
+                  <i class="fas fa-download mr-2"></i> Download PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="md:w-1/3">
+          <div class="ad-container mb-8">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- SEO Content -->
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Rotate PDF Pages Online?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our PDF rotation tool provides a simple solution for correcting
+          improperly oriented pages in your documents. Whether you scanned
+          documents upside down, received incorrectly oriented files, or need to
+          adjust page layout for presentation, our tool makes it easy to fix
+          these issues directly in your browser.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Unlike desktop software that requires installation, our online PDF
+          rotator works on any device with a web browser. All processing happens
+          locally on your computer, ensuring your sensitive documents never
+          leave your device.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is it safe to rotate PDFs with this tool?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes! Our tool processes your PDF entirely in your browser. Your
+            files are never uploaded to any server, ensuring complete privacy
+            and security.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I rotate multiple pages at once?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Currently, you can rotate pages individually. For batch rotation,
+            you would need to rotate each page separately before downloading the
+            modified PDF.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What's the maximum file size I can rotate?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            There are no file size limits since processing happens in your
+            browser. However, very large files may take longer to process
+            depending on your device's capabilities.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Does this work on mobile devices?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes! Our PDF rotation tool is fully responsive and works on
+            smartphones and tablets as well as desktop computers.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Will rotating affect the quality of my PDF?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            No, rotating pages is a lossless operation that maintains the
+            original quality of your document. Text remains selectable and
+            searchable.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          More PDF Tools You Might Need
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF Compressor</a
+            >: Reduce PDF file size without quality loss
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF Merger</a>:
+            Combine multiple PDFs into a single document
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF to Word</a>:
+            Convert PDF files to editable Word documents
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF to JPG</a>:
+            Extract images from PDF files
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline">PDF Unlocker</a>:
+            Remove password protection from PDFs
+          </li>
+        </ul>
+      </section>
+
+      <section class="ad-container mt-8">
+        <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+              <h4 class="text-2xl font-bold">Conversion Tools</h4>
+            </div>
+            <p class="text-gray-300">
+              Secure, fast, and professional file conversion tools for all your
+              needs.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li>
+                <a href="#" class="hover:text-blue-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-red-400 transition-colors"
+                  >PDF Tools</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-green-400 transition-colors"
+                  >Document Tools</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-orange-400 transition-colors"
+                  >Spreadsheet Tools</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+            <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
+            <p class="text-gray-300 mb-4">Follow us on social media</p>
+            <div class="flex space-x-6">
+              <a href="#" class="text-gray-300 hover:text-blue-400"
+                ><i class="fab fa-twitter text-2xl"></i
+              ></a>
+              <a href="#" class="text-gray-300 hover:text-green-400"
+                ><i class="fab fa-linkedin text-2xl"></i
+              ></a>
+              <a href="#" class="text-gray-300 hover:text-teal-400"
+                ><i class="fab fa-github text-2xl"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-12 text-gray-400">
+          © 2025 Conversion Tools. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script>
+      // Set PDF.js worker path
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js";
+
+      // DOM elements
+      const pdfInput = document.getElementById("pdfInput");
+      const dragDropArea = document.getElementById("dragDropArea");
+      const loader = document.getElementById("loader");
+      const pdfViewer = document.getElementById("pdfViewer");
+      const pdfCanvas = document.getElementById("pdfCanvas");
+      const previewContainer = document.getElementById("previewContainer");
+      const currentPageSpan = document.getElementById("currentPage");
+      const prevPageBtn = document.getElementById("prevPage");
+      const nextPageBtn = document.getElementById("nextPage");
+      const rotateLeftBtn = document.getElementById("rotateLeft");
+      const rotateRightBtn = document.getElementById("rotateRight");
+      const resetBtn = document.getElementById("resetBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const thumbnailContainer = document.querySelector(".thumbnail-container");
+
+      // State variables
+      let pdfDoc = null;
+      let pageNum = 1;
+      let pageRendering = false;
+      let pageNumPending = null;
+      let scale = 1.5;
+      let rotations = {}; // Store rotation angles for each page
+      let originalPdfBytes = null;
+
+      // Drag and drop events
+      dragDropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add("drag-over");
+      });
+
+      dragDropArea.addEventListener("dragleave", () => {
+        dragDropArea.classList.remove("drag-over");
+      });
+
+      dragDropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files.length) {
+          pdfInput.files = e.dataTransfer.files;
+          loadPDF();
+        }
+      });
+
+      pdfInput.addEventListener("change", loadPDF);
+
+      // Button events
+      prevPageBtn.addEventListener("click", () => {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+      });
+
+      nextPageBtn.addEventListener("click", () => {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+      });
+
+      rotateLeftBtn.addEventListener("click", () => {
+        rotatePage(-90);
+      });
+
+      rotateRightBtn.addEventListener("click", () => {
+        rotatePage(90);
+      });
+
+      resetBtn.addEventListener("click", resetRotations);
+
+      downloadBtn.addEventListener("click", downloadModifiedPDF);
+
+      // Load PDF file
+      async function loadPDF() {
+        const file = pdfInput.files[0];
+        if (!file || !file.type.includes("pdf")) {
+          alert("Please select a valid PDF file.");
+          return;
+        }
+
+        try {
+          loader.style.display = "block";
+          dragDropArea.style.display = "none";
+          pdfViewer.classList.add("hidden");
+
+          const arrayBuffer = await file.arrayBuffer();
+          originalPdfBytes = new Uint8Array(arrayBuffer);
+
+          pdfDoc = await pdfjsLib.getDocument({ data: originalPdfBytes })
+            .promise;
+
+          // Initialize rotations object
+          rotations = {};
+          for (let i = 1; i <= pdfDoc.numPages; i++) {
+            rotations[i] = 0;
+          }
+
+          // Show PDF viewer
+          pdfViewer.classList.remove("hidden");
+          loader.style.display = "none";
+
+          // Render first page
+          pageNum = 1;
+          queueRenderPage(pageNum);
+
+          // Update page controls
+          updatePageControls();
+
+          // Create thumbnails
+          createThumbnails();
+        } catch (error) {
+          console.error("Error loading PDF:", error);
+          alert("Error loading PDF. Please try another file.");
+          loader.style.display = "none";
+          dragDropArea.style.display = "block";
+        }
+      }
+
+      // Queue page rendering
+      function queueRenderPage(num) {
+        if (pageRendering) {
+          pageNumPending = num;
+        } else {
+          renderPage(num);
+        }
+      }
+
+      // Render PDF page
+      async function renderPage(num) {
+        pageRendering = true;
+        loader.style.display = "block";
+
+        try {
+          const page = await pdfDoc.getPage(num);
+          let viewport = page.getViewport({ scale: scale });
+
+          // Apply rotation if any
+          const rotation = rotations[num] || 0;
+          if (rotation !== 0) {
+            viewport = page.getViewport({
+              scale: scale,
+              rotation: rotation,
+            });
+          }
+
+          // Adjust canvas size
+          pdfCanvas.height = viewport.height;
+          pdfCanvas.width = viewport.width;
+
+          // Render PDF page into canvas context
+          const renderContext = {
+            canvasContext: pdfCanvas.getContext("2d"),
+            viewport: viewport,
+          };
+
+          await page.render(renderContext).promise;
+          currentPageSpan.textContent = num;
+
+          // Highlight current thumbnail
+          const thumbnails = document.querySelectorAll(".page-thumbnail");
+          thumbnails.forEach((thumb) => thumb.classList.remove("active"));
+          thumbnails[num - 1].classList.add("active");
+
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        } catch (error) {
+          console.error("Error rendering page:", error);
+        } finally {
+          loader.style.display = "none";
+        }
+      }
+
+      // Update page navigation controls
+      function updatePageControls() {
+        prevPageBtn.disabled = pageNum <= 1;
+        nextPageBtn.disabled = pageNum >= pdfDoc.numPages;
+      }
+
+      // Rotate current page
+      function rotatePage(degrees) {
+        if (!pdfDoc) return;
+
+        // Update rotation for current page
+        rotations[pageNum] = (rotations[pageNum] + degrees) % 360;
+
+        // Re-render page with new rotation
+        queueRenderPage(pageNum);
+      }
+
+      // Reset all rotations
+      function resetRotations() {
+        if (!pdfDoc) return;
+
+        // Reset all rotations to 0
+        for (let i = 1; i <= pdfDoc.numPages; i++) {
+          rotations[i] = 0;
+        }
+
+        // Re-render current page
+        queueRenderPage(pageNum);
+      }
+
+      // Create thumbnails for all pages
+      async function createThumbnails() {
+        thumbnailContainer.innerHTML = "";
+
+        for (let i = 1; i <= pdfDoc.numPages; i++) {
+          const page = await pdfDoc.getPage(i);
+          const viewport = page.getViewport({ scale: 0.2 });
+
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          canvas.className = "page-thumbnail";
+          if (i === 1) canvas.classList.add("active");
+
+          canvas.title = `Page ${i}`;
+          canvas.addEventListener("click", () => {
+            pageNum = i;
+            queueRenderPage(pageNum);
+            updatePageControls();
+          });
+
+          await page.render({
+            canvasContext: context,
+            viewport: viewport,
+          }).promise;
+
+          thumbnailContainer.appendChild(canvas);
+        }
+      }
+
+      // Replace the downloadModifiedPDF function with this improved version
+      async function downloadModifiedPDF() {
+        if (!pdfDoc || !originalPdfBytes) return;
+
+        loader.style.display = "block";
+        downloadBtn.disabled = true;
+
+        try {
+          // Load the original PDF with pdf-lib
+          const { PDFDocument, degrees } = PDFLib;
+          const pdfLibDoc = await PDFDocument.load(originalPdfBytes);
+
+          // Apply rotations to each page
+          const pages = pdfLibDoc.getPages();
+          for (let i = 0; i < pages.length; i++) {
+            const pageNum = i + 1;
+            if (rotations[pageNum] !== 0) {
+              // Convert our rotation to pdf-lib degrees
+              const rotationDegrees = rotations[pageNum];
+              pages[i].setRotation(degrees(rotationDegrees));
+            }
+          }
+
+          // Save the modified PDF
+          const modifiedPdfBytes = await pdfLibDoc.save();
+
+          // Use download.js to handle the file download
+          download(
+            new Blob([modifiedPdfBytes], { type: "application/pdf" }),
+            "rotated_" + (pdfInput.files[0].name || "document.pdf"),
+            "application/pdf"
+          );
+        } catch (error) {
+          console.error("Error generating modified PDF:", error);
+          alert("Error generating modified PDF. Please try again.");
+        } finally {
+          loader.style.display = "none";
+          downloadBtn.disabled = false;
+        }
+      }
+
+      // Hamburger menu toggle
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // FAQ toggle
+      const faqQuestions = document.querySelectorAll(".faq-question");
+      faqQuestions.forEach((question) => {
+        question.addEventListener("click", () => {
+          const answer = question.nextElementSibling;
+          answer.classList.toggle("active");
+          const icon = question.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+    </script>
+  </body>
+</html>
