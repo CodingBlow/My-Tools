@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert text to speech with our free online Text-to-Speech (TTS) tool. Customize voice, pitch, rate, and volume across 20+ languages, and download as MP3 or WAV. Secure, browser-based processing with optional premium voices."
+    />
+    <meta
+      name="keywords"
+      content="text to speech, TTS converter, text to audio, speech synthesis, free TTS, multilingual TTS, realistic voices, download speech, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>Text-to-Speech Converter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/recorderjs@0.1.0/recorder.js"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #1e40af;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item, .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question, .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer, .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active, .tip-answer.active {
+        display: block;
+      }
+      .feature-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+      .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #1e40af;
+      }
+      .tts-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 1rem;
+        border: 1px dashed #cbd5e1;
+        max-height: 500px;
+      }
+      .tts-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+      .range-slider {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+      .range-value {
+        font-size: 0.875rem;
+        color: #64748b;
+        text-align: center;
+      }
+      .download-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .download-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .download-option:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+      }
+      .download-option i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #1e40af;
+      }
+      .download-option span {
+        font-size: 0.875rem;
+        color: #475569;
+      }
+      .history-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.2s ease;
+      }
+      .history-item:hover {
+        background: #f1f5f9;
+      }
+      .history-info {
+        flex: 1;
+      }
+      .history-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .history-actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #64748b;
+        transition: color 0.2s ease;
+      }
+      .history-actions button:hover {
+        color: #1e40af;
+      }
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e40af;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        display: none;
+      }
+      .toast.show {
+        display: block;
+        animation: toastAnimation 0.3s ease forwards, toastHide 0.3s ease 2.7s forwards;
+      }
+      @keyframes toastAnimation {
+        0% { transform: translate(-50%, 100%); opacity: 0; }
+        100% { transform: translate(-50%, 0); opacity: 1; }
+      }
+      @keyframes toastHide {
+        0% { transform: translate(-50%, 0); opacity: 1; }
+        100% { transform: translate(-50%, 100%); opacity: 0; }
+      }
+      @media (max-width: 1024px) {
+        .flex-container {
+          flex-direction: column;
+        }
+        .ad-section {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .tool-container {
+          padding: 1.5rem;
+        }
+        .tts-preview {
+          max-height: 400px;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+      .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li><a href="../../index.html" class="font-medium hover:text-gray-200">Home</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Documents</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Spreadsheets</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Audio</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Video</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Utilities</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          Text-to-Speech Converter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Transform text into natural-sounding speech in over 20 languages with our free TTS tool. Customize voice, pitch, rate, and volume, and download as MP3 or WAV. Secure, browser-based processing with optional premium voices.
+        </p>
+      </section>
+
+      <div class="flex-container md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <div class="flex flex-col md:flex-row gap-8">
+            <!-- TTS Input and Options -->
+            <div class="md:w-7/12">
+              <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-volume-up mr-3 text-blue-600"></i> Create Speech
+              </h3>
+              <div class="mb-4">
+                <label for="text-input" class="block text-gray-700 font-medium mb-2">Enter Text</label>
+                <textarea
+                  id="text-input"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  rows="6"
+                  placeholder="Type or paste text to convert to speech"
+                ></textarea>
+              </div>
+              <div class="section-divider"></div>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Customize Speech</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label for="voice-select" class="block text-gray-700 font-medium mb-2">Voice</label>
+                  <select
+                    id="voice-select"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select a voice</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="language-select" class="block text-gray-700 font-medium mb-2">Language</label>
+                  <select
+                    id="language-select"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="en-US">English (US)</option>
+                    <option value="en-GB">English (UK)</option>
+                    <option value="es-ES">Spanish (Spain)</option>
+                    <option value="fr-FR">French (France)</option>
+                    <option value="de-DE">German</option>
+                    <option value="it-IT">Italian</option>
+                    <option value="zh-CN">Chinese (Mandarin)</option>
+                    <option value="ja-JP">Japanese</option>
+                    <option value="ko-KR">Korean</option>
+                    <option value="ru-RU">Russian</option>
+                    <option value="ar-SA">Arabic (Saudi Arabia)</option>
+                    <option value="pt-BR">Portuguese (Brazil)</option>
+                    <option value="hi-IN">Hindi</option>
+                    <option value="nl-NL">Dutch</option>
+                    <option value="sv-SE">Swedish</option>
+                    <option value="pl-PL">Polish</option>
+                    <option value="tr-TR">Turkish</option>
+                    <option value="th-TH">Thai</option>
+                    <option value="vi-VN">Vietnamese</option>
+                    <option value="he-IL">Hebrew</option>
+                    <option value="id-ID">Indonesian</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="inline-flex items-center">
+                  <input type="checkbox" id="premium-voices" class="form-checkbox text-blue-600" />
+                  <span class="ml-2">Use Premium Voices (Experimental, requires API key)</span>
+                </label>
+                <input
+                  type="text"
+                  id="api-key"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg mt-2 hidden"
+                  placeholder="Enter Google Cloud TTS API Key"
+                />
+                <p class="text-sm text-gray-500 mt-1">
+                  Premium voices use Google Cloud TTS for more natural speech but require server-side processing.
+                </p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                  <label class="block text-gray-700 font-medium mb-2">Pitch</label>
+                  <input
+                    type="range"
+                    id="pitch"
+                    min="0.5"
+                    max="2"
+                    step="0.1"
+                    value="1"
+                    class="range-slider"
+                  />
+                  <div class="range-value">1.0</div>
+                </div>
+                <div>
+                  <label class="block text-gray-700 font-medium mb-2">Rate</label>
+                  <input
+                    type="range"
+                    id="rate"
+                    min="0.5"
+                    max="2"
+                    step="0.1"
+                    value="1"
+                    class="range-slider"
+                  />
+                  <div class="range-value">1.0</div>
+                </div>
+                <div>
+                  <label class="block text-gray-700 font-medium mb-2">Volume</label>
+                  <input
+                    type="range"
+                    id="volume"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="1"
+                    class="range-slider"
+                  />
+                  <div class="range-value">1.0</div>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <button id="test-voice" class="btn-secondary w-full">
+                  <i class="fas fa-headphones mr-2"></i> Test Voice
+                </button>
+                <button id="generate-speech" class="btn-primary w-full">
+                  <i class="fas fa-play mr-2"></i> Generate Speech
+                </button>
+              </div>
+            </div>
+            <!-- TTS Output and Controls -->
+            <div class="md:w-5/12">
+              <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-headphones mr-3 text-blue-600"></i> Preview
+              </h3>
+              <div class="tts-preview">
+                <div class="w-full text-center">
+                  <p id="tts-status" class="text-sm text-gray-500 mb-4">
+                    Enter text to generate speech
+                  </p>
+                  <div class="tts-controls">
+                    <button id="play-btn" class="btn-primary"><i class="fas fa-play"></i> Play</button>
+                    <button id="pause-btn" class="btn-secondary" disabled><i class="fas fa-pause"></i> Pause</button>
+                    <button id="resume-btn" class="btn-secondary" disabled><i class="fas fa-play"></i> Resume</button>
+                    <button id="stop-btn" class="btn-secondary" disabled><i class="fas fa-stop"></i> Stop</button>
+                  </div>
+                  <div id="download-section" class="w-full hidden">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-3">Download Options</h4>
+                    <div class="download-options">
+                      <div class="download-option" data-format="mp3">
+                        <i class="fas fa-file-audio"></i>
+                        <span>MP3</span>
+                      </div>
+                      <div class="download-option" data-format="wav">
+                        <i class="fas fa-file-audio"></i>
+                        <span>WAV</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Recent Conversions</h3>
+                <div id="history-container" class="max-h-80 overflow-y-auto">
+                  <div class="text-center text-gray-500 py-4">
+                    <i class="fas fa-history text-3xl mb-2"></i>
+                    <p>Your generated speech will appear here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Sidebar -->
+        <aside class="md:w-80 flex flex-col gap-8 ad-section">
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="content-section">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Tips & Tricks</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span>Test voices with the Test Voice button</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span>Adjust pitch and rate for natural speech</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span>Use short sentences for clearer audio</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span>Download MP3 for smaller file sizes</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span>Check browser for premium voice support</span>
+              </li>
+            </ul>
+          </div>
+          <div class="content-section">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Related Tools</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-qrcode text-blue-600 mr-3"></i> QR Code Generator</a></li>
+              <li><a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-code text-blue-600 mr-3"></i> JSON Formatter</a></li>
+              <li><a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-file-audio text-blue-600 mr-3"></i> Audio Converter</a></li>
+              <li><a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-file-pdf text-blue-600 mr-3"></i> PDF Tools</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Use Our Text-to-Speech Converter?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our <strong>Text-to-Speech Converter</strong> is a powerful, privacy-focused tool for creating natural-sounding audio in over 20 languages. Perfect for accessibility, education, content creation, and more, it offers customizable voices and settings, all processed securely in your browser, with optional premium voices for enhanced realism.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Whether you're producing audiobooks, enhancing presentations, or enabling accessible content, our TTS tool delivers high-quality speech with ease. Trusted by educators, developers, and creators worldwide, Conversion Tools makes TTS fast, free, and versatile.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Benefits of Our Text-to-Speech Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><strong>Multilingual Support</strong>: Over 20 languages, including Chinese, Japanese, and Arabic.</li>
+          <li><strong>Customizable Speech</strong>: Adjust voice, pitch, rate, and volume.</li>
+          <li><strong>Premium Voice Option</strong>: Access more realistic voices via Google Cloud TTS (experimental).</li>
+          <li><strong>Secure Processing</strong>: Browser-based conversion for privacy.</li>
+          <li><strong>Download Options</strong>: Export as MP3 or WAV for versatile use.</li>
+          <li><strong>History Tracking</strong>: Save and reuse recent conversions.</li>
+          <li><strong>User-Friendly</strong>: Intuitive interface for all users.</li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          How to Use Our Text-to-Speech Converter
+        </h2>
+        <ol class="list-decimal list-inside text-gray-600 space-y-3">
+          <li><strong>Enter Text</strong>: Type or paste the text you want to convert.</li>
+          <li><strong>Customize</strong>: Select a language, voice, pitch, rate, and volume. Test the voice if needed.</li>
+          <li><strong>Generate</strong>: Click "Generate Speech" to hear the output.</li>
+          <li><strong>Control</strong>: Use play, pause, resume, or stop buttons.</li>
+          <li><strong>Download</strong>: Save the audio as MP3 or WAV.</li>
+        </ol>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Common Use Cases
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><strong>Accessibility</strong>: Create audio for visually impaired users in multiple languages.</li>
+          <li><strong>Education</strong>: Generate audio for e-learning or language practice.</li>
+          <li><strong>Content Creation</strong>: Produce podcasts, audiobooks, or voiceovers.</li>
+          <li><strong>Business</strong>: Enhance presentations or customer service with audio.</li>
+          <li><strong>Development</strong>: Integrate TTS into apps or websites.</li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Tips for Effective TTS Usage
+        </h2>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Use Natural Punctuation</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Add commas and periods to improve speech flow and pauses.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Test Voice Variations</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Use the Test Voice button to preview voices for the best tone.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Optimize Text Length</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Keep sentences short for clearer and more natural audio output.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Check Browser Support</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Ensure your browser supports premium voices or the Web Speech API.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Technology Behind Our TTS Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><strong>Web Speech API</strong>: Powers client-side speech synthesis with multilingual support.</li>
+          <li><strong>Google Cloud TTS (Optional)</strong>: Enables premium, neural voices (requires API key).</li>
+          <li><strong>Recorder.js</strong>: Captures audio for MP3/WAV export.</li>
+          <li><strong>LocalStorage</strong>: Stores conversion history securely.</li>
+          <li><strong>Client-Side Processing</strong>: Ensures data privacy for standard mode.</li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What is text-to-speech?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Text-to-speech (TTS) converts written text into spoken audio using synthetic or neural voices, useful for accessibility, education, and content creation.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is the TTS tool secure?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, standard mode processes everything in your browser. Premium voices use server-side Google Cloud TTS, so ensure you trust the provider.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Which browsers support premium voices?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Chrome and Edge often include high-quality voices. Voice availability varies by browser and OS.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do I use premium voices?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Enable the premium voices option and provide a Google Cloud TTS API key. This requires an internet connection and server-side processing.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Are there limits on text length?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            For best performance, keep text under 5000 characters, as longer texts may be truncated by some browsers.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          What Our Users Say
+        </h2>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "The multilingual support and premium voices make this TTS tool perfect for my global e-learning platform!"
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Emma R., Educator
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "I used this to create voiceovers in Japanese and Spanish. The Test Voice feature is a game-changer!"
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — James L., Content Creator
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "The privacy-first approach and natural voices give me confidence for client projects."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Sarah M., Developer
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Explore More Conversion Tools
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><a href="#" class="text-blue-500 hover:underline">QR Code Generator</a>: Create custom QR codes for URLs, WiFi, and more.</li>
+          <li><a href="#" class="text-blue-500 hover:underline">JSON Formatter & XML Converter</a>: Format and convert JSON/XML data.</li>
+          <li><a href="#" class="text-blue-500 hover:underline">Audio Converter</a>: Convert audio files to various formats.</li>
+        </ul>
+      </section>
+
+      <section class="ad-container mt-8">
+        <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+              <h4 class="text-2xl font-bold">Conversion Tools</h4>
+            </div>
+            <p class="text-gray-300">
+              Free online tools for all your file conversion and audio needs.
+            </p>
+            <div class="flex mt-4 space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold mb-4">Tools</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">PDF Tools</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Image Converters</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Document Converters</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Audio Converters</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Video Converters</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold mb-4">Resources</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Tutorials</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">API Documentation</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold mb-4">Company</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+          <p class="text-gray-400">© 2025 Conversion Tools. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <span id="toast-message"></span>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // DOM Elements
+        const textInput = document.getElementById("text-input");
+        const voiceSelect = document.getElementById("voice-select");
+        const languageSelect = document.getElementById("language-select");
+        const premiumVoices = document.getElementById("premium-voices");
+        const apiKeyInput = document.getElementById("api-key");
+        const pitch = document.getElementById("pitch");
+        const rate = document.getElementById("rate");
+        const volume = document.getElementById("volume");
+        const pitchValue = pitch.nextElementSibling;
+        const rateValue = rate.nextElementSibling;
+        const volumeValue = volume.nextElementSibling;
+        const testVoiceBtn = document.getElementById("test-voice");
+        const generateBtn = document.getElementById("generate-speech");
+        const playBtn = document.getElementById("play-btn");
+        const pauseBtn = document.getElementById("pause-btn");
+        const resumeBtn = document.getElementById("resume-btn");
+        const stopBtn = document.getElementById("stop-btn");
+        const ttsStatus = document.getElementById("tts-status");
+        const downloadSection = document.getElementById("download-section");
+        const downloadOptions = document.querySelectorAll(".download-option");
+        const historyContainer = document.getElementById("history-container");
+        const faqQuestions = document.querySelectorAll(".faq-question");
+        const tipQuestions = document.querySelectorAll(".tip-question");
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+
+        // Variables
+        let voices = [];
+        let utterance = null;
+        let audioContext = null;
+        let recorder = null;
+        let audioBlob = null;
+        let ttsHistory = JSON.parse(localStorage.getItem("ttsHistory")) || [];
+        const testPhrases = {
+          "en-US": "Hello, this is a test voice.",
+          "en-GB": "Greetings, this is a sample voice.",
+          "es-ES": "Hola, esta es una voz de prueba.",
+          "fr-FR": "Bonjour, ceci est une voix test.",
+          "de-DE": "Hallo, dies ist eine Teststimme.",
+          "it-IT": "Ciao, questa è una voce di prova.",
+          "zh-CN": "你好，这是一个测试语音。",
+          "ja-JP": "こんにちは、これはテスト音声です。",
+          "ko-KR": "안녕하세요, 이것은 테스트 음성입니다.",
+          "ru-RU": "Привет, это тестовый голос.",
+          "ar-SA": "مرحبًا، هذا صوت اختباري.",
+          "pt-BR": "Olá, esta é uma voz de teste.",
+          "hi-IN": "नमस्ते, यह एक परीक्षण आवाज है।",
+          "nl-NL": "Hallo, dit is een teststem.",
+          "sv-SE": "Hej, detta är en teströst.",
+          "pl-PL": "Cześć, to jest głos testowy.",
+          "tr-TR": "Merhaba, bu bir test sesi.",
+          "th-TH": "สวัสดี นี่คือเสียงทดสอบ",
+          "vi-VN": "Xin chào, đây là giọng nói thử nghiệm.",
+          "he-IL": "שלום, זהו קול בדיקה.",
+          "id-ID": "Halo, ini adalah suara uji."
+        };
+
+        // Initialize
+        if (!window.speechSynthesis) {
+          showToast("Text-to-Speech is not supported in this browser");
+          generateBtn.disabled = true;
+          testVoiceBtn.disabled = true;
+          return;
+        }
+        populateVoices();
+        window.speechSynthesis.onvoiceschanged = populateVoices;
+        updateHistoryDisplay();
+
+        // Premium Voices Toggle
+        premiumVoices.addEventListener("change", () => {
+          apiKeyInput.classList.toggle("hidden", !premiumVoices.checked);
+          if (premiumVoices.checked && !apiKeyInput.value) {
+            showToast("Please enter a Google Cloud TTS API key for premium voices");
+          }
+        });
+
+        // Voice Population
+        function populateVoices() {
+          voices = window.speechSynthesis.getVoices();
+          filterVoicesByLanguage();
+        }
+
+        // Filter Voices by Language
+        languageSelect.addEventListener("change", filterVoicesByLanguage);
+        function filterVoicesByLanguage() {
+          const selectedLang = languageSelect.value;
+          voiceSelect.innerHTML = '<option value="">Select a voice</option>';
+          voices.forEach((voice, index) => {
+            if (!selectedLang || voice.lang.startsWith(selectedLang)) {
+              const option = document.createElement("option");
+              option.value = index;
+              option.textContent = `${voice.name} (${voice.lang})${isPremiumVoice(voice) ? " [Premium]" : ""}`;
+              voiceSelect.appendChild(option);
+            }
+          });
+          if (voiceSelect.options.length === 1) {
+            showToast("No voices available for this language in your browser");
+          }
+        }
+
+        // Detect Premium Voices (Heuristic)
+        function isPremiumVoice(voice) {
+          // Heuristic: Voices from Google or Microsoft are often premium
+          return voice.name.toLowerCase().includes("google") || voice.name.toLowerCase().includes("microsoft");
+        }
+
+        // Test Voice
+        testVoiceBtn.addEventListener("click", () => {
+          const selectedLang = languageSelect.value || "en-US";
+          const testText = testPhrases[selectedLang] || "This is a test voice.";
+          const voiceIndex = parseInt(voiceSelect.value);
+          if (premiumVoices.checked) {
+            if (!apiKeyInput.value) {
+              showToast("Please enter a Google Cloud TTS API key");
+              return;
+            }
+            // Placeholder for Google Cloud TTS
+            showToast("Premium voice testing not implemented. Provide API key and server setup for full functionality.");
+            return;
+          }
+          stopSpeech();
+          const testUtterance = new SpeechSynthesisUtterance(testText);
+          if (voiceIndex >= 0) testUtterance.voice = voices[voiceIndex];
+          testUtterance.lang = selectedLang;
+          testUtterance.pitch = parseFloat(pitch.value);
+          testUtterance.rate = parseFloat(rate.value);
+          testUtterance.volume = parseFloat(volume.value);
+          testUtterance.onstart = () => {
+            ttsStatus.textContent = "Testing voice...";
+          };
+          testUtterance.onend = () => {
+            ttsStatus.textContent = "Voice test completed";
+          };
+          testUtterance.onerror = (e) => {
+            showToast("Error testing voice: " + e.error);
+          };
+          window.speechSynthesis.speak(testUtterance);
+        });
+
+        // Slider Updates
+        pitch.addEventListener("input", () => {
+          pitchValue.textContent = pitch.value;
+        });
+        rate.addEventListener("input", () => {
+          rateValue.textContent = rate.value;
+        });
+        volume.addEventListener("input", () => {
+          volumeValue.textContent = volume.value;
+        });
+
+        // Generate Speech
+        generateBtn.addEventListener("click", () => {
+          const text = textInput.value.trim();
+          if (!text) {
+            showToast("Please enter text to convert");
+            return;
+          }
+          if (text.length > 5000) {
+            showToast("Text is too long. Keep it under 5000 characters.");
+            return;
+          }
+          if (premiumVoices.checked) {
+            if (!apiKeyInput.value) {
+              showToast("Please enter a Google Cloud TTS API key");
+              return;
+            }
+            // Placeholder for Google Cloud TTS
+            showToast("Premium voice generation not implemented. Provide API key and server setup for full functionality.");
+            return;
+          }
+          stopSpeech();
+          utterance = new SpeechSynthesisUtterance(text);
+          const voiceIndex = parseInt(voiceSelect.value);
+          if (voiceIndex >= 0) utterance.voice = voices[voiceIndex];
+          utterance.lang = languageSelect.value || "en-US";
+          utterance.pitch = parseFloat(pitch.value);
+          utterance.rate = parseFloat(rate.value);
+          utterance.volume = parseFloat(volume.value);
+          ttsStatus.textContent = "Generating speech...";
+          setupAudioRecording();
+          utterance.onstart = () => {
+            ttsStatus.textContent = "Playing speech...";
+            playBtn.disabled = true;
+            pauseBtn.disabled = false;
+            resumeBtn.disabled = true;
+            stopBtn.disabled = false;
+            recorder.record();
+          };
+          utterance.onend = () => {
+            ttsStatus.textContent = "Speech completed";
+            playBtn.disabled = false;
+            pauseBtn.disabled = true;
+            resumeBtn.disabled = true;
+            stopBtn.disabled = true;
+            downloadSection.classList.remove("hidden");
+            stopRecording();
+            addToHistory(text);
+          };
+          utterance.onerror = (e) => {
+            showToast("Error generating speech: " + e.error);
+            ttsStatus.textContent = "Error occurred";
+            stopRecording();
+          };
+          window.speechSynthesis.speak(utterance);
+        });
+
+        // Audio Recording Setup
+        function setupAudioRecording() {
+          if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+              const source = audioContext.createMediaStreamSource(stream);
+              recorder = new Recorder(source);
+            }).catch(e => {
+              showToast("Microphone access denied. Audio download disabled.");
+              console.error(e);
+            });
+          }
+        }
+
+        function stopRecording() {
+          if (recorder) {
+            recorder.stop();
+            recorder.exportWAV(blob => {
+              audioBlob = blob;
+              recorder.clear();
+            });
+          }
+        }
+
+        // Playback Controls
+        playBtn.addEventListener("click", () => {
+          if (utterance) {
+            window.speechSynthesis.speak(utterance);
+          }
+        });
+        pauseBtn.addEventListener("click", () => {
+          window.speechSynthesis.pause();
+          pauseBtn.disabled = true;
+          resumeBtn.disabled = false;
+          ttsStatus.textContent = "Speech paused";
+        });
+        resumeBtn.addEventListener("click", () => {
+          window.speechSynthesis.resume();
+          pauseBtn.disabled = false;
+          resumeBtn.disabled = true;
+          ttsStatus.textContent = "Playing speech...";
+        });
+        stopBtn.addEventListener("click", stopSpeech);
+        function stopSpeech() {
+          window.speechSynthesis.cancel();
+          ttsStatus.textContent = "Speech stopped";
+          playBtn.disabled = false;
+          pauseBtn.disabled = true;
+          resumeBtn.disabled = true;
+          stopBtn.disabled = true;
+          stopRecording();
+        }
+
+        // Download Options
+        downloadOptions.forEach(option => {
+          option.addEventListener("click", () => {
+            const format = option.getAttribute("data-format");
+            downloadAudio(format);
+          });
+        });
+        function downloadAudio(format) {
+          if (!audioBlob) {
+            showToast("No audio available to download");
+            return;
+          }
+          const url = URL.createObjectURL(audioBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `speech.${format}`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          showToast(`Audio downloaded as ${format.toUpperCase()}`);
+        }
+
+        // History Management
+        function addToHistory(text) {
+          const historyItem = {
+            id: Date.now(),
+            text: text,
+            language: languageSelect.value,
+            voice: voiceSelect.options[voiceSelect.selectedIndex]?.text || "Default",
+            timestamp: new Date().toISOString()
+          };
+          ttsHistory.unshift(historyItem);
+          if (ttsHistory.length > 10) ttsHistory.pop();
+          localStorage.setItem("ttsHistory", JSON.stringify(ttsHistory));
+          updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+          if (ttsHistory.length === 0) {
+            historyContainer.innerHTML = `
+              <div class="text-center text-gray-500 py-4">
+                <i class="fas fa-history text-3xl mb-2"></i>
+                <p>Your generated speech will appear here</p>
+              </div>`;
+            return;
+          }
+          historyContainer.innerHTML = "";
+          ttsHistory.forEach(item => {
+            const historyItem = document.createElement("div");
+            historyItem.className = "history-item";
+            const formattedDate = new Date(item.timestamp).toLocaleDateString();
+            const previewText = item.text.length > 30 ? item.text.substring(0, 27) + "..." : item.text;
+            historyItem.innerHTML = `
+              <div class="history-info">
+                <div class="font-medium"><i class="fas fa-volume-up text-blue-600 mr-2"></i>${previewText}</div>
+                <div class="text-xs text-gray-500">${item.language} - ${item.voice} - ${formattedDate}</div>
+              </div>
+              <div class="history-actions">
+                <button title="Regenerate this speech" data-id="${item.id}">
+                  <i class="fas fa-redo"></i>
+                </button>
+                <button title="Remove from history" data-id="${item.id}" class="delete-history">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>`;
+            historyContainer.appendChild(historyItem);
+          });
+          document.querySelectorAll(".history-actions button:not(.delete-history)").forEach(button => {
+            button.addEventListener("click", () => {
+              const id = parseInt(button.getAttribute("data-id"));
+              const item = ttsHistory.find(h => h.id === id);
+              if (item) regenerateFromHistory(item);
+            });
+          });
+          document.querySelectorAll(".delete-history").forEach(button => {
+            button.addEventListener("click", () => {
+              const id = parseInt(button.getAttribute("data-id"));
+              removeFromHistory(id);
+            });
+          });
+        }
+
+        function regenerateFromHistory(item) {
+          textInput.value = item.text;
+          languageSelect.value = item.language;
+          filterVoicesByLanguage();
+          const voiceOption = Array.from(voiceSelect.options).find(opt => opt.text === item.voice);
+          if (voiceOption) voiceSelect.value = voiceOption.value;
+          generateBtn.click();
+          showToast("Speech regenerated from history");
+        }
+
+        function removeFromHistory(id) {
+          ttsHistory = ttsHistory.filter(item => item.id !== id);
+          localStorage.setItem("ttsHistory", JSON.stringify(ttsHistory));
+          updateHistoryDisplay();
+          showToast("Removed from history");
+        }
+
+        // FAQ and Tip Toggles
+        [faqQuestions, tipQuestions].forEach(questions => {
+          questions.forEach(question => {
+            question.addEventListener("click", () => {
+              const answer = question.nextElementSibling;
+              const icon = question.querySelector("i");
+              answer.classList.toggle("active");
+              icon.classList.toggle("fa-chevron-down");
+              icon.classList.toggle("fa-chevron-up");
+              question.setAttribute("aria-expanded", answer.classList.contains("active"));
+            });
+          });
+        });
+
+        // Mobile Menu Toggle
+        hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+        });
+
+        // Toast Notification
+        function showToast(message) {
+          toastMessage.textContent = message;
+          toast.classList.add("show");
+          setTimeout(() => toast.classList.remove("show"), 3000);
+        }
+      });
+    </script>
+  </body>
+</html>

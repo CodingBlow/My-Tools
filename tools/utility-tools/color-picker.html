@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online Color Picker tool to select, preview, and copy colors in HEX, RGB, and HSL formats. Secure, browser-based, and perfect for designers and developers.">
+    <meta name="keywords" content="color picker, hex to rgb, rgb to hex, color selector, online color tool, color converter, web design tools, Conversion Tools">
+    <meta name="author" content="Conversion Tools">
+    <meta name="robots" content="index, follow">
+    <title>Color Picker - Conversion Tools</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
+    <meta property="og:title" content="Color Picker - Conversion Tools">
+    <meta property="og:description" content="Select and copy colors in HEX, RGB, and HSL formats with our free, browser-based Color Picker. Ideal for web design and development.">
+    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:url" content="https://yourwebsite.com/color-picker">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+        }
+        header {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            color: white;
+        }
+        .tool-container {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        .section-divider {
+            height: 4px;
+            border-radius: 2px;
+            margin: 2.5rem 0;
+            background: linear-gradient(to right, #14b8a6, #0f766e);
+        }
+        .nav-menu a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-menu a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        .ad-container {
+            background: #f1f5f9;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+        }
+        .ad-placeholder {
+            background: #e2e8f0;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #14b8a6, #0f766e);
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 9999px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            background: #0d9488;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #14b8a6;
+            padding: 0.75rem 1.75rem;
+            border-radius: 9999px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: scale(1.05);
+        }
+        .content-section {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .faq-item, .tip-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+        }
+        .faq-question, .tip-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #14b8a6;
+        }
+        .faq-answer, .tip-answer {
+            display: none;
+            color: #475569;
+            margin-top: 1rem;
+        }
+        .faq-answer.active, .tip-answer.active {
+            display: block;
+        }
+        .color-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 0.5rem;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .color-input {
+            width: 100px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        .history-item:hover {
+            background: #f1f5f9;
+        }
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 0.25rem;
+            margin-right: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+        .history-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.2s ease;
+        }
+        .history-actions button:hover {
+            color: #14b8a6;
+        }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #14b8a6;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+        }
+        .toast.show {
+            display: block;
+            animation: toastAnimation 0.3s ease forwards, toastHide 0.3s ease 2.7s forwards;
+        }
+        @keyframes toastAnimation {
+            0% { transform: translate(-50%, 100%); opacity: 0; }
+            100% { transform: translate(-50%, 0); opacity: 1; }
+        }
+        @keyframes toastHide {
+            0% { transform: translate(-50%, 0); opacity: 1; }
+            100% { transform: translate(-50%, 100%); opacity: 0; }
+        }
+        @media (max-width: 1024px) {
+            .flex-container {
+                flex-direction: column;
+            }
+            .ad-section {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .nav-menu.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #1e3a8a;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 1.5rem;
+            }
+            .nav-menu.active li {
+                margin: 0.75rem 0;
+            }
+            .hamburger {
+                display: block;
+                cursor: pointer;
+            }
+            .hamburger i {
+                font-size: 1.75rem;
+                color: #ffffff;
+            }
+            .tool-container {
+                padding: 1.5rem;
+            }
+        }
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+            .nav-menu {
+                display: flex;
+            }
+        }
+        footer {
+            background: #111827;
+        }
+        /* Responsive h3 styling */
+        section h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 640px) {
+            section h3 {
+                font-size: 1.875rem; /* text-3xl */
+            }
+        }
+        @media (min-width: 641px) and (max-width: 768px) {
+            section h3 {
+                font-size: 2.25rem; /* text-4xl */
+            }
+        }
+        @media (min-width: 769px) {
+            section h3 {
+                font-size: 3rem; /* text-5xl */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-tools text-white text-3xl mr-3"></i>
+                <h1 class="text-2xl font-bold">Conversion Tools</h1>
+            </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav class="nav-menu">
+                <ul class="flex space-x-6 text-white flex-col md:flex-row">
+                    <li><a href="../../index.html" class="font-medium">Home</a></li>
+                    <li><a href="#pdf-tools" class="font-medium">PDF</a></li>
+                    <li><a href="#document-tools" class="font-medium">Documents</a></li>
+                    <li><a href="#spreadsheet-tools" class="font-medium">Spreadsheets</a></li>
+                    <li><a href="#audio-tools" class="font-medium">Audio</a></li>
+                    <li><a href="#video-tools" class="font-medium">Video</a></li>
+                    <li><a href="#utility-tools" class="font-medium">Utilities</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+        <section class="text-center mb-16">
+            <h2 class="text-5xl font-bold text-gray-900 mb-6">Color Picker Tool</h2>
+            <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+                Select, preview, and copy colors in HEX, RGB, and HSL formats with our free, browser-based Color Picker. Perfect for web designers, developers, and creatives.
+            </p>
+        </section>
+
+        <div class="flex-container md:flex-row gap-8">
+            <section class="tool-container flex-1">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Color Picker Input and Options -->
+                    <div class="md:w-7/12">
+                        <h3 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 flex items-center">
+                            <i class="fas fa-palette mr-3 text-teal-500"></i> Pick a Color
+                        </h3>
+                        <div class="mb-4">
+                            <label for="color-input" class="block text-gray-700 font-medium mb-2">Select Color</label>
+                            <input type="color" id="color-input" class="color-input" value="#14b8a6">
+                        </div>
+                        <div class="color-preview" id="color-preview" style="background-color: #14b8a6;"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div>
+                                <label for="hex-input" class="block text-gray-700 font-medium mb-2">HEX</label>
+                                <div class="flex">
+                                    <input type="text" id="hex-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" value="#14b8a6">
+                                    <button id="copy-hex" class="btn-secondary ml-2"><i class="fas fa-copy"></i></button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="rgb-input" class="block text-gray-700 font-medium mb-2">RGB</label>
+                                <div class="flex">
+                                    <input type="text" id="rgb-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" value="20, 184, 166">
+                                    <button id="copy-rgb" class="btn-secondary ml-2"><i class="fas fa-copy"></i></button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="hsl-input" class="block text-gray-700 font-medium mb-2">HSL</label>
+                                <div class="flex">
+                                    <input type="text" id="hsl-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" value="172, 80%, 40%">
+                                    <button id="copy-hsl" class="btn-secondary ml-2"><i class="fas fa-copy"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="save-color" class="btn-primary w-full">
+                            <i class="fas fa-save mr-2"></i> Save Color
+                        </button>
+                    </div>
+                    <!-- Color History -->
+                    <div class="md:w-5/12">
+                        <h3 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 flex items-center">
+                            <i class="fas fa-history mr-3 text-teal-500"></i> Recent Colors
+                        </h3>
+                        <div id="history-container" class="max-h-80 overflow-y-auto">
+                            <div class="text-center text-gray-500 py-4">
+                                <i class="fas fa-history text-3xl mb-2"></i>
+                                <p>Your selected colors will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Sidebar -->
+            <aside class="md:w-80 flex flex-col gap-8 ad-section">
+                <div class="ad-container">
+                    <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+                </div>
+                <div class="ad-container">
+                    <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+                </div>
+                <div class="content-section">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Tips & Tricks</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                            <span>Use the color picker for quick selection</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                            <span>Enter HEX values for precise colors</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                            <span>Save colors to reuse later</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-2"></i>
+                            <span>Copy RGB for CSS styling</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-section">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Related Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tools/utility-tools/qr-code-generator.html" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-qrcode text-teal-600 mr-3"></i> QR Code Generator</a></li>
+                        <li><a href="tools/utility-tools/json-formatter.html" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-code text-teal-600 mr-3"></i> JSON Formatter</a></li>
+                        <li><a href="tools/utility-tools/text-to-speech.html" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-volume-up text-teal-600 mr-3"></i> Text to Speech</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Why Use Our Color Picker?</h2>
+            <p class="text-gray-600 mb-4">
+                Our <strong>Color Picker Tool</strong> is a fast, secure, and browser-based solution for selecting and converting colors. Ideal for web designers, developers, and creatives, it offers real-time previews and multiple color formats for seamless integration into your projects.
+            </p>
+            <p class="text-gray-600 mb-4">
+                Whether you're designing a website, creating graphics, or coding a UI, our tool simplifies color selection with an intuitive interface and history tracking. Trusted by professionals worldwide, Conversion Tools delivers precision and ease.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Benefits of Our Color Picker</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-3">
+                <li><strong>Multiple Formats</strong>: Get colors in HEX, RGB, and HSL.</li>
+                <li><strong>Real-Time Preview</strong>: See the selected color instantly.</li>
+                <li><strong>Copy to Clipboard</strong>: Easily copy color values for use in code or design tools.</li>
+                <li><strong>Manual Input</strong>: Enter precise HEX or RGB values.</li>
+                <li><strong>History Tracking</strong>: Save and reuse recent colors.</li>
+                <li><strong>Secure Processing</strong>: All processing is done in your browser.</li>
+                <li><strong>Responsive Design</strong>: Works on mobile, tablet, and desktop.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">How to Use Our Color Picker</h2>
+            <ol class="list-decimal list-inside text-gray-600 space-y-3">
+                <li><strong>Select a Color</strong>: Use the color picker or enter a HEX/RGB value.</li>
+                <li><strong>Preview</strong>: View the color in the preview box.</li>
+                <li><strong>Copy</strong>: Click the copy button to save the HEX, RGB, or HSL value.</li>
+                <li><strong>Save</strong>: Click "Save Color" to store it in your history.</li>
+                <li><strong>Reuse</strong>: Select a color from the history to apply it again.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Common Use Cases</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-3">
+                <li><strong>Web Design</strong>: Choose colors for CSS styles and UI elements.</li>
+                <li><strong>Graphic Design</strong>: Select colors for logos, illustrations, and branding.</li>
+                <li><strong>Development</strong>: Get HEX/RGB values for coding interfaces.</li>
+                <li><strong>Education</strong>: Teach color theory with interactive tools.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Tips for Effective Color Selection</h2>
+            <div class="tip-item">
+                <div class="tip-question">
+                    <span>Use Contrasting Colors</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="tip-answer">
+                    Ensure text and background colors have high contrast for accessibility.
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-question">
+                    <span>Save Frequently Used Colors</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="tip-answer">
+                    Store brand colors in the history for quick access.
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-question">
+                    <span>Test on Different Devices</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="tip-answer">
+                    Check how colors appear on mobile and desktop screens.
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Technology Behind Our Color Picker</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-3">
+                <li><strong>HTML5 Color Input</strong>: Native browser support for color selection.</li>
+                <li><strong>JavaScript</strong>: Real-time color conversion and clipboard integration.</li>
+                <li><strong>LocalStorage</strong>: Stores color history securely.</li>
+                <li><strong>Tailwind CSS</strong>: Powers the responsive, modern design.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is a color picker?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    A color picker is a tool that lets you select colors and retrieve their values in formats like HEX, RGB, or HSL for use in design or development.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is the tool secure?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes, all processing is done in your browser, ensuring your data stays private.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I use it on mobile?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Absolutely, the tool is fully responsive and works on mobile, tablet, and desktop.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I copy a color?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Click the copy button next to the HEX, RGB, or HSL input to copy the value to your clipboard.
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">What Our Users Say</h2>
+            <div class="testimonial">
+                <p class="text-gray-600 italic">"This Color Picker is a lifesaver for my web design projects. The history feature is super handy!"</p>
+                <p class="text-gray-900 font-semibold mt-2">— Sarah T., Web Designer</p>
+            </div>
+            <div class="testimonial">
+                <p class="text-gray-600 italic">"I love how easy it is to copy HEX values for my CSS. The UI is clean and professional."</p>
+                <p class="text-gray-900 font-semibold mt-2">— James R., Developer</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Explore More Conversion Tools</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-3">
+                <li><a href="tools/utility-tools/qr-code-generator.html" class="text-teal-500 hover:underline">QR Code Generator</a>: Create custom QR codes for URLs, WiFi, and more.</li>
+                <li><a href="tools/utility-tools/json-formatter.html" class="text-teal-500 hover:underline">JSON Formatter</a>: Format and beautify JSON data.</li>
+                <li><a href="tools/utility-tools/text-to-speech.html" class="text-teal-500 hover:underline">Text to Speech</a>: Convert text to audio files.</li>
+            </ul>
+        </section>
+
+        <section class="ad-container mt-8">
+            <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+        </section>
+    </main>
+
+    <footer class="text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+                        <h4 class="text-2xl font-bold">Conversion Tools</h4>
+                    </div>
+                    <p class="text-gray-300">Secure, fast, and professional file conversion tools for all your needs.</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="index.html" class="hover:text-blue-400 transition-colors">Home</a></li>
+                        <li><a href="#pdf-tools" class="hover:text-red-400 transition-colors">PDF Tools</a></li>
+                        <li><a href="#document-tools" class="hover:text-green-400 transition-colors">Document Tools</a></li>
+                        <li><a href="#spreadsheet-tools" class="hover:text-orange-400 transition-colors">Spreadsheet Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+                    <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
+                    <p class="text-gray-300 mb-4">Follow us on social media</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="social-icon text-gray-300 hover:text-blue-400"><i class="fab fa-twitter text-2xl"></i></a>
+                        <a href="#" class="social-icon text-gray-300 hover:text-green-400"><i class="fab fa-linkedin text-2xl"></i></a>
+                        <a href="#" class="social-icon text-gray-300 hover:text-teal-400"><i class="fab fa-github text-2xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-12 text-gray-400">© 2025 Conversion Tools. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message"></span>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // DOM Elements
+            const colorInput = document.getElementById("color-input");
+            const colorPreview = document.getElementById("color-preview");
+            const hexInput = document.getElementById("hex-input");
+            const rgbInput = document.getElementById("rgb-input");
+            const hslInput = document.getElementById("hsl-input");
+            const copyHexBtn = document.getElementById("copy-hex");
+            const copyRgbBtn = document.getElementById("copy-rgb");
+            const copyHslBtn = document.getElementById("copy-hsl");
+            const saveColorBtn = document.getElementById("save-color");
+            const historyContainer = document.getElementById("history-container");
+            const faqQuestions = document.querySelectorAll(".faq-question");
+            const tipQuestions = document.querySelectorAll(".tip-question");
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toast-message");
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+
+            // Variables
+            let colorHistory = JSON.parse(localStorage.getItem("colorHistory")) || [];
+
+            // Initialize
+            updateColorDisplay(colorInput.value);
+            updateHistoryDisplay();
+
+            // Color Input Change
+            colorInput.addEventListener("input", () => {
+                updateColorDisplay(colorInput.value);
+            });
+
+            // Manual HEX Input
+            hexInput.addEventListener("input", () => {
+                const hex = hexInput.value.trim();
+                if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+                    colorInput.value = hex;
+                    updateColorDisplay(hex);
+                }
+            });
+
+            // Manual RGB Input
+            rgbInput.addEventListener("input", () => {
+                const rgb = rgbInput.value.trim();
+                const rgbMatch = rgb.match(/^(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})$/);
+                if (rgbMatch) {
+                    const r = parseInt(rgbMatch[1]);
+                    const g = parseInt(rgbMatch[2]);
+                    const b = parseInt(rgbMatch[3]);
+                    if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+                        const hex = rgbToHex(r, g, b);
+                        colorInput.value = hex;
+                        updateColorDisplay(hex);
+                    }
+                }
+            });
+
+            // Copy Buttons
+            copyHexBtn.addEventListener("click", () => copyToClipboard(hexInput.value, "HEX copied"));
+            copyRgbBtn.addEventListener("click", () => copyToClipboard(rgbInput.value, "RGB copied"));
+            copyHslBtn.addEventListener("click", () => copyToClipboard(hslInput.value, "HSL copied"));
+
+            // Save Color
+            saveColorBtn.addEventListener("click", () => {
+                const color = {
+                    id: Date.now(),
+                    hex: hexInput.value,
+                    rgb: rgbInput.value,
+                    hsl: hslInput.value,
+                    timestamp: new Date().toISOString()
+                };
+                colorHistory.unshift(color);
+                if (colorHistory.length > 10) colorHistory.pop();
+                localStorage.setItem("colorHistory", JSON.stringify(colorHistory));
+                updateHistoryDisplay();
+                showToast("Color saved to history");
+            });
+
+            // Update Color Display
+            function updateColorDisplay(hex) {
+                colorPreview.style.backgroundColor = hex;
+                hexInput.value = hex;
+                const rgb = hexToRgb(hex);
+                rgbInput.value = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
+                const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+                hslInput.value = `${Math.round(hsl.h)}°, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%`;
+            }
+
+            // HEX to RGB
+            function hexToRgb(hex) {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return { r, g, b };
+            }
+
+            // RGB to HEX
+            function rgbToHex(r, g, b) {
+                return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+            }
+
+            // RGB to HSL
+            function rgbToHsl(r, g, b) {
+                r /= 255;
+                g /= 255;
+                b /= 255;
+                const max = Math.max(r, g, b);
+                const min = Math.min(r, g, b);
+                let h, s, l = (max + min) / 2;
+                if (max === min) {
+                    h = s = 0;
+                } else {
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+                return { h: h * 360, s, l };
+            }
+
+            // Copy to Clipboard
+            function copyToClipboard(text, message) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(message);
+                }).catch(() => {
+                    showToast("Failed to copy");
+                });
+            }
+
+            // History Display
+            function updateHistoryDisplay() {
+                if (colorHistory.length === 0) {
+                    historyContainer.innerHTML = `
+                        <div class="text-center text-gray-500 py-4">
+                            <i class="fas fa-history text-3xl mb-2"></i>
+                            <p>Your selected colors will appear here</p>
+                        </div>`;
+                    return;
+                }
+                historyContainer.innerHTML = "";
+                colorHistory.forEach(item => {
+                    const historyItem = document.createElement("div");
+                    historyItem.className = "history-item";
+                    const formattedDate = new Date(item.timestamp).toLocaleDateString();
+                    historyItem.innerHTML = `
+                        <div class="color-swatch" style="background-color: ${item.hex};"></div>
+                        <div class="flex-1">
+                            <div class="font-medium">${item.hex} (${item.rgb})</div>
+                            <div class="text-xs text-gray-500">${formattedDate}</div>
+                        </div>
+                        <div class="history-actions">
+                            <button title="Apply this color" data-id="${item.id}">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button title="Remove from history" data-id="${item.id}" class="delete-history">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>`;
+                    historyContainer.appendChild(historyItem);
+                });
+                document.querySelectorAll(".history-actions button:not(.delete-history)").forEach(button => {
+                    button.addEventListener("click", () => {
+                        const id = parseInt(button.getAttribute("data-id"));
+                        const item = colorHistory.find(h => h.id === id);
+                        if (item) {
+                            colorInput.value = item.hex;
+                            updateColorDisplay(item.hex);
+                            showToast("Color applied from history");
+                        }
+                    });
+                });
+                document.querySelectorAll(".delete-history").forEach(button => {
+                    button.addEventListener("click", () => {
+                        const id = parseInt(button.getAttribute("data-id"));
+                        colorHistory = colorHistory.filter(item => item.id !== id);
+                        localStorage.setItem("colorHistory", JSON.stringify(colorHistory));
+                        updateHistoryDisplay();
+                        showToast("Color removed from history");
+                    });
+                });
+            }
+
+            // FAQ and Tip Toggles
+            [faqQuestions, tipQuestions].forEach(questions => {
+                questions.forEach(question => {
+                    question.addEventListener("click", () => {
+                        const answer = question.nextElementSibling;
+                        const icon = question.querySelector("i");
+                        answer.classList.toggle("active");
+                        icon.classList.toggle("fa-chevron-down");
+                        icon.classList.toggle("fa-chevron-up");
+                        question.setAttribute("aria-expanded", answer.classList.contains("active"));
+                    });
+                });
+            });
+
+            // Mobile Menu Toggle
+            hamburger.addEventListener("click", () => {
+                navMenu.classList.toggle("active");
+            });
+
+            // Toast Notification
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add("show");
+                setTimeout(() => toast.classList.remove("show"), 3000);
+            }
+        });
+    </script>
+</body>
+</html>

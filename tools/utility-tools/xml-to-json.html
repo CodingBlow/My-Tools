@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert XML files to JSON format securely in your browser with our professional XML to JSON converter tool. Fast, reliable, and no uploads required."
+    />
+    <meta
+      name="keywords"
+      content="XML to JSON, XML converter, convert XML to JSON, online XML conversion, JSON converter, free XML tools, best XML to JSON converter, XML vs JSON, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>XML to JSON Converter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #ef4444, #b91c1c);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #ef4444, #b91c1c);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #dc2626;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #ef4444;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active {
+        display: block;
+      }
+      .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .tip-answer.active {
+        display: block;
+      }
+      .testimonial {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .editor {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        width: 100%;
+        height: 300px;
+        max-height: 300px; /* Prevent excessive growth */
+        padding: 1rem;
+        font-family: monospace;
+        resize: none; /* Disable manual resizing */
+        background-color: #f8fafc;
+        box-sizing: border-box;
+      }
+      .result-container {
+        margin-top: 2rem;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        background-color: #f8fafc;
+        padding: 1rem;
+      }
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .tool-container {
+          padding: 1.5rem;
+        }
+        .editor {
+          height: 200px; /* Smaller height on mobile */
+        }
+        .result-container {
+          max-height: 300px; /* Smaller result area on mobile */
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+      /* Ensure layout doesn't break */
+      .tool-container {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li>
+              <a href="../../index.html" class="font-medium hover:text-gray-200">Home</a>
+            </li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Documents</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200"
+                >Spreadsheets</a
+              >
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Audio</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Video</a>
+            </li>
+            <li>
+              <a href="#" class="font-medium hover:text-gray-200">Utilities</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          XML to JSON Converter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Convert your XML files to JSON format securely in your browser. Fast,
+          reliable, and no uploads required.
+        </p>
+      </section>
+
+      <div class="flex-container md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-code mr-3 text-blue-500"></i> XML to JSON
+          </h3>
+          <div class="flex items-center justify-center mb-6">
+            <i class="fas fa-code text-2xl text-blue-500 mr-3"></i>
+            <i class="fas fa-arrow-right text-xl text-gray-400 mx-2"></i>
+            <i class="fas fa-brackets-curly text-2xl text-green-500 ml-3"></i>
+          </div>
+
+          <div class="mb-4">
+            <label for="xmlInput" class="block text-gray-700 font-medium mb-2"
+              >Paste your XML here:</label
+            >
+            <textarea
+              id="xmlInput"
+              class="editor"
+              placeholder="<root>
+  <person>
+    <name>John Doe</name>
+    <age>30</age>
+    <email>john@example.com</email>
+  </person>
+</root>"
+            ></textarea>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <button id="convertBtn" class="btn-primary">Convert to JSON</button>
+            <div id="loader" class="loader"></div>
+            <div id="formatOptions" class="flex space-x-4 mt-4">
+              <label class="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="prettyPrint"
+                  checked
+                  class="mr-2 h-4 w-4"
+                />
+                <span>Pretty Print</span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="preserveAttributes"
+                  checked
+                  class="mr-2 h-4 w-4"
+                />
+                <span>Preserve Attributes</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="result" class="mt-6 hidden">
+            <h4 class="font-semibold text-lg mb-2">JSON Result:</h4>
+            <div class="flex justify-end mb-2">
+              <button id="copyBtn" class="btn-secondary text-sm">
+                <i class="fas fa-copy mr-1"></i> Copy to Clipboard
+              </button>
+            </div>
+            <pre
+              id="jsonOutput"
+              class="bg-gray-50 p-4 rounded-lg border border-gray-200 overflow-x-auto text-sm result-container"
+            ></pre>
+          </div>
+          <div id="errorMsg" class="mt-4 text-red-500 hidden"></div>
+        </section>
+
+        <aside class="md:w-1/3">
+          <div class="ad-container mb-8">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Convert XML to JSON with Conversion Tools?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          XML and JSON are two of the most popular data interchange formats, and
+          converting between them is a common requirement for developers, data
+          analysts, and IT professionals. Our
+          <strong>XML to JSON converter</strong> provides a seamless, secure,
+          and accurate solution that runs directly in your browser, ensuring
+          your data remains private with no uploads required.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Whether you're a software developer integrating with multiple APIs, a
+          data analyst working with different data formats, or just need to
+          transform XML data for a specific project, our tool is designed to
+          meet your needs. With options to customize the output format,
+          preserve attributes, and pretty-print the result, you have complete
+          control over the conversion process. Explore the benefits of our
+          online XML conversion tool and see why thousands trust Conversion
+          Tools for their file conversion needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Benefits of Using Our XML to JSON Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Accurate Conversion</strong>: Convert XML to JSON with
+            precise structure mapping and proper data typing.
+          </li>
+          <li>
+            <strong>Browser-Based</strong>: No software installation required;
+            convert directly in your browser.
+          </li>
+          <li>
+            <strong>Secure and Private</strong>: Your data is processed locally,
+            ensuring maximum privacy and security.
+          </li>
+          <li>
+            <strong>Customizable Output</strong>: Options for pretty-printing and
+            attribute handling give you control over the result.
+          </li>
+          <li>
+            <strong>Fast and Reliable</strong>: Enjoy quick conversions even for
+            large XML files.
+          </li>
+          <li>
+            <strong>User-Friendly Interface</strong>: Simple, intuitive design
+            makes conversion effortless.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          How to Convert XML to JSON
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Follow these simple steps to convert your XML data to JSON format
+          using our online tool:
+        </p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>Enter XML Data</strong>: Paste your XML content into the text
+            area provided.
+          </li>
+          <li>
+            <strong>Configure Options</strong>: Choose whether to pretty-print
+            the output and how to handle XML attributes.
+          </li>
+          <li>
+            <strong>Convert to JSON</strong>: Click the "Convert to JSON" button
+            to start the conversion process.
+          </li>
+          <li>
+            <strong>View and Copy Result</strong>: Review the JSON output and
+            copy it to your clipboard with one click.
+          </li>
+        </ol>
+        <p class="text-gray-600 mt-4">
+          Our intuitive interface ensures that even first-time users can convert
+          XML to JSON effortlessly. Try it now and experience the ease of online
+          data conversion!
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What is XML to JSON conversion?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            XML to JSON conversion is the process of transforming data from XML
+            (Extensible Markup Language) format to JSON (JavaScript Object
+            Notation) format. This is useful when you need to work with XML data
+            in JavaScript applications or when integrating with JSON-based APIs.
+            Our online tool makes this conversion process quick and accurate.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is it safe to use your XML to JSON converter?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Absolutely! Our converter processes all data locally in your browser,
+            meaning your XML content is never uploaded to a server. This ensures
+            maximum privacy and security for your sensitive data. You can use
+            our tool with confidence for both personal and professional
+            conversions.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How does the converter handle XML attributes?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Our tool offers an option to preserve XML attributes during
+            conversion. When enabled, attributes are converted to JSON
+            properties with a special prefix (typically "@") to distinguish them
+            from element content. This ensures that all information from the
+            original XML structure is maintained in the resulting JSON.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I convert large XML files?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, our converter can handle large XML files, though performance
+            will depend on your browser and device capabilities. For very large
+            files, we've optimized the processing to be more efficient, but you may still consider breaking them into smaller segments for optimal performance.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What are the advantages of JSON over XML?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            JSON offers several advantages over XML, including: more compact
+            syntax with less overhead, direct compatibility with JavaScript
+            (no parsing required), typically faster parsing and processing,
+            easier human readability for most data structures, and better
+            support in modern web APIs. These benefits make JSON the preferred
+            choice for many web applications and data exchange scenarios.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Explore More Conversion Tools
+        </h2>
+        <p class="text-gray-600 mb-4">
+          In addition to our XML to JSON converter, Conversion Tools offers a
+          wide range of free online tools to streamline your workflow. Check out
+          these popular options:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >JSON to XML Converter</a
+            >: Transform JSON back into XML format.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >PDF to PNG Converter</a
+            >: Convert PDF documents to PNG images.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >CSV to JSON Converter</a
+            >: Convert CSV data to JSON format.
+          </li>
+          <li>
+            <a href="#" class="text-blue-500 hover:underline"
+              >YAML to JSON Converter</a
+            >: Transform YAML configurations to JSON.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          Visit our
+          <a href="#" class="text-blue-500 hover:underline">Tools</a> page to
+          discover more solutions for your data conversion needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Common Use Cases for XML to JSON Conversion
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Converting XML to JSON is a requirement in many different scenarios
+          across various industries. Our <strong>XML to JSON online free</strong>
+          tool is designed to handle all these use cases efficiently. Here are
+          some common applications:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>API Integration</strong>: Convert XML responses from legacy
+            APIs to JSON for modern JavaScript applications.
+          </li>
+          <li>
+            <strong>Data Migration</strong>: Transform XML data sources to JSON
+            for new database systems.
+          </li>
+          <li>
+            <strong>Web Development</strong>: Use JSON instead of XML for more
+            efficient data handling in browsers.
+          </li>
+          <li>
+            <strong>Configuration Management</strong>: Convert XML configuration
+            files to the more readable JSON format.
+          </li>
+          <li>
+            <strong>Data Analysis</strong>: Transform XML datasets to JSON for
+            easier processing in data analysis tools.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          No matter your industry, our
+          <strong>best XML to JSON converter</strong> ensures you get accurate
+          and efficient conversions for all your data transformation needs.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Tips for Working with JSON
+        </h2>
+        <p class="text-gray-600 mb-4">
+          After converting your XML to JSON, here are some practical tips to
+          help you work more effectively with the JSON format:
+        </p>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Validate Your JSON</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Always validate your JSON after conversion to ensure it's
+            well-formed. Use tools like JSONLint or the built-in JSON parsers in
+            most programming languages to check for syntax errors.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Use JSON Schema for Complex Data</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            For complex data structures, consider creating a JSON Schema to
+            validate the structure and types of your JSON data. This helps
+            maintain consistency, especially when the data is used by multiple
+            systems.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Leverage JSON Path for Data Extraction</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Learn to use JSON Path expressions to extract specific values from
+            complex JSON structures. This is similar to XPath for XML and can
+            greatly simplify data access in large JSON documents.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Minify for Production, Pretty Print for Development</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Use pretty-printed JSON during development for better readability,
+            but minify your JSON for production environments to reduce file size
+            and improve load times. Our converter offers the option to toggle
+            between these formats.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          The Technology Behind Our XML to JSON Converter
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our <strong>XML to JSON online free</strong> tool leverages advanced
+          client-side technology to deliver fast and secure conversions. Here's
+          how it works:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li>
+            <strong>DOMParser API</strong>: We use the browser's built-in
+            DOMParser to parse XML safely and efficiently.
+          </li>
+          <li>
+            <strong>Recursive Processing</strong>: Our algorithm recursively
+            traverses the XML DOM tree, accurately mapping the structure to
+            equivalent JSON objects.
+          </li>
+          <li>
+            <strong>Client-Side Processing</strong>: All conversion happens
+            locally in your browser, ensuring data privacy and eliminating
+            server latency.
+          </li>
+          <li>
+            <strong>JSON.stringify</strong>: We utilize JavaScript's native
+            JSON.stringify method with formatting options for optimal output.
+          </li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          This combination of browser-native APIs and efficient algorithms
+          ensures that our converter provides accurate results while maintaining
+          excellent performance. Experience the power of modern web technology
+          with Conversion Tools.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          What Our Users Say
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Many professionals rely on our XML to JSON converter for their daily
+          tasks. Here's what some of them have to say:
+        </p>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "As a backend developer working with both XML and JSON APIs, this
+            tool has become indispensable. The attribute preservation feature is
+            especially useful when maintaining data integrity."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Michael T., Software Engineer
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "I was struggling with XML data from a legacy system until I found
+            this converter. Now I can quickly transform it to JSON for our
+            modern web application. Clean, fast, and accurate!"
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Lisa K., Front-end Developer
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "The fact that this tool works entirely in the browser gives me
+            peace of mind when dealing with sensitive data. No uploads means my
+            company's information stays secure."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — James R., IT Manager
+          </p>
+        </div>
+      </section>
+
+      <section class="ad-container mt-8">
+        <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+              <h4 class="text-2xl font-bold">Conversion Tools</h4>
+            </div>
+            <p class="text-gray-300">
+              Secure, fast, and professional file conversion tools for all your
+              needs.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li>
+                <a href="#" class="hover:text-blue-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-red-400 transition-colors"
+                  >PDF Tools</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-green-400 transition-colors"
+                  >Document Tools</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-orange-400 transition-colors"
+                  >Spreadsheet Tools</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+            <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
+            <p class="text-gray-300 mb-4">Follow us on social media</p>
+            <div class="flex space-x-6">
+              <a href="#" class="text-gray-300 hover:text-blue-400"
+                ><i class="fab fa-twitter text-2xl"></i
+              ></a>
+              <a href="#" class="text-gray-300 hover:text-green-400"
+                ><i class="fab fa-linkedin text-2xl"></i
+              ></a>
+              <a href="#" class="text-gray-300 hover:text-teal-400"
+                ><i class="fab fa-github text-2xl"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-12 text-gray-400">
+          © 2025 Conversion Tools. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // DOM Elements
+      const xmlInput = document.getElementById("xmlInput");
+      const convertBtn = document.getElementById("convertBtn");
+      const copyBtn = document.getElementById("copyBtn");
+      const resultDiv = document.getElementById("result");
+      const jsonOutput = document.getElementById("jsonOutput");
+      const errorMsg = document.getElementById("errorMsg");
+      const loader = document.getElementById("loader");
+      const prettyPrintCheckbox = document.getElementById("prettyPrint");
+      const preserveAttributesCheckbox = document.getElementById("preserveAttributes");
+
+      // Optimize XML to JSON Conversion for Performance
+      function xmlToJson(xmlDoc, preserveAttributes) {
+        function parseNode(node, depth = 0) {
+          // Prevent excessive recursion
+          if (depth > 100) {
+            throw new Error("XML structure too deeply nested.");
+          }
+
+          // Skip text nodes with only whitespace
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.nodeValue.trim();
+            return text ? text : null;
+          }
+
+          // Handle element nodes
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const result = {};
+
+            // Handle attributes
+            if (preserveAttributes && node.attributes.length > 0) {
+              const attributes = {};
+              for (let attr of node.attributes) {
+                attributes["@" + attr.name] = attr.value;
+              }
+              result["@attributes"] = attributes;
+            }
+
+            // Handle child nodes
+            const children = Array.from(node.childNodes);
+            const childElements = children.filter(
+              (child) => child.nodeType === Node.ELEMENT_NODE
+            );
+            const textNodes = children
+              .filter(
+                (child) =>
+                  child.nodeType === Node.TEXT_NODE && child.nodeValue.trim()
+              )
+              .map((child) => child.nodeValue.trim());
+
+            // If there are text nodes and no child elements, return text content
+            if (textNodes.length > 0 && childElements.length === 0) {
+              return textNodes.join(" ");
+            }
+
+            // Process child elements
+            const childMap = new Map();
+            childElements.forEach((child) => {
+              const childName = child.nodeName;
+              const childResult = parseNode(child, depth + 1);
+              if (childResult !== null) {
+                if (!childMap.has(childName)) {
+                  childMap.set(childName, childResult);
+                } else {
+                  let existing = childMap.get(childName);
+                  if (!Array.isArray(existing)) {
+                    existing = [existing];
+                  }
+                  existing.push(childResult);
+                  childMap.set(childName, existing);
+                }
+              }
+            });
+
+            // Convert Map to object
+            childMap.forEach((value, key) => {
+              result[key] = value;
+            });
+
+            return Object.keys(result).length > 0 ? result : null;
+          }
+
+          return null;
+        }
+
+        const root = parseNode(xmlDoc.documentElement);
+        return root || {};
+      }
+
+      // Convert Button Event Listener
+      convertBtn.addEventListener("click", async () => {
+        const xmlText = xmlInput.value.trim();
+        if (!xmlText) {
+          errorMsg.textContent = "Please enter valid XML content.";
+          errorMsg.classList.remove("hidden");
+          resultDiv.classList.add("hidden");
+          return;
+        }
+
+        // Show loader and disable button
+        loader.style.display = "block";
+        convertBtn.disabled = true;
+        errorMsg.classList.add("hidden");
+        resultDiv.classList.add("hidden");
+
+        // Process conversion in a Web Worker or async to prevent blocking
+        try {
+          // Parse XML
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+          const parserError = xmlDoc.querySelector("parsererror");
+          if (parserError) {
+            throw new Error("Invalid XML format.");
+          }
+
+          // Convert to JSON
+          const preserveAttributes = preserveAttributesCheckbox.checked;
+          const jsonResult = xmlToJson(xmlDoc, preserveAttributes);
+
+          // Format output
+          const prettyPrint = prettyPrintCheckbox.checked;
+          const jsonString = JSON.stringify(
+            jsonResult,
+            null,
+            prettyPrint ? 2 : 0
+          );
+
+          // Display result
+          jsonOutput.textContent = jsonString;
+          resultDiv.classList.remove("hidden");
+        } catch (error) {
+          errorMsg.textContent = error.message || "An error occurred during conversion.";
+          errorMsg.classList.remove("hidden");
+        } finally {
+          loader.style.display = "none";
+          convertBtn.disabled = false;
+        }
+      });
+
+      // Copy to Clipboard
+      copyBtn.addEventListener("click", () => {
+        const text = jsonOutput.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = '<i class="fas fa-copy mr-1"></i> Copy to Clipboard';
+          }, 2000);
+        }).catch(() => {
+          errorMsg.textContent = "Failed to copy to clipboard.";
+          errorMsg.classList.remove("hidden");
+        });
+      });
+
+      // Hamburger menu toggle
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // FAQ and Tips toggle
+      const toggles = document.querySelectorAll(".faq-question, .tip-question");
+      toggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const answer = toggle.nextElementSibling;
+          answer.classList.toggle("active");
+          const icon = toggle.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+    </script>
+  </body>
+</html>

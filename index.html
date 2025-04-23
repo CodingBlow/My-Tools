@@ -1,534 +1,784 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional online conversion tools for PDF, documents, spreadsheets, audio, video, and utilities. Process files securely in your browser without uploads.">
-    <meta name="keywords" content="file conversion, PDF converter, document tools, spreadsheet tools, audio converter, video converter, utility tools, online tools">
-    <meta name="author" content="Conversion Tools">
-    <meta name="robots" content="index, follow">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Professional online conversion tools for PDF, documents, spreadsheets, audio, video, and utilities. Process files securely in your browser without uploads."
+    />
+    <meta
+      name="keywords"
+      content="file conversion, PDF converter, document tools, spreadsheet tools, audio converter, video converter, utility tools, online tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
     <title>Conversion Tools - Professional File Conversion</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
-    <meta property="og:title" content="Conversion Tools - Professional File Conversion">
-    <meta property="og:description" content="Convert files securely with our browser-based tools for PDF, documents, spreadsheets, audio, video, and more.">
-    <meta property="og:image" content="assets/images/logo.png">
-    <meta property="og:url" content="https://yourwebsite.com">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon" />
+    <meta
+      property="og:title"
+      content="Conversion Tools - Professional File Conversion"
+    />
+    <meta
+      property="og:description"
+      content="Convert files securely with our browser-based tools for PDF, documents, spreadsheets, audio, video, and more."
+    />
+    <meta property="og:image" content="assets/images/logo.png" />
+    <meta property="og:url" content="https://yourwebsite.com" />
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e3a8a, #3b82f6);
+        color: white;
+      }
+      .tool-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .tool-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+      .tool-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+      .tool-card:hover::before {
+        left: 100%;
+      }
+      .show-all-btn {
+        cursor: pointer;
+        padding: 0.75rem 1.5rem;
+        color: white;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .show-all-btn:hover {
+        transform: scale(1.05);
+      }
+      .tool-card.hidden {
+        display: none;
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2rem 0;
+      }
+      .nav-menu {
+        transition: all 0.3s ease;
+      }
+      .nav-menu a {
+        position: relative;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
         }
-        header {
-            background: linear-gradient(to right, #1e3a8a, #3b82f6);
-            color: white;
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e3a8a;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          padding: 1rem;
         }
-        .tool-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        .nav-menu.active li {
+          margin: 0.5rem 0;
         }
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        .nav-menu.active a {
+          color: white;
         }
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+        .hamburger {
+          display: block;
+          cursor: pointer;
         }
-        .tool-card:hover::before {
-            left: 100%;
+        .hamburger i {
+          font-size: 1.5rem;
+          color: #ffffff;
         }
-        .show-all-btn {
-            cursor: pointer;
-            padding: 0.75rem 1.5rem;
-            color: white;
-            border-radius: 9999px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .show-all-btn:hover {
-            transform: scale(1.05);
-        }
-        .tool-card.hidden {
-            display: none;
-        }
-        .section-divider {
-            height: 4px;
-            border-radius: 2px;
-            margin: 2rem 0;
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
         }
         .nav-menu {
-            transition: all 0.3s ease;
+          display: flex;
         }
-        .nav-menu a {
-            position: relative;
-        }
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #ffffff;
-            transition: width 0.3s ease;
-        }
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-            .nav-menu.active {
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: #1e3a8a;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                padding: 1rem;
-            }
-            .nav-menu.active li {
-                margin: 0.5rem 0;
-            }
-            .nav-menu.active a {
-                color: white;
-            }
-            .hamburger {
-                display: block;
-                cursor: pointer;
-            }
-            .hamburger i {
-                font-size: 1.5rem;
-                color: #ffffff;
-            }
-        }
-        @media (min-width: 769px) {
-            .hamburger {
-                display: none;
-            }
-            .nav-menu {
-                display: flex;
-            }
-        }
-        footer {
-            background: #111827;
-        }
-        .social-icon {
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-        .social-icon:hover {
-            transform: scale(1.2);
-        }
-        /* Section-specific colors */
-        #pdf-tools .section-divider, #pdf-tools .show-all-btn {
-            background: linear-gradient(to right, #ef4444, #b91c1c);
-        }
-        #pdf-tools .tool-card i, #pdf-tools h3 i {
-            color: #ef4444;
-        }
-        #pdf-tools .show-all-btn:hover {
-            background: #dc2626;
-        }
-        #document-tools .section-divider, #document-tools .show-all-btn {
-            background: linear-gradient(to right, #10b981, #065f46);
-        }
-        #document-tools .tool-card i, #document-tools h3 i {
-            color: #10b981;
-        }
-        #document-tools .show-all-btn:hover {
-            background: #059669;
-        }
-        #spreadsheet-tools .section-divider, #spreadsheet-tools .show-all-btn {
-            background: linear-gradient(to right, #f59e0b, #d97706);
-        }
-        #spreadsheet-tools .tool-card i, #spreadsheet-tools h3 i {
-            color: #f59e0b;
-        }
-        #spreadsheet-tools .show-all-btn:hover {
-            background: #e78e04;
-        }
-        #audio-tools .section-divider, #audio-tools .show-all-btn {
-            background: linear-gradient(to right, #8b5cf6, #5b21b6);
-        }
-        #audio-tools .tool-card i, #audio-tools h3 i {
-            color: #8b5cf6;
-        }
-        #audio-tools .show-all-btn:hover {
-            background: #7c3aed;
-        }
-        #video-tools .section-divider, #video-tools .show-all-btn {
-            background: linear-gradient(to right, #ef4444, #b91c1c);
-        }
-        #video-tools .tool-card i, #video-tools h3 i {
-            color: #ef4444;
-        }
-        #video-tools .show-all-btn:hover {
-            background: #dc2626;
-        }
-        #utility-tools .section-divider, #utility-tools .show-all-btn {
-            background: linear-gradient(to right, #14b8a6, #0f766e);
-        }
-        #utility-tools .tool-card i, #utility-tools h3 i {
-            color: #14b8a6;
-        }
-        #utility-tools .show-all-btn:hover {
-            background: #0d9488;
-        }
-        /* Consistent section header styling */
-        section h3 {
-            font-size: 3.75rem; /* Matches text-5xl */
-            font-weight: 700; /* Matches font-bold */
-            line-height: 1.2;
-        }
+      }
+      footer {
+        background: #111827;
+      }
+      .social-icon {
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+      .social-icon:hover {
+        transform: scale(1.2);
+      }
+      /* Section-specific colors */
+      #pdf-tools .section-divider,
+      #pdf-tools .show-all-btn {
+        background: linear-gradient(to right, #ef4444, #b91c1c);
+      }
+      #pdf-tools .tool-card i,
+      #pdf-tools h3 i {
+        color: #ef4444;
+      }
+      #pdf-tools .show-all-btn:hover {
+        background: #dc2626;
+      }
+      #document-tools .section-divider,
+      #document-tools .show-all-btn {
+        background: linear-gradient(to right, #10b981, #065f46);
+      }
+      #document-tools .tool-card i,
+      #document-tools h3 i {
+        color: #10b981;
+      }
+      #document-tools .show-all-btn:hover {
+        background: #059669;
+      }
+      #spreadsheet-tools .section-divider,
+      #spreadsheet-tools .show-all-btn {
+        background: linear-gradient(to right, #f59e0b, #d97706);
+      }
+      #spreadsheet-tools .tool-card i,
+      #spreadsheet-tools h3 i {
+        color: #f59e0b;
+      }
+      #spreadsheet-tools .show-all-btn:hover {
+        background: #e78e04;
+      }
+      #audio-tools .section-divider,
+      #audio-tools .show-all-btn {
+        background: linear-gradient(to right, #8b5cf6, #5b21b6);
+      }
+      #audio-tools .tool-card i,
+      #audio-tools h3 i {
+        color: #8b5cf6;
+      }
+      #audio-tools .show-all-btn:hover {
+        background: #7c3aed;
+      }
+      #video-tools .section-divider,
+      #video-tools .show-all-btn {
+        background: linear-gradient(to right, #ef4444, #b91c1c);
+      }
+      #video-tools .tool-card i,
+      #video-tools h3 i {
+        color: #ef4444;
+      }
+      #video-tools .show-all-btn:hover {
+        background: #dc2626;
+      }
+      #utility-tools .section-divider,
+      #utility-tools .show-all-btn {
+        background: linear-gradient(to right, #14b8a6, #0f766e);
+      }
+      #utility-tools .tool-card i,
+      #utility-tools h3 i {
+        color: #14b8a6;
+      }
+      #utility-tools .show-all-btn:hover {
+        background: #0d9488;
+      }
+      /* Consistent section header styling */
+      section h3 {
+        font-size: 2.3rem; /* Matches text-5xl */
+        font-weight: 700; /* Matches font-bold */
+        line-height: 1.2;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header class="shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <i class="fas fa-tools text-white text-3xl mr-3"></i>
-                <h1 class="text-2xl font-bold">Conversion Tools</h1>
-            </div>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-            <nav class="nav-menu">
-                <ul class="flex space-x-6 text-white flex-col md:flex-row">
-                    <li><a href="index.html" class="font-medium">Home</a></li>
-                    <li><a href="#pdf-tools" class="font-medium">PDF</a></li>
-                    <li><a href="#document-tools" class="font-medium">Documents</a></li>
-                    <li><a href="#spreadsheet-tools" class="font-medium">Spreadsheets</a></li>
-                    <li><a href="#audio-tools" class="font-medium">Audio</a></li>
-                    <li><a href="#video-tools" class="font-medium">Video</a></li>
-                    <li><a href="#utility-tools" class="font-medium">Utilities</a></li>
-                </ul>
-            </nav>
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
         </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li><a href="index.html" class="font-medium">Home</a></li>
+            <li><a href="#pdf-tools" class="font-medium">PDF</a></li>
+            <li><a href="#document-tools" class="font-medium">Documents</a></li>
+            <li>
+              <a href="#spreadsheet-tools" class="font-medium">Spreadsheets</a>
+            </li>
+            <li><a href="#audio-tools" class="font-medium">Audio</a></li>
+            <li><a href="#video-tools" class="font-medium">Video</a></li>
+            <li><a href="#utility-tools" class="font-medium">Utilities</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <main class="container mx-auto px-4 py-16">
-        <section class="text-center mb-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-6">Professional File Conversion Tools</h2>
-            <p class="text-xl text-gray-700 max-w-3xl mx-auto">Transform your files effortlessly with our secure, browser-based tools for PDF, documents, spreadsheets, audio, video, and utilities. No uploads required.</p>
-        </section>
+      <section class="text-center mb-16">
+        <h2 class="text-5xl font-bold text-gray-900 mb-6">
+          Professional File Conversion Tools
+        </h2>
+        <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+          Transform your files effortlessly with our secure, browser-based tools
+          for PDF, documents, spreadsheets, audio, video, and utilities. No
+          uploads required.
+        </p>
+      </section>
 
-        <div class="section-divider" style="background: linear-gradient(to right, #ef4444, #b91c1c);"></div>
+      <div
+        class="section-divider"
+        style="background: linear-gradient(to right, #ef4444, #b91c1c)"
+      ></div>
 
-        <section id="pdf-tools" class="mb-16">
-            <h3 class="text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-file-pdf mr-3"></i> PDF Tools
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="tools/pdf-tools/pdf-to-jpg.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-image text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to JPG</h4>
-                    <p class="text-gray-600">Convert PDF pages to high-quality JPG images.</p>
-                </a>
-                <a href="tools/pdf-tools/pdf-to-png.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-image text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to PNG</h4>
-                    <p class="text-gray-600">Transform PDF files into PNG images.</p>
-                </a>
-                <a href="tools/pdf-tools/pdf-to-text.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-alt text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to Text</h4>
-                    <p class="text-gray-600">Extract text content from PDF documents.</p>
-                </a>
-                <a href="tools/pdf-tools/pdf-to-word.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-word text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to Word</h4>
-                    <p class="text-gray-600">Convert PDFs to editable Word documents.</p>
-                </a>
-                <a href="tools/pdf-tools/merge-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-import text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Merge PDF</h4>
-                    <p class="text-gray-600">Combine multiple PDFs into one file.</p>
-                </a>
-                <a href="tools/pdf-tools/split-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-cut text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Split PDF</h4>
-                    <p class="text-gray-600">Divide a PDF into separate pages.</p>
-                </a>
-                <a href="tools/pdf-tools/compress-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-compress text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Compress PDF</h4>
-                    <p class="text-gray-600">Reduce PDF file size without quality loss.</p>
-                </a>
-                <a href="tools/pdf-tools/pdf-to-excel.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-excel text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to Excel</h4>
-                    <p class="text-gray-600">Extract tables from PDFs to Excel.</p>
-                </a>
-                <a href="tools/pdf-tools/rotate-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-sync-alt text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Rotate PDF</h4>
-                    <p class="text-gray-600">Rotate PDF pages to the desired orientation.</p>
-                </a>
-                <a href="tools/pdf-tools/pdf-to-powerpoint.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-powerpoint text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to PowerPoint</h4>
-                    <p class="text-gray-600">Convert PDFs to PowerPoint slides.</p>
-                </a>
-            </div>
-        </section>
+      <section id="pdf-tools" class="mb-16">
+        <h3 class="text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-file-pdf mr-3"></i> PDF Tools
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="tools/pdf-tools/pdf-to-jpg.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-image text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">PDF to JPG</h4>
+            <p class="text-gray-600">
+              Convert PDF pages to high-quality JPG images.
+            </p>
+          </a>
+          <a
+            href="tools/pdf-tools/pdf-to-png.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-image text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">PDF to PNG</h4>
+            <p class="text-gray-600">Transform PDF files into PNG images.</p>
+          </a>
+          <a
+            href="tools/pdf-tools/pdf-to-text.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-alt text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">PDF to Text</h4>
+            <p class="text-gray-600">
+              Extract text content from PDF documents.
+            </p>
+          </a>
+          <a
+            href="tools/pdf-tools/pdf-to-word.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-word text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">PDF to Word</h4>
+            <p class="text-gray-600">
+              Convert PDFs to editable Word documents.
+            </p>
+          </a>
+          <a
+            href="tools/pdf-tools/merge-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-import text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Merge PDF</h4>
+            <p class="text-gray-600">Combine multiple PDFs into one file.</p>
+          </a>
+          <a
+            href="tools/pdf-tools/split-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-cut text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Split PDF</h4>
+            <p class="text-gray-600">Divide a PDF into separate pages.</p>
+          </a>
+          <a
+            href="tools/pdf-tools/compress-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-compress text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Compress PDF</h4>
+            <p class="text-gray-600">
+              Reduce PDF file size without quality loss.
+            </p>
+          </a>
+          <a
+            href="tools/pdf-tools/pdf-to-excel.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-excel text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">PDF to Excel</h4>
+            <p class="text-gray-600">Extract tables from PDFs to Excel.</p>
+          </a>
+          <a
+            href="tools/pdf-tools/rotate-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-sync-alt text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Rotate PDF</h4>
+            <p class="text-gray-600">
+              Rotate PDF pages to the desired orientation.
+            </p>
+          </a>
+          <a
+            href="tools/pdf-tools/pdf-to-powerpoint.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-powerpoint text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">
+              PDF to PowerPoint
+            </h4>
+            <p class="text-gray-600">Convert PDFs to PowerPoint slides.</p>
+          </a>
+        </div>
+      </section>
 
-        <div class="section-divider" style="background: linear-gradient(to right, #10b981, #065f46);"></div>
+      <div
+        class="section-divider"
+        style="background: linear-gradient(to right, #10b981, #065f46)"
+      ></div>
 
-        <section id="document-tools" class="mb-16">
-            <h3 class="text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-file-word mr-3"></i> Document Tools
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="tools/document-tools/docx-to-html.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-code text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">DOCX to HTML</h4>
-                    <p class="text-gray-600">Convert DOCX files to HTML format.</p>
-                </a>
-                <a href="tools/document-tools/txt-to-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-pdf text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">TXT to PDF</h4>
-                    <p class="text-gray-600">Create PDFs from plain text files.</p>
-                </a>
-                <a href="tools/document-tools/html-to-docx.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-word text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">HTML to DOCX</h4>
-                    <p class="text-gray-600">Convert HTML content to DOCX documents.</p>
-                </a>
-                <a href="tools/document-tools/docx-to-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-pdf text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">DOCX to PDF</h4>
-                    <p class="text-gray-600">Convert DOCX files to PDF format.</p>
-                </a>
-                <a href="tools/document-tools/pdf-to-docx.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-word text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">PDF to DOCX</h4>
-                    <p class="text-gray-600">Convert PDFs to editable DOCX files.</p>
-                </a>
-                <a href="tools/document-tools/rtf-to-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-pdf text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">RTF to PDF</h4>
-                    <p class="text-gray-600">Transform RTF files into PDFs.</p>
-                </a>
-                <a href="tools/document-tools/txt-to-docx.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-word text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">TXT to DOCX</h4>
-                    <p class="text-gray-600">Convert text files to DOCX format.</p>
-                </a>
-                <a href="tools/document-tools/html-to-pdf.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-pdf text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">HTML to PDF</h4>
-                    <p class="text-gray-600">Generate PDFs from HTML content.</p>
-                </a>
-            </div>
-        </section>
+      <section id="document-tools" class="mb-16">
+        <h3 class="text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-file-word mr-3"></i> Document Tools
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="tools/document-tools/docx-to-html.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-code text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">DOCX to HTML</h4>
+            <p class="text-gray-600">Convert DOCX files to HTML format.</p>
+          </a>
+          <a
+            href="tools/document-tools/txt-to-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-pdf text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">TXT to PDF</h4>
+            <p class="text-gray-600">Create PDFs from plain text files.</p>
+          </a>
+          <a
+            href="tools/document-tools/html-to-docx.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-word text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">HTML to DOCX</h4>
+            <p class="text-gray-600">Convert HTML content to DOCX documents.</p>
+          </a>
+          <a
+            href="tools/document-tools/docx-to-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-pdf text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">DOCX to PDF</h4>
+            <p class="text-gray-600">Convert DOCX files to PDF format.</p>
+          </a>
+          <a
+            href="tools/document-tools/pdf-to-docx.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-word text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">PDF to DOCX</h4>
+            <p class="text-gray-600">Convert PDFs to editable DOCX files.</p>
+          </a>
+          <a
+            href="tools/document-tools/rtf-to-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-pdf text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">RTF to PDF</h4>
+            <p class="text-gray-600">Transform RTF files into PDFs.</p>
+          </a>
+          <a
+            href="tools/document-tools/txt-to-docx.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-word text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">TXT to DOCX</h4>
+            <p class="text-gray-600">Convert text files to DOCX format.</p>
+          </a>
+          <a
+            href="tools/document-tools/html-to-pdf.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-pdf text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">HTML to PDF</h4>
+            <p class="text-gray-600">Generate PDFs from HTML content.</p>
+          </a>
+        </div>
+      </section>
 
-        <div class="section-divider" style="background: linear-gradient(to right, #f59e0b, #d97706);"></div>
+      <div
+        class="section-divider"
+        style="background: linear-gradient(to right, #f59e0b, #d97706)"
+      ></div>
 
-        <section id="spreadsheet-tools" class="mb-16">
-            <h3 class="text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-table mr-3"></i> Spreadsheet Tools
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="tools/spreadsheet-tools/excel-to-json.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-code text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Excel to JSON</h4>
-                    <p class="text-gray-600">Convert Excel files to JSON format.</p>
-                </a>
-                <a href="tools/spreadsheet-tools/csv-to-excel.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-excel text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">CSV to Excel</h4>
-                    <p class="text-gray-600">Transform CSV data into Excel spreadsheets.</p>
-                </a>
-                <a href="tools/spreadsheet-tools/csv-to-json.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-code text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">CSV to JSON</h4>
-                    <p class="text-gray-600">Convert CSV files to JSON data.</p>
-                </a>
-                <a href="tools/spreadsheet-tools/excel-to-csv.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-csv text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Excel to CSV</h4>
-                    <p class="text-gray-600">Export Excel data to CSV format.</p>
-                </a>
-                <a href="tools/spreadsheet-tools/json-to-csv.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-csv text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">JSON to CSV</h4>
-                    <p class="text-gray-600">Convert JSON data to CSV files.</p>
-                </a>
-            </div>
-        </section>
+      <section id="spreadsheet-tools" class="mb-16">
+        <h3 class="text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-table mr-3"></i> Spreadsheet Tools
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="tools/spreadsheet-tools/excel-to-json.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-code text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Excel to JSON</h4>
+            <p class="text-gray-600">Convert Excel files to JSON format.</p>
+          </a>
+          <a
+            href="tools/spreadsheet-tools/csv-to-excel.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-excel text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">CSV to Excel</h4>
+            <p class="text-gray-600">
+              Transform CSV data into Excel spreadsheets.
+            </p>
+          </a>
+          <a
+            href="tools/spreadsheet-tools/csv-to-json.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-code text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">CSV to JSON</h4>
+            <p class="text-gray-600">Convert CSV files to JSON data.</p>
+          </a>
+          <a
+            href="tools/spreadsheet-tools/excel-to-csv.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-csv text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Excel to CSV</h4>
+            <p class="text-gray-600">Export Excel data to CSV format.</p>
+          </a>
+          <a
+            href="tools/spreadsheet-tools/json-to-csv.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-csv text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">JSON to CSV</h4>
+            <p class="text-gray-600">Convert JSON data to CSV files.</p>
+          </a>
+        </div>
+      </section>
 
-        <div class="section-divider" style="background: linear-gradient(to right, #8b5cf6, #5b21b6);"></div>
+      <div
+        class="section-divider"
+        style="background: linear-gradient(to right, #8b5cf6, #5b21b6)"
+      ></div>
 
-        <section id="audio-tools" class="mb-16">
-            <h3 class="text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-music mr-3"></i> Audio Tools
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="tools/audio-tools/mp3-to-wav.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-audio text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">MP3 to WAV</h4>
-                    <p class="text-gray-600">Convert MP3 files to WAV format.</p>
-                </a>
-                <a href="tools/audio-tools/wav-to-mp3.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-audio text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">WAV to MP3</h4>
-                    <p class="text-gray-600">Transform WAV audio to MP3 files.</p>
-                </a>
-                <a href="tools/audio-tools/audio-cutter.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-cut text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Audio Cutter</h4>
-                    <p class="text-gray-600">Trim and edit audio files easily.</p>
-                </a>
-                <a href="tools/audio-tools/audio-converter.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-audio text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Audio Converter</h4>
-                    <p class="text-gray-600">Convert between various audio formats.</p>
-                </a>
-                <a href="tools/audio-tools/audio-merger.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-import text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Audio Merger</h4>
-                    <p class="text-gray-600">Combine multiple audio files into one.</p>
-                </a>
-            </div>
-        </section>
+      <section id="audio-tools" class="mb-16">
+        <h3 class="text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-music mr-3"></i> Audio Tools
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="tools/audio-tools/mp3-to-wav.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-audio text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">MP3 to WAV</h4>
+            <p class="text-gray-600">Convert MP3 files to WAV format.</p>
+          </a>
+          <a
+            href="tools/audio-tools/wav-to-mp3.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-audio text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">WAV to MP3</h4>
+            <p class="text-gray-600">Transform WAV audio to MP3 files.</p>
+          </a>
+          <a
+            href="tools/audio-tools/audio-cutter.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-cut text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Audio Cutter</h4>
+            <p class="text-gray-600">Trim and edit audio files easily.</p>
+          </a>
+          <a
+            href="tools/audio-tools/audio-converter.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-audio text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Audio Converter</h4>
+            <p class="text-gray-600">Convert between various audio formats.</p>
+          </a>
+          <a
+            href="tools/audio-tools/audio-merger.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-import text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Audio Merger</h4>
+            <p class="text-gray-600">Combine multiple audio files into one.</p>
+          </a>
+        </div>
+      </section>
 
-        <div class="section-divider" style="background: linear-gradient(to right, #ef4444, #b91c1c);"></div>
+      <div
+        class="section-divider"
+        style="background: linear-gradient(to right, #ef4444, #b91c1c)"
+      ></div>
 
-        <section id="video-tools" class="mb-16">
-            <h3 class="text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-video mr-3"></i> Video Tools
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="tools/video-tools/mp4-to-mp3.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-file-audio text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">MP4 to MP3</h4>
-                    <p class="text-gray-600">Extract audio from MP4 videos.</p>
-                </a>
-                <a href="tools/video-tools/compress-video.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-compress text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Compress Video</h4>
-                    <p class="text-gray-600">Reduce video file size without quality loss.</p>
-                </a>
-                <a href="tools/video-tools/change-video-resolution.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-expand text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Change Video Resolution</h4>
-                    <p class="text-gray-600">Adjust video resolution effortlessly.</p>
-                </a>
-                <a href="tools/video-tools/video-converter.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-video text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Video Converter</h4>
-                    <p class="text-gray-600">Convert videos between various formats.</p>
-                </a>
-            </div>
-        </section>
+      <section id="video-tools" class="mb-16">
+        <h3 class="text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-video mr-3"></i> Video Tools
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="tools/video-tools/mp4-to-mp3.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-file-audio text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">MP4 to MP3</h4>
+            <p class="text-gray-600">Extract audio from MP4 videos.</p>
+          </a>
+          <a
+            href="tools/video-tools/compress-video.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-compress text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Compress Video</h4>
+            <p class="text-gray-600">
+              Reduce video file size without quality loss.
+            </p>
+          </a>
+          <a
+            href="tools/video-tools/change-video-resolution.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-expand text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">
+              Change Video Resolution
+            </h4>
+            <p class="text-gray-600">Adjust video resolution effortlessly.</p>
+          </a>
+          <a
+            href="tools/video-tools/video-converter.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-video text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Video Converter</h4>
+            <p class="text-gray-600">Convert videos between various formats.</p>
+          </a>
+        </div>
+      </section>
 
-        <div class="section-divider" style="background: linear-gradient(to right, #14b8a6, #0f766e);"></div>
+      <div
+        class="section-divider"
+        style="background: linear-gradient(to right, #14b8a6, #0f766e)"
+      ></div>
 
-        <section id="utility-tools" class="mb-16">
-            <h3 class="text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-wrench mr-3"></i> Utility Tools
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="tools/utility-tools/base64-encode-decode.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100 always-visible">
-                    <i class="fas fa-lock text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Base64 Encode/Decode</h4>
-                    <p class="text-gray-600">Encode or decode Base64 strings.</p>
-                </a>
-                <a href="tools/utility-tools/json-formatter.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100 always-visible">
-                    <i class="fas fa-file-code text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">JSON Formatter</h4>
-                    <p class="text-gray-600">Format and beautify JSON data.</p>
-                </a>
-                <a href="tools/utility-tools/xml-to-json.html" class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100 always-visible">
-                    <i class="fas fa-file-code text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">XML to JSON</h4>
-                    <p class="text-gray-600">Convert XML data to JSON format.</p>
-                </a>
-                <a href="tools/utility-tools/qr-code-generator.html" class="tool-card hidden bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-qrcode text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">QR Code Generator</h4>
-                    <p class="text-gray-600">Create QR codes from text or URLs.</p>
-                </a>
-                <a href="tools/utility-tools/text-to-speech.html" class="tool-card hidden bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <i class="fas fa-volume-up text-4xl mb-4"></i>
-                    <h4 class="text-xl font-semibold text-gray-900">Text to Speech</h4>
-                    <p class="text-gray-600">Convert text to audio files.</p>
-                </a>
-            </div>
-            <div class="text-center mt-8">
-                <button class="show-all-btn" onclick="toggleTools('utility-tools')">Show All Utility Tools</button>
-            </div>
-        </section>
+      <section id="utility-tools" class="mb-16">
+        <h3 class="text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-wrench mr-3"></i> Utility Tools
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="tools/utility-tools/base64-encode-decode.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100 always-visible"
+          >
+            <i class="fas fa-lock text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">
+              Base64 Encode/Decode
+            </h4>
+            <p class="text-gray-600">Encode or decode Base64 strings.</p>
+          </a>
+          <a
+            href="tools/utility-tools/json-formatter.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100 always-visible"
+          >
+            <i class="fas fa-file-code text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">JSON Formatter</h4>
+            <p class="text-gray-600">Format and beautify JSON data.</p>
+          </a>
+          <a
+            href="tools/utility-tools/xml-to-json.html"
+            class="tool-card bg-white p-6 rounded-xl shadow-lg border border-gray-100 always-visible"
+          >
+            <i class="fas fa-file-code text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">XML to JSON</h4>
+            <p class="text-gray-600">Convert XML data to JSON format.</p>
+          </a>
+          <a
+            href="tools/utility-tools/qr-code-generator.html"
+            class="tool-card hidden bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-qrcode text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">
+              QR Code Generator
+            </h4>
+            <p class="text-gray-600">Create QR codes from text or URLs.</p>
+          </a>
+          <a
+            href="tools/utility-tools/text-to-speech.html"
+            class="tool-card hidden bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-volume-up text-4xl mb-4"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Text to Speech</h4>
+            <p class="text-gray-600">Convert text to audio files.</p>
+          </a>
+          <a
+            href="tools/utility-tools/color-picker.html"
+            class="tool-card hidden bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <i class="fas fa-eye-dropper text-4xl mb-4 text-pink-500"></i>
+            <h4 class="text-xl font-semibold text-gray-900">Color Picker</h4>
+            <p class="text-gray-600">
+              Pick colors and get HEX, RGB, and HSL codes.
+            </p>
+          </a>
+        </div>
+        <div class="text-center mt-8">
+          <button class="show-all-btn" onclick="toggleTools('utility-tools')">
+            Show All Utility Tools
+          </button>
+        </div>
+      </section>
     </main>
 
     <footer class="text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
-                        <h4 class="text-2xl font-bold">Conversion Tools</h4>
-                    </div>
-                    <p class="text-gray-300">Secure, fast, and professional file conversion tools for all your needs.</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
-                    <ul class="space-y-3 text-gray-300">
-                        <li><a href="index.html" class="hover:text-blue-400 transition-colors">Home</a></li>
-                        <li><a href="#pdf-tools" class="hover:text-red-400 transition-colors">PDF Tools</a></li>
-                        <li><a href="#document-tools" class="hover:text-green-400 transition-colors">Document Tools</a></li>
-                        <li><a href="#spreadsheet-tools" class="hover:text-orange-400 transition-colors">Spreadsheet Tools</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
-                    <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
-                    <p class="text-gray-300 mb-4">Follow us on social media</p>
-                    <div class="flex space-x-6">
-                        <a href="#" class="social-icon text-gray-300 hover:text-blue-400"><i class="fab fa-twitter text-2xl"></i></a>
-                        <a href="#" class="social-icon text-gray-300 hover:text-green-400"><i class="fab fa-linkedin text-2xl"></i></a>
-                        <a href="#" class="social-icon text-gray-300 hover:text-teal-400"><i class="fab fa-github text-2xl"></i></a>
-                    </div>
-                </div>
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+              <h4 class="text-2xl font-bold">Conversion Tools</h4>
             </div>
-            <p class="text-center mt-12 text-gray-400">© 2025 Conversion Tools. All rights reserved.</p>
+            <p class="text-gray-300">
+              Secure, fast, and professional file conversion tools for all your
+              needs.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li>
+                <a
+                  href="index.html"
+                  class="hover:text-blue-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#pdf-tools"
+                  class="hover:text-red-400 transition-colors"
+                  >PDF Tools</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#document-tools"
+                  class="hover:text-green-400 transition-colors"
+                  >Document Tools</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#spreadsheet-tools"
+                  class="hover:text-orange-400 transition-colors"
+                  >Spreadsheet Tools</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+            <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
+            <p class="text-gray-300 mb-4">Follow us on social media</p>
+            <div class="flex space-x-6">
+              <a href="#" class="social-icon text-gray-300 hover:text-blue-400"
+                ><i class="fab fa-twitter text-2xl"></i
+              ></a>
+              <a href="#" class="social-icon text-gray-300 hover:text-green-400"
+                ><i class="fab fa-linkedin text-2xl"></i
+              ></a>
+              <a href="#" class="social-icon text-gray-300 hover:text-teal-400"
+                ><i class="fab fa-github text-2xl"></i
+              ></a>
+            </div>
+          </div>
         </div>
+        <p class="text-center mt-12 text-gray-400">
+          © 2025 Conversion Tools. All rights reserved.
+        </p>
+      </div>
     </footer>
 
     <script>
-        function toggleTools(sectionId) {
-            const section = document.getElementById(sectionId);
-            const hiddenTools = section.querySelectorAll('.tool-card.hidden');
-            const button = section.querySelector('.show-all-btn');
-            const areToolsHidden = hiddenTools.length > 0;
+      function toggleTools(sectionId) {
+        const section = document.getElementById(sectionId);
+        const hiddenTools = section.querySelectorAll(".tool-card.hidden");
+        const button = section.querySelector(".show-all-btn");
+        const areToolsHidden = hiddenTools.length > 0;
 
-            section.querySelectorAll('.tool-card').forEach(tool => {
-                if (areToolsHidden) {
-                    tool.classList.remove('hidden');
-                } else if (!tool.classList.contains('always-visible')) {
-                    tool.classList.add('hidden');
-                }
-            });
+        section.querySelectorAll(".tool-card").forEach((tool) => {
+          if (areToolsHidden) {
+            tool.classList.remove("hidden");
+          } else if (!tool.classList.contains("always-visible")) {
+            tool.classList.add("hidden");
+          }
+        });
 
-            button.textContent = areToolsHidden ? 'Hide Tools' : 'Show All Utility Tools';
-        }
+        button.textContent = areToolsHidden
+          ? "Hide Tools"
+          : "Show All Utility Tools";
+      }
 
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            const navMenu = document.querySelector('.nav-menu');
-            navMenu.classList.toggle('active');
+      document
+        .querySelector(".hamburger")
+        .addEventListener("click", function () {
+          const navMenu = document.querySelector(".nav-menu");
+          navMenu.classList.toggle("active");
         });
     </script>
-</body>
+  </body>
 </html>

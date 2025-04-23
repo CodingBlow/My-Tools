@@ -1,94 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JSON Tools Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f3f4f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Professional JSON formatter and XML converter tool. Format, validate, minify JSON, convert between XML and JSON, and download data securely in your browser. Fast, reliable, and privacy-focused."
+    />
+    <meta
+      name="keywords"
+      content="JSON formatter, XML to JSON, JSON to XML, JSON validator, JSON minifier, XML converter, online JSON tools, free data converter, JSON beautifier, Conversion Tools"
+    />
+    <meta name="author" content="Conversion Tools" />
+    <meta name="robots" content="index, follow" />
+    <title>JSON Formatter & XML Converter - Conversion Tools</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      header {
+        background: linear-gradient(to right, #1e40af, #3b82f6);
+        color: white;
+      }
+      .tool-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      .panel {
+        background-color: #1e40af; /* Changed from green (#10b981) to brand blue */
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+      }
+      .panel button,
+      .panel select {
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .panel button {
+        background-color: white;
+        color: #1e40af;
+        font-weight: 600;
+      }
+      .panel button:hover {
+        background-color: #eff6ff; /* Lighter blue hover */
+        transform: scale(1.03);
+      }
+      .panel select {
+        appearance: none;
+        background-color: white;
+        color: #374151;
+        font-weight: 500;
+        padding-right: 2rem;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7L10 12L15 7' stroke='%23374151' stroke-width='2'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1rem;
+      }
+      .panel select:hover {
+        background-color: #eff6ff;
+      }
+      .panel .footer {
+        font-size: 0.875rem;
+        color: white;
+        margin-top: 0.5rem;
+      }
+      .editor {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        width: 100%;
+        height: 300px;
+        max-height: 300px;
+        padding: 1rem;
+        font-family: monospace;
+        resize: none;
+        background-color: #f8fafc;
+        box-sizing: border-box;
+      }
+      .result-container {
+        margin-top: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        background-color: #f8fafc;
+        padding: 1rem;
+      }
+      .btn-primary {
+        background: linear-gradient(to right, #ef4444, #b91c1c);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        background: #dc2626;
+        transform: scale(1.05);
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+      }
+      .loader {
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #ef4444;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .section-divider {
+        height: 4px;
+        border-radius: 2px;
+        margin: 2.5rem 0;
+        background: linear-gradient(to right, #ef4444, #b91c1c);
+      }
+      .nav-menu a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+      .content-section {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .faq-item, .tip-item {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 0;
+      }
+      .faq-question, .tip-question {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .faq-answer, .tip-answer {
+        display: none;
+        color: #475569;
+        margin-top: 1rem;
+      }
+      .faq-answer.active, .tip-answer.active {
+        display: block;
+      }
+      .testimonial {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .ad-container {
+        background: #f1f5f9;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+      }
+      .ad-placeholder {
+        background: #e2e8f0;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.1rem;
+        color: #64748b;
+      }
+      @media (max-width: 1024px) {
+        .flex-container {
+          flex-direction: column;
+        }
+        .panel, .ad-section {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .nav-menu.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #1e40af;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 1.5rem;
+        }
+        .nav-menu.active li {
+          margin: 0.75rem 0;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+        .hamburger i {
+          font-size: 1.75rem;
+          color: #ffffff;
+        }
+        .tool-container {
+          padding: 1.5rem;
+        }
+        .editor {
+          height: 200px;
+        }
+        .result-container {
+          max-height: 300px;
+        }
+        .panel {
+          padding: 1rem;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex;
+        }
+      }
+      footer {
+        background: #0f172a;
+      }
+      .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shadow-lg sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+          <i class="fas fa-tools text-white text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Conversion Tools</h1>
+        </div>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav class="nav-menu">
+          <ul class="flex space-x-6 text-white flex-col md:flex-row">
+            <li><a href="../../index.html" class="font-medium hover:text-gray-200">Home</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">PDF</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Documents</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Spreadsheets</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Audio</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Video</a></li>
+            <li><a href="#" class="font-medium hover:text-gray-200">Utilities</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-    .panel {
-      background-color: #10b981;
-      padding: 30px 20px;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      width: 280px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      text-align: center;
-    }
+    <main class="container mx-auto px-4 py-16">
+      <section class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          JSON Formatter & XML Converter
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Format, validate, and minify JSON, or convert between XML and JSON securely in your browser. Fast, reliable, and privacy-focused.
+        </p>
+      </section>
 
-    .panel button,
-    .panel select {
-      padding: 12px 16px;
-      font-size: 15px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+      <div class="flex-container md:flex-row gap-8">
+        <section class="tool-container flex-1">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-code mr-3 text-blue-500"></i> JSON & XML Tools
+          </h3>
+          <div class="mb-4">
+            <label for="inputEditor" class="block text-gray-700 font-medium mb-2">
+              Paste JSON or XML here:
+            </label>
+            <textarea
+              id="inputEditor"
+              class="editor"
+              placeholder='{
+  "person": {
+    "name": "John Doe",
+    "age": 30,
+    "email": "john@example.com"
+  }
+}'
+            ></textarea>
+          </div>
+          <div class="flex flex-col items-center">
+            <div id="formatOptions" class="flex space-x-4 mb-4">
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" id="preserveAttributes" checked class="mr-2 h-4 w-4" />
+                <span>Preserve XML Attributes</span>
+              </label>
+            </div>
+          </div>
+          <div id="result" class="mt-6 hidden">
+            <h4 class="font-semibold text-lg mb-2">Result:</h4>
+            <div class="flex justify-end mb-2">
+              <button id="copyBtn" class="btn-secondary text-sm">
+                <i class="fas fa-copy mr-1"></i> Copy to Clipboard
+              </button>
+            </div>
+            <pre id="outputEditor" class="result-container text-sm"></pre>
+          </div>
+          <div id="errorMsg" class="mt-4 text-red-500 hidden"></div>
+        </section>
 
-    .panel button {
-      background-color: white;
-      color: #10b981;
-      font-weight: 600;
-    }
+        <aside class="md:w-80 flex flex-col gap-8">
+          <div class="panel">
+            <button id="uploadBtn"><i class="fas fa-upload mr-2"></i>Upload Data</button>
+            <input type="file" id="fileInput" accept=".json,.xml" class="hidden" />
+            <button id="validateBtn"><i class="fas fa-check-circle mr-2"></i>Validate</button>
+            <select id="formatSelect">
+              <option value="2">2 Tab Space</option>
+              <option value="4">4 Tab Space</option>
+              <option value="0">Minified</option>
+            </select>
+            <button id="formatBtn"><i class="fas fa-align-left mr-2"></i>Format / Beautify</button>
+            <button id="minifyBtn"><i class="fas fa-compress-alt mr-2"></i>Minify / Compact</button>
+            <button id="convertBtn"><i class="fas fa-exchange-alt mr-2"></i>Convert JSON ↔ XML</button>
+            <button id="downloadBtn"><i class="fas fa-download mr-2"></i>Download</button>
+            <div id="loader" class="loader"></div>
+            <div class="footer">JSON: JavaScript Object Notation</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+          <div class="ad-container">
+            <div class="ad-placeholder h-64">Ad Space (300x250)</div>
+          </div>
+        </aside>
+      </div>
 
-    .panel button:hover {
-      background-color: #f0fdf4;
-      transform: scale(1.03);
-    }
+      <div class="section-divider"></div>
 
-    .panel select {
-      appearance: none;
-      background-color: white;
-      color: #374151;
-      font-weight: 500;
-      padding-right: 30px;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7L10 12L15 7' stroke='%23374151' stroke-width='2'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 16px;
-    }
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Why Use Our JSON Formatter & XML Converter?
+        </h2>
+        <p class="text-gray-600 mb-4">
+          JSON and XML are cornerstone data formats in modern development, and our tool simplifies working with both. Whether you're formatting JSON for readability, validating its syntax, minifying it for production, or converting between JSON and XML, our <strong>JSON Formatter & XML Converter</strong> offers a secure, browser-based solution with no data uploads required.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Designed for developers, data analysts, and IT professionals, our tool combines ease of use with powerful features. Customize your JSON output with different indentation levels, preserve XML attributes during conversion, and handle large datasets efficiently. Trusted by thousands, Conversion Tools delivers professional-grade data transformation for all your needs.
+        </p>
+      </section>
 
-    .panel select:hover {
-      background-color: #f0fdf4;
-    }
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Benefits of Our JSON Formatter & XML Converter
+        </h2>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><strong>Multi-Functional</strong>: Format, validate, minify JSON, and convert to/from XML in one tool.</li>
+          <li><strong>Privacy-First</strong>: All processing happens locally in your browser, ensuring data security.</li>
+          <li><strong>Customizable Output</strong>: Choose 2 or 4-space indentation for JSON and preserve XML attributes.</li>
+          <li><strong>High Performance</strong>: Optimized for large JSON and XML files with fast processing.</li>
+          <li><strong>Intuitive Interface</strong>: User-friendly design suitable for beginners and experts alike.</li>
+          <li><strong>File Support</strong>: Upload and download JSON or XML files effortlessly.</li>
+        </ul>
+      </section>
 
-    .panel .footer {
-      font-size: 14px;
-      color: white;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="panel">
-    <button>Upload Data</button>
-    <button>Validate</button>
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          How to Use Our JSON Formatter & XML Converter
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Transform your JSON or XML data in just a few steps:
+        </p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-3">
+          <li><strong>Input Data</strong>: Paste JSON or XML into the editor or upload a file.</li>
+          <li><strong>Select Action</strong>: Choose to validate, format, minify, or convert using the tools panel.</li>
+          <li><strong>Customize</strong>: Adjust indentation or XML attribute settings as needed.</li>
+          <li><strong>Get Results</strong>: View the output, copy it to your clipboard, or download it as a file.</li>
+        </ol>
+        <p class="text-gray-600 mt-4">
+          Our streamlined interface ensures quick and accurate results, making data transformation a breeze.
+        </p>
+      </section>
 
-    <select>
-      <option>2 Tab Space</option>
-      <option>4 Tab Space</option>
-      <option>Minified</option>
-    </select>
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Common Use Cases
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our <strong>JSON Formatter & XML Converter</strong> supports a wide range of applications across industries:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><strong>API Development</strong>: Format JSON responses or convert XML API data to JSON for modern applications.</li>
+          <li><strong>Data Migration</strong>: Transform XML datasets to JSON for new systems or vice versa.</li>
+          <li><strong>Web Development</strong>: Minify JSON for faster load times or beautify it for debugging.</li>
+          <li><strong>Data Analysis</strong>: Validate and format JSON datasets for tools like Python or R.</li>
+          <li><strong>Configuration Management</strong>: Convert XML config files to JSON for easier parsing.</li>
+        </ul>
+      </section>
 
-    <button>Format / Beautify</button>
-    <button>Minify / Compact</button>
-    <button>Convert JSON to ⌄</button>
-    <button>Download</button>
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Tips for Effective JSON and XML Handling
+        </h2>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Validate Before Processing</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Always validate your JSON or XML to catch syntax errors early. Our tool provides instant feedback on data validity.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Use Pretty Printing for Debugging</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Format JSON with 2 or 4-space indentation during development to make it easier to read and debug.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Minify for Production</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Minify JSON to reduce file size and improve performance in production environments.
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-question">
+            <span>Preserve XML Attributes</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="tip-answer">
+            Enable attribute preservation when converting XML to JSON to retain all metadata in your data structure.
+          </div>
+        </div>
+      </section>
 
-    <div class="footer">JSON Full Form</div>
-  </div>
-</body>
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Technology Behind Our Tool
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Our <strong>JSON Formatter & XML Converter</strong> leverages cutting-edge client-side technologies for fast and secure data processing:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><strong>DOMParser API</strong>: Safely parses XML input for accurate conversion.</li>
+          <li><strong>JSON Parsing</strong>: Uses native JavaScript for robust JSON validation and formatting.</li>
+          <li><strong>Recursive Algorithms</strong>: Efficiently maps XML to JSON and vice versa, with attribute handling.</li>
+          <li><strong>Client-Side Execution</strong>: Ensures data privacy by processing everything in your browser.</li>
+        </ul>
+        <p class="text-gray-600 mt-4">
+          These technologies deliver a seamless experience, even with complex or large datasets.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What is JSON formatting?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            JSON formatting (or beautifying) involves structuring JSON data with consistent indentation and line breaks for readability. Our tool offers 2 or 4-space indentation options.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I convert JSON to XML?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, our tool supports bidirectional conversion between JSON and XML, with options to preserve XML attributes.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is it safe to use this tool?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Absolutely. All data processing occurs locally in your browser, ensuring your JSON and XML data remains private and secure.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can it handle large files?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, our tool is optimized for large JSON and XML files, though performance depends on your device's capabilities. For very large files, consider breaking them into smaller segments.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What are the advantages of JSON over XML?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            JSON is more compact, easier to parse in JavaScript, and widely supported in modern APIs. XML, however, excels in structured documents with attributes and namespaces.
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          What Our Users Say
+        </h2>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "This tool saved me hours of manual JSON formatting. The XML conversion feature is a game-changer for integrating with legacy systems."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Sarah M., Backend Developer
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "The ability to validate and minify JSON in one place is fantastic. The interface is clean and easy to use, even for non-technical users."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — David L., Data Analyst
+          </p>
+        </div>
+        <div class="testimonial">
+          <p class="text-gray-600 italic">
+            "I love that my data stays in the browser. The file upload and download features make it so convenient for batch processing."
+          </p>
+          <p class="text-gray-900 font-semibold mt-2">
+            — Emily R., IT Consultant
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Explore More Conversion Tools
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Conversion Tools offers a suite of free online tools to simplify your workflow:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-3">
+          <li><a href="#" class="text-blue-500 hover:underline">CSV to JSON Converter</a>: Transform CSV data to JSON.</li>
+          <li><a href="#" class="text-blue-500 hover:underline">YAML to JSON Converter</a>: Convert YAML to JSON format.</li>
+          <li><a href="#" class="text-blue-500 hover:underline">PDF to PNG Converter</a>: Convert PDF pages to PNG images.</li>
+        </ul>
+      </section>
+
+      <section class="ad-container mt-8">
+        <div class="ad-placeholder h-32">Ad Space (728x90)</div>
+      </section>
+    </main>
+
+    <footer class="text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-tools text-blue-400 text-3xl mr-3"></i>
+              <h4 class="text-2xl font-bold">Conversion Tools</h4>
+            </div>
+            <p class="text-gray-300">
+              Secure, fast, and professional file conversion tools for all your needs.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Quick Links</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li><a href="#" class="hover:text-blue-400 transition-colors">Home</a></li>
+              <li><a href="#" class="hover:text-red-400 transition-colors">PDF Tools</a></li>
+              <li><a href="#" class="hover:text-green-400 transition-colors">Document Tools</a></li>
+              <li><a href="#" class="hover:text-orange-400 transition-colors">Spreadsheet Tools</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4 text-white">Contact</h4>
+            <p class="text-gray-300 mb-2">Email: support@yourwebsite.com</p>
+            <p class="text-gray-300 mb-4">Follow us on social media</p>
+            <div class="flex space-x-6">
+              <a href="#" class="text-gray-300 hover:text-blue-400"><i class="fab fa-twitter text-2xl"></i></a>
+              <a href="#" class="text-gray-300 hover:text-green-400"><i class="fab fa-linkedin text-2xl"></i></a>
+              <a href="#" class="text-gray-300 hover:text-teal-400"><i class="fab fa-github text-2xl"></i></a>
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-12 text-gray-400">
+          © 2025 Conversion Tools. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // DOM Elements
+      const inputEditor = document.getElementById("inputEditor");
+      const outputEditor = document.getElementById("outputEditor");
+      const resultDiv = document.getElementById("result");
+      const errorMsg = document.getElementById("errorMsg");
+      const loader = document.getElementById("loader");
+      const uploadBtn = document.getElementById("uploadBtn");
+      const fileInput = document.getElementById("fileInput");
+      const validateBtn = document.getElementById("validateBtn");
+      const formatSelect = document.getElementById("formatSelect");
+      const formatBtn = document.getElementById("formatBtn");
+      const minifyBtn = document.getElementById("minifyBtn");
+      const convertBtn = document.getElementById("convertBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const copyBtn = document.getElementById("copyBtn");
+      const preserveAttributesCheckbox = document.getElementById("preserveAttributes");
+
+      let isJsonInput = true;
+
+      // XML to JSON Conversion
+      function xmlToJson(xmlDoc, preserveAttributes) {
+        function parseNode(node, depth = 0) {
+          if (depth > 100) throw new Error("XML structure too deeply nested.");
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.nodeValue.trim();
+            return text ? text : null;
+          }
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const result = {};
+            if (preserveAttributes && node.attributes.length > 0) {
+              const attributes = {};
+              for (let attr of node.attributes) {
+                attributes["@" + attr.name] = attr.value;
+              }
+              result["@attributes"] = attributes;
+            }
+            const children = Array.from(node.childNodes);
+            const childElements = children.filter(child => child.nodeType === Node.ELEMENT_NODE);
+            const textNodes = children
+              .filter(child => child.nodeType === Node.TEXT_NODE && child.nodeValue.trim())
+              .map(child => child.nodeValue.trim());
+            if (textNodes.length > 0 && childElements.length === 0) {
+              return textNodes.join(" ");
+            }
+            const childMap = new Map();
+            childElements.forEach(child => {
+              const childName = child.nodeName;
+              const childResult = parseNode(child, depth + 1);
+              if (childResult !== null) {
+                if (!childMap.has(childName)) {
+                  childMap.set(childName, childResult);
+                } else {
+                  let existing = childMap.get(childName);
+                  if (!Array.isArray(existing)) existing = [existing];
+                  existing.push(childResult);
+                  childMap.set(childName, existing);
+                }
+              }
+            });
+            childMap.forEach((value, key) => {
+              result[key] = value;
+            });
+            return Object.keys(result).length > 0 ? result : null;
+          }
+          return null;
+        }
+        const root = parseNode(xmlDoc.documentElement);
+        return root || {};
+      }
+
+      // JSON to XML Conversion
+      function jsonToXml(json, rootName = "root") {
+        function createElement(name, value) {
+          let xml = `<${name}>`;
+          if (typeof value === "string") {
+            xml += value.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
+          } else if (Array.isArray(value)) {
+            value.forEach(item => {
+              xml += createElement(name, item);
+            });
+          } else if (typeof value === "object" && value !== null) {
+            if (value["@attributes"]) {
+              const attrs = Object.entries(value["@attributes"])
+                .map(([k, v]) => `${k.slice(1)}="${v}"`)
+                .join(" ");
+              xml = `<${name} ${attrs}>`;
+            }
+            for (let [key, val] of Object.entries(value)) {
+              if (key !== "@attributes") {
+                xml += createElement(key, val);
+              }
+            }
+          }
+          xml += `</${name}>`;
+          return xml;
+        }
+        return `<?xml version="1.0" encoding="UTF-8"?>\n${createElement(rootName, json)}`;
+      }
+
+      // Validate JSON
+      function validateJson(text) {
+        try {
+          JSON.parse(text);
+          return true;
+        } catch (e) {
+          return e.message;
+        }
+      }
+
+      // Format JSON
+      function formatJson(jsonObj, indent) {
+        return JSON.stringify(jsonObj, null, parseInt(indent));
+      }
+
+      // Show Result
+      function showResult(text) {
+        outputEditor.textContent = text;
+        resultDiv.classList.remove("hidden");
+        errorMsg.classList.add("hidden");
+      }
+
+      // Show Error
+      function showError(message, isSuccess = false) {
+        errorMsg.textContent = message;
+        errorMsg.classList.remove("hidden");
+        errorMsg.classList.toggle("text-red-500", !isSuccess);
+        errorMsg.classList.toggle("text-green-500", isSuccess);
+        resultDiv.classList.add("hidden");
+      }
+
+      // Process Action
+      async function processAction(action) {
+        const text = inputEditor.value.trim();
+        if (!text) {
+          showError("Please enter JSON or XML content.");
+          return;
+        }
+        loader.style.display = "block";
+        try {
+          if (action === "validate") {
+            if (isJsonInput) {
+              const result = validateJson(text);
+              if (result === true) {
+                showError("JSON is valid!", true);
+              } else {
+                showError("Invalid JSON: " + result);
+              }
+            } else {
+              const parser = new DOMParser();
+              const xmlDoc = parser.parseFromString(text, "application/xml");
+              if (xmlDoc.querySelector("parsererror")) {
+                showError("Invalid XML format.");
+              } else {
+                showError("XML is valid!", true);
+              }
+            }
+          } else if (action === "format") {
+            if (isJsonInput) {
+              const jsonObj = JSON.parse(text);
+              const formatted = formatJson(jsonObj, formatSelect.value);
+              showResult(formatted);
+            } else {
+              showError("Formatting is only available for JSON input.");
+            }
+          } else if (action === "minify") {
+            if (isJsonInput) {
+              const jsonObj = JSON.parse(text);
+              const minified = JSON.stringify(jsonObj);
+              showResult(minified);
+            } else {
+              showError("Minifying is only available for JSON input.");
+            }
+          } else if (action === "convert") {
+            if (isJsonInput) {
+              const jsonObj = JSON.parse(text);
+              const xml = jsonToXml(jsonObj);
+              showResult(xml);
+              isJsonInput = false;
+            } else {
+              const parser = new DOMParser();
+              const xmlDoc = parser.parseFromString(text, "application/xml");
+              if (xmlDoc.querySelector("parsererror")) throw new Error("Invalid XML format.");
+              const json = xmlToJson(xmlDoc, preserveAttributesCheckbox.checked);
+              const formatted = formatJson(json, formatSelect.value);
+              showResult(formatted);
+              isJsonInput = true;
+            }
+          }
+        } catch (error) {
+          showError(error.message || "An error occurred.");
+        } finally {
+          loader.style.display = "none";
+        }
+      }
+
+      // Upload File
+      uploadBtn.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        loader.style.display = "block";
+        try {
+          const text = await file.text();
+          inputEditor.value = text;
+          isJsonInput = file.name.endsWith(".json");
+          showError(`Loaded ${file.name}`, true);
+        } catch (error) {
+          showError("Failed to load file.");
+        } finally {
+          loader.style.display = "none";
+          fileInput.value = "";
+        }
+      });
+
+      // Button Event Listeners
+      validateBtn.addEventListener("click", () => processAction("validate"));
+      formatBtn.addEventListener("click", () => processAction("format"));
+      minifyBtn.addEventListener("click", () => processAction("minify"));
+      convertBtn.addEventListener("click", () => processAction("convert"));
+
+      // Download Result
+      downloadBtn.addEventListener("click", () => {
+        const text = outputEditor.textContent;
+        if (!text) {
+          showError("No result to download.");
+          return;
+        }
+        const blob = new Blob([text], { type: isJsonInput ? "application/json" : "application/xml" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = isJsonInput ? "output.json" : "output.xml";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Copy to Clipboard
+      copyBtn.addEventListener("click", () => {
+        const text = outputEditor.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = '<i class="fas fa-copy mr-1"></i> Copy to Clipboard';
+          }, 2000);
+        }).catch(() => {
+          showError("Failed to copy to clipboard.");
+        });
+      });
+
+      // Hamburger Menu
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // FAQ and Tip Toggles
+      const toggles = document.querySelectorAll(".faq-question, .tip-question");
+      toggles.forEach(toggle => {
+        toggle.addEventListener("click", () => {
+          const answer = toggle.nextElementSibling;
+          answer.classList.toggle("active");
+          const icon = toggle.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+    </script>
+  </body>
 </html>
